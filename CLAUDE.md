@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-CodeHelm is a distributable Claude Code workflow made of Markdown: four skills under `.claude/skills/`, plus a `README.md` and an MIT `LICENSE`. The root `assets/` folder holds images used only by the README, such as `assets/codehelm-logo.png`. It is not distributed and is separate from the skills' own `assets/` template folders. There is no application code, build, lint or test tooling, so there are no commands to run. Work here means editing skill prompts, their templates and the README.
+CodeHelm is a distributable Claude Code workflow made of Markdown: four skills under `.claude/skills/`, plus a `README.md` and an MIT `LICENSE`. The `.github/assets/` folder holds images used only by the README, such as `.github/assets/codehelm-logo.png`. It is not distributed and is separate from the skills' own `assets/` template folders. There is no application code, build, lint or test tooling, so there are no commands to run. Work here means editing skill prompts, their templates and the README.
 
 Users install CodeHelm by copying `.claude/skills/` into their own project (see `README.md`). This `CLAUDE.md` is **not** distributed: skills must not depend on it or on any other file outside their own skill directory.
 

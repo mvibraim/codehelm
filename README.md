@@ -2,7 +2,7 @@
 
 <p align="center">
   <img
-    src="assets/codehelm-logo.png"
+    src=".github/assets/codehelm-logo.png"
     alt="CodeHelm"
     width="300"
   />
