@@ -20,21 +20,27 @@ No AI-agent-specific project instructions or LLM evaluation requirements are inc
 ## Structure
 
 ```text
-CLAUDE.md
 .claude/skills/
-  specify/SKILL.md
-  plan-tasks/SKILL.md
+  specify/
+    SKILL.md
+    assets/specification.md
+  plan-tasks/
+    SKILL.md
+    assets/{plan,decisions,verification}.md
   implement/SKILL.md
   audit/SKILL.md
-docs/
-  specifications/README.md
-  plans/README.md
-  templates/{specification,plan,decisions,verification}.md
 ```
 
 ## Install into your project
 
-Copy `CLAUDE.md`, `.claude/skills/` and `docs/` into your repository. Merge `CLAUDE.md` with existing instructions rather than overwriting them. Preserve existing project docs. These are *project-scoped* Claude Code skills; invoke them directly in Claude Code.
+Import the `.claude/skills/` into the root of your repository.
+
+```bash
+# From the directory containing the extracted CodeHelm package:
+cp -R .claude/skills/. /path/to/my-project/.claude/skills/
+```
+
+Create the destination `.claude/skills/` first if needed and review existing same-named skills before copying so you do not overwrite them. Run Claude Code from the target project root.
 
 ## Skill usage: terminal, context and model
 

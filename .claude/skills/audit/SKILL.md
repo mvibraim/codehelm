@@ -5,6 +5,8 @@ argument-hint: "[plan-name] [optional task-id]"
 disable-model-invocation: true
 ---
 
+**CodeHelm portability and control:** This skill is self-contained. Respect an existing project `CLAUDE.md` when present; never create, copy, replace or merge one as a prerequisite. Follow existing repository conventions and preserve the engineer's uncommitted work. Never stage, commit, push, create/switch branches, rewrite history or perform destructive changes without explicit approval for that action. Project specifications and approved decisions are durable sources of truth; do not silently change them. If project instructions conflict with a CodeHelm safeguard, stop and ask the engineer to resolve the conflict. If Git is not initialized, report that fact and never initialize it without approval.
+
 Plan and optional task: $ARGUMENTS
 
 **Purpose:** An evidence-based consistency audit; do not fix production code or change Git state.
@@ -17,7 +19,7 @@ For independence, prefer a fresh Claude session. Do not rely on the implementati
 
 ### Phase A — Gather evidence (read-only)
 
-1. Read `CLAUDE.md` and `docs/plans/<plan-name>/{plan,decisions,verification}.md`. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs; for a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
+1. Read the project's `CLAUDE.md` **if it exists**; CodeHelm neither requires nor supplies it. Read `docs/plans/<plan-name>/{plan,decisions,verification}.md`. If the plan artifacts are missing, report the gap rather than fabricating a plan. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs; for a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
 2. Compare specification versions/hashes with those recorded in the plan. Flag changes rather than silently treating the old plan as current.
 3. Read actual test results/reports or execute documented **unit + integration** suites if needed and permitted. Never treat a test name or claim that tests passed as proof. Record exact commands, output summary and date/revision when available.
 4. Look for requirements without tasks, tasks without source justification, undocumented implementation, deviations from accepted decisions, missing edge-case coverage and test assertions that do not actually validate the business rule.
