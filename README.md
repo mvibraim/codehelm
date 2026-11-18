@@ -131,17 +131,6 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 Implementation may report a task as `READY FOR HUMAN REVIEW`, but that is **not the same as committed or independently VERIFIED**. The engineer controls Git commits; `/audit` establishes requirement verification with evidence.
 
-## Efficient Claude Code session workflow
-
-Keep your **approved files** as the shared source of truth and sessions small. A good default is:
-
-0. **Specify when needed:** run `/specify` on an incomplete brief, approve clarified assumptions and the resulting specification; record it in the repository when permitted.
-1. **Plan:** run `/plan-tasks` in a focused reasoning session; answer clarification questions, approve and review saved Markdown; commit the docs manually.
-2. **Implement:** use a fresh or cleared session, run `/implement <plan-name> <task-id-1>` and review the proposal before edits. Run targeted checks as you go and all required suites before any proposed commit.
-3. **Audit:** ideally use a separate fresh session and run `/audit <plan-name> <task-id-1>` for a targeted review; inspect audit findings and verification evidence.
-4. **Human commit:** review the entire diff (including docs/tests), then stage/commit manually when satisfied. Do not advance while checks or audit findings remain unresolved.
-5. **Next step:** start focused context for `/implement <plan-name> <task-id-2>`. Run `/audit <plan-name>` at significant milestones and before final submission.
-
 ### Compact durable handoffs
 
 Before ending a session, ensure important decisions are in `decisions.md`, task progress in `plan.md` and actual checks in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
