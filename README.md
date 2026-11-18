@@ -1,8 +1,26 @@
-# CodeHelm 🚢
+# CodeHelm
 
-**Let Claude write the code. You steer the ship.**
+<p align="center">
+  <img
+    src="assets/codehelm-logo.png"
+    alt="CodeHelm"
+    width="300"
+  />
+</p>
 
-CodeHelm is a lightweight Claude Code workflow for engineers who love AI but refuse to surrender the steering wheel. **Specify → Plan Tasks → Implement → Audit**, one tested and reviewable change at a time.
+<p align="center">
+  <strong>Let Claude write the code. You steer the ship.</strong>
+</p>
+
+<p align="center">
+  A lightweight human-in-the-loop workflow for Claude Code.
+  <br />
+  Recommended for engineers who love AI but refuse to surrender the steering wheel.
+  <br />
+  Specify → Plan → Implement → Audit: one tested and reviewable change at a time.
+</p>
+
+<br>
 
 No endless specification documents. No mysterious AI-generated commits. No waking up to discover Claude refactored your entire application. Just clear requirements, documented decisions, automated tests and a human firmly holding the wheel.
 

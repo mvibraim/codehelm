@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-CodeHelm is a distributable Claude Code workflow made only of Markdown: four skills under `.claude/skills/`, plus a `README.md`. There is no application code, build, lint or test tooling, so there are no commands to run. Work here means editing skill prompts, their templates and the README.
+CodeHelm is a distributable Claude Code workflow made of Markdown: four skills under `.claude/skills/`, plus a `README.md`. The root `assets/` folder holds images used only by the README, such as `assets/codehelm-logo.png`. It is not distributed and is separate from the skills' own `assets/` template folders. There is no application code, build, lint or test tooling, so there are no commands to run. Work here means editing skill prompts, their templates and the README.
 
 Users install CodeHelm by copying `.claude/skills/` into their own project (see `README.md`). This `CLAUDE.md` is **not** distributed: skills must not depend on it or on any other file outside their own skill directory.
 
@@ -23,7 +23,7 @@ Invariants that run through all four skills. Keep them consistent when editing a
 
 - **Identical portability preamble.** Every `SKILL.md` opens with the same "CodeHelm portability and control" paragraph: respect an existing project `CLAUDE.md` but never create or modify one, never touch Git state (stage/commit/push/branch) without approval, and never initialize Git. When you change this paragraph, change it in all four files.
 - **Mandatory STOP points.** Each skill works in phases (A, B, C, ...) with explicit stops for clarification and approval before writing files. `/implement` also stops for human review after verification.
-- **Shared vocabulary.** Requirement IDs (`FR-###`, `BR-###`, `NFR-###`, `AC-###`), task IDs (`S01`, `S02`, ...), the provenance labels `EXPLICIT` / `ASSUMPTION` / `PROPOSED`, the task state `READY FOR HUMAN REVIEW`, and the audit statuses `VERIFIED` / `FAILED` / `NOT VERIFIED` / `NOT APPLICABLE`. These terms are defined in several skills and in the `assets/` templates, so a rename must be made everywhere.
+- **Shared vocabulary.** Requirement IDs (`FR-###`, `BR-###`, `NFR-###`, `AC-###`), task IDs (`S01`, `S02`, ...), the provenance labels `EXPLICIT` / `ASSUMPTION` / `PROPOSED`, the task state `READY FOR HUMAN REVIEW`, and the audit statuses `VERIFIED` / `FAILED` / `NOT VERIFIED` / `NOT APPLICABLE`. These terms are defined in several skills and in the skills' bundled `assets/` templates, so a rename must be made everywhere.
 - **Bundled templates.** Skills refer to their templates as `${CLAUDE_SKILL_DIR}/assets/...` so that they work after being copied into any project. Never point at a path in the target repo such as `docs/templates/`.
 - **Full test suites per task.** `/implement` must run the target project's complete unit and integration suites, discovered from that project's own configuration. CodeHelm ships no wrapper scripts and stays language-agnostic.
 - All skills set `disable-model-invocation: true`, so they run only when the user invokes them.
