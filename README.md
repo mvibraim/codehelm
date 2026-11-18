@@ -158,3 +158,7 @@ Implementation may report a task as `READY FOR HUMAN REVIEW`, but that is **not 
 ### Compact durable handoffs
 
 Before ending a session, ensure important decisions are in `decisions.md`, task progress in `plan.md` and actual checks in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
+
+## License
+
+CodeHelm is released under the [MIT License](LICENSE).
