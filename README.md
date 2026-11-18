@@ -142,14 +142,6 @@ Keep your **approved files** as the shared source of truth and sessions small. A
 4. **Human commit:** review the entire diff (including docs/tests), then stage/commit manually when satisfied. Do not advance while checks or audit findings remain unresolved.
 5. **Next step:** start focused context for `/implement <plan-name> <task-id-2>`. Run `/audit <plan-name>` at significant milestones and before final submission.
 
-### Context, tokens and models
-
-- Start each session from `CLAUDE.md`, the approved plan, relevant decisions and only the linked code/tests; avoid sending entire docs or test logs if a narrow selection is sufficient.
-- Use `/context` to inspect context; `/compact` to preserve an unfinished investigation in the same session; `/clear` between independent tasks **after** important context has been persisted. `/usage` can help evaluate cost (depending on environment).
-- Prefer a capable everyday coding model for `/implement`; reserve a stronger reasoning model for ambiguous architecture decisions, complex bugs and final audits as needed. Use `/model` to switch at *phase boundaries*, not repeatedly mid-task. The skills intentionally make no model assumptions.
-- Treat all model suggestions as defaults, not guarantees. The model output isn't test evidence; exact check results and Git diffs matter more.
-- No mandatory subagents or MCP servers are required. Only add them when concrete needs justify their cost and context overhead.
-
 ### Compact durable handoffs
 
 Before ending a session, ensure important decisions are in `decisions.md`, task progress in `plan.md` and actual checks in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
