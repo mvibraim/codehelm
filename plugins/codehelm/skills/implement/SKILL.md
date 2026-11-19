@@ -5,7 +5,7 @@ argument-hint: "[plan-name] [task-id] [--done]"
 disable-model-invocation: true
 ---
 
-**CodeHelm portability and control:** This skill is self-contained. Respect an existing project `CLAUDE.md` when present; never create, copy, replace or merge one as a prerequisite. Follow existing repository conventions and preserve the engineer's uncommitted work. Never stage, commit, push, create/switch branches, rewrite history or perform destructive changes without explicit approval for that action. Project specifications and approved decisions are durable sources of truth; do not silently change them. If project instructions conflict with a CodeHelm safeguard, stop and ask the engineer to resolve the conflict. If Git is not initialized, report that fact and never initialize it without approval.
+**CodeHelm ground rules:** Follow the project's CLAUDE.md and conventions, but never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks for that action. Keep the engineer's uncommitted changes intact. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
 Requested plan and task: $ARGUMENTS
 
@@ -33,7 +33,7 @@ Change no files while arguments are missing; continue only after the engineer gi
 
 ### Phase A — Prepare (read-only, except confirmed DONE statuses and approved suite amendments)
 
-1. Parse `<plan-name> <task-id>`; if either is missing, follow "Missing arguments" above. If `--done` is present, follow "Mark a task DONE" above instead. Read the project's `CLAUDE.md` **only if it exists**; CodeHelm does not provide one. Read `docs/plans/<plan-name>/plan.md`, `decisions.md` and `verification.md`. If the plan artifacts are absent, stop and direct the engineer to `/codehelm:plan-tasks` rather than inventing them. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
+1. Parse `<plan-name> <task-id>`; if either is missing, follow "Missing arguments" above. If `--done` is present, follow "Mark a task DONE" above instead. Read `docs/plans/<plan-name>/plan.md`, `decisions.md` and `verification.md`. If the plan artifacts are absent, stop and direct the engineer to `/codehelm:plan-tasks` rather than inventing them. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
 2. Confirm the task exists and has been approved; review only linked acceptance criteria and relevant sections in original specifications. Check source version/hash if recorded. If a source changed, stop and ask to re-plan. Use targeted file search; do not dump the entire repo, unrelated history, generated files or long logs into context.
 3. Inspect the repository and test commands. When Git is initialized, also check `git status --short` and the current branch. Otherwise note that Git is absent: preexisting uncommitted work cannot be detected, so treat every file outside the task's scope as the engineer's. Do not overwrite/mix preexisting uncommitted work or silently switch/create a branch.
 4. Read task statuses in `plan.md`:
@@ -75,4 +75,4 @@ Report concisely:
 - Suggested review commands when Git is initialized: `git diff --check`, `git diff`, `git status --short`. Without Git, point to the files changed list instead
 - **Fresh-session handoff:** plan name + task ID + approved decisions referenced, task status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`), exact checks and outcomes, pending human action and the next command. If earlier tasks were marked `DONE` in this run and those status changes were not committed separately, say that this diff also contains them. For a ready task, recommend this order: review, optionally `/codehelm:audit <plan-name> <task-id>`, then `/codehelm:implement <plan-name> <task-id> --done`, then commit. Save lasting decisions and verification evidence in Markdown, not only chat.
 
-**STOP.** Wait for the engineer to review, stage and commit manually. Never stage, commit, push or start the next task without fresh explicit approval.
+**STOP.** Wait for the engineer to review, stage and commit manually.

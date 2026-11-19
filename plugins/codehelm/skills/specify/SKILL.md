@@ -5,7 +5,7 @@ argument-hint: "[problem description or paths to source documents]"
 disable-model-invocation: true
 ---
 
-**CodeHelm portability and control:** This skill is self-contained. Respect an existing project `CLAUDE.md` when present; never create, copy, replace or merge one as a prerequisite. Follow existing repository conventions and preserve the engineer's uncommitted work. Never stage, commit, push, create/switch branches, rewrite history or perform destructive changes without explicit approval for that action. Project specifications and approved decisions are durable sources of truth; do not silently change them. If project instructions conflict with a CodeHelm safeguard, stop and ask the engineer to resolve the conflict. If Git is not initialized, report that fact and never initialize it without approval.
+**CodeHelm ground rules:** Follow the project's CLAUDE.md and conventions, but never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks for that action. Keep the engineer's uncommitted changes intact. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
 Input: $ARGUMENTS
 
@@ -15,7 +15,7 @@ Input: $ARGUMENTS
 
 ### Phase A — Discover (read-only)
 
-1. Read the project's `CLAUDE.md` **if one exists**; it belongs to that project and is **not provided or overwritten by CodeHelm**. If absent, continue using this self-contained skill and the repository's actual conventions. Read the supplied business brief/source documents and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If the input is a file path, read the file; if it is text, treat that text as the source. If any referenced source is inaccessible, report it; do not guess.
+1. Read the supplied business brief/source documents and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If the input is a file path, read the file; if it is text, treat that text as the source. If any referenced source is inaccessible, report it; do not guess.
 2. Inspect only relevant existing domain documentation to avoid contradicting an already agreed contract. Do not scan the full codebase unless an existing behavior must be clarified.
 3. Extract the problem, actors/external systems, goals, stated scope, explicit functional requirements, business invariants, quality constraints, acceptance examples and delivery restrictions.
 4. Keep **three categories distinct**: `EXPLICIT` (supported by a named source), `ASSUMPTION` (user-approved), `PROPOSED` (not yet approved). Preserve requirement IDs in source documents and assign stable `FR-###`, `BR-###`, `NFR-###`, `AC-###` IDs where needed; include the source path + heading/page or conversation reference in the draft.
@@ -44,6 +44,3 @@ Only after explicit approval:
 1. Suggest a stable, descriptive slug. Create `docs/specifications/` if needed and save to `docs/specifications/<spec-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
 2. Set the template's status to `Approved` with version, update date and approval reference (date and approver), and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
 3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next command: `/codehelm:plan-tasks docs/specifications/<spec-slug>.md`.
-4. Do **not** create implementation tasks, choose an architecture, modify application/configuration code, stage, commit, push or switch/create branches.
-
-**Context:** The approved Markdown file is the durable handoff to `/codehelm:plan-tasks`; do not rely on the prior chat as the sole record of requirements.

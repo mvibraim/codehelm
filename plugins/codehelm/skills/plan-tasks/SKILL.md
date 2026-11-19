@@ -5,7 +5,7 @@ argument-hint: "[change request or paths to specifications]"
 disable-model-invocation: true
 ---
 
-**CodeHelm portability and control:** This skill is self-contained. Respect an existing project `CLAUDE.md` when present; never create, copy, replace or merge one as a prerequisite. Follow existing repository conventions and preserve the engineer's uncommitted work. Never stage, commit, push, create/switch branches, rewrite history or perform destructive changes without explicit approval for that action. Project specifications and approved decisions are durable sources of truth; do not silently change them. If project instructions conflict with a CodeHelm safeguard, stop and ask the engineer to resolve the conflict. If Git is not initialized, report that fact and never initialize it without approval.
+**CodeHelm ground rules:** Follow the project's CLAUDE.md and conventions, but never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks for that action. Keep the engineer's uncommitted changes intact. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
 Plan request and/or source documents: $ARGUMENTS
 
@@ -15,7 +15,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 ### Phase A — Discover and classify (read-only)
 
-1. Read the project's `CLAUDE.md` **if present**, and respect its project-specific instructions. CodeHelm does not supply or require that file; when absent, work from this skill and the repository's existing conventions. Inspect relevant repository structure, existing design/docs, build/test commands and Git conventions. Check `git status --short` when Git is initialized; otherwise note the absence of Git and do not initialize it. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**
+1. Inspect relevant repository structure, existing design/docs, build/test commands and Git conventions. Check `git status --short` when Git is initialized; otherwise note the absence of Git and do not initialize it. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**
 2. Read all supplied specification documents completely enough to capture relevant rules. If a referenced file cannot be read, report that limitation instead of guessing. Do not alter original specifications. Check each specification's status field: if it is missing or not `Approved` (for example `Draft`), warn the engineer and carry the item into Phase B.
 3. Choose a short `plan-name` and suggest a change type (`feat`, `fix`, `build`, `ci`, `chore`, `refactor`, `perf`, `test`, `docs`) and branch name. Do **not** create the branch.
 4. Extract explicit functional requirements, business rules, nonfunctional constraints, error behavior and acceptance criteria. Preserve existing IDs and provenance labels unchanged; otherwise assign stable `FR-###`, `BR-###`, `NFR-###` and `AC-###` IDs. Cite source file + section/page where practical. Give every requirement and acceptance criterion exactly one basis label:
@@ -57,4 +57,4 @@ After explicit approval:
 4. `verification.md`: create one entry per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, initially `NOT VERIFIED`, with empty implementation and test evidence and `Recorded by` = `—`. Keep the template's executed checks table and audit log empty (only their placeholder rows); `/codehelm:implement` and `/codehelm:audit` append rows to them.
 5. Give a concise handoff: plan name, suggested branch, approved decision IDs, first task, configured verification commands and next command (`/codehelm:implement <plan-name> <task-id>`). State missing information explicitly rather than relying on chat history.
 
-Never implement application/config code, create or switch a Git branch, stage, commit or push. End after writing the plan.
+Never implement application/config code. End after writing the plan.
