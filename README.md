@@ -170,7 +170,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 - Specify (only if needed), then plan and question first; **no modifications before approval**.
 - No automatic branch creation, staging, commits or pushes.
-- Git is recommended but not required, and never initialized for you. Without it, the skills skip Git commands. `/codehelm:implement` warns in its proposal that changes can't be reviewed or reverted with Git, and lists every file it changed. `/codehelm:audit` works from the files named in the plan and the recorded evidence.
+- `/codehelm:implement` and `/codehelm:audit` need a Git repository. Without one, they stop and ask you to run `git init` or to let them run it.
 - Missing arguments are never guessed. Each skill asks for them and stops. `/codehelm:audit` lists the plans under `docs/plans/`, `/codehelm:plan-tasks` lists the specifications under `docs/specifications/`, and `/codehelm:implement` lists the plans or the selected plan's tasks with their statuses.
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
 - Full unit **and** integration suites for each proposed commit. If not yet available, bootstrap both suites first. A suite may be skipped only when you approved it as `NOT APPLICABLE — <reason>` for that task; a missing or failing suite otherwise blocks the task.

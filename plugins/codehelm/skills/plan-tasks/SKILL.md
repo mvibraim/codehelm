@@ -15,7 +15,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 ### Phase A — Discover and classify (read-only)
 
-1. Inspect relevant repository structure, existing design/docs, build/test commands and Git conventions. Check `git status --short` when Git is initialized; otherwise note the absence of Git and do not initialize it. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**
+1. Inspect relevant repository structure, existing design/docs, build/test commands and Git conventions. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**
 2. Read all supplied specification documents completely enough to capture relevant rules. If a referenced file cannot be read, report that limitation instead of guessing. Do not alter original specifications. Check each specification's status field: if it is missing or not `Approved` (for example `Draft`), warn the engineer and carry the item into Phase B.
 3. Choose a short `plan-name` and suggest a change type (`feat`, `fix`, `build`, `ci`, `chore`, `refactor`, `perf`, `test`, `docs`) and branch name. Do **not** create the branch.
 4. Extract explicit functional requirements, business rules, nonfunctional constraints, error behavior and acceptance criteria. Preserve existing IDs and provenance labels unchanged; otherwise assign stable `FR-###`, `BR-###`, `NFR-###` and `AC-###` IDs. Cite source file + section/page where practical. Give every requirement and acceptance criterion exactly one basis label:

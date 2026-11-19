@@ -20,7 +20,6 @@ Input: $ARGUMENTS
 3. Extract the problem, actors/external systems, goals, stated scope, explicit functional requirements, business invariants, quality constraints, acceptance examples and delivery restrictions.
 4. Keep **three categories distinct**: `EXPLICIT` (supported by a named source), `ASSUMPTION` (user-approved), `PROPOSED` (not yet approved). Preserve requirement IDs in source documents and assign stable `FR-###`, `BR-###`, `NFR-###`, `AC-###` IDs where needed; include the source path + heading/page or conversation reference in the draft.
 5. Detect conflicts, missing state transitions, unclear error semantics, retries, concurrency rules, authorization boundaries and missing scope limits **only where relevant**. Never invent business rules, numeric SLA targets, permissions or features just to fill a template.
-6. If Git is initialized, inspect `git status --short` before proposing file changes; otherwise note the absence of Git. Preserve existing or uncommitted documents.
 
 ### Phase B — Clarify (mandatory stop)
 
