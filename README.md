@@ -101,7 +101,7 @@ Store the original project brief unchanged in a markdown file, then run:
 Claude extracts only sourced requirements, identifies gaps, asks **business clarification questions** and **stops**; when stakeholders are unavailable you approve clearly documented assumptions. Claude then drafts a specification without architecture or implementation tasks and **stops again for approval**. After approval it saves:
 
 ```text
-docs/specifications/<spec>.md
+docs/specifications/<spec-slug>.md
 ```
 
 The saved file is marked `Approved`, because it is written only after your approval. If you already have an approved specification, skip this phase. If you pass `/codehelm:plan-tasks` a specification that is not marked `Approved`, it warns you and asks whether to plan from it anyway.
@@ -109,7 +109,7 @@ The saved file is marked `Approved`, because it is written only after your appro
 ## 1. Plan
 
 ```text
-/codehelm:plan-tasks docs/specifications/<spec>.md
+/codehelm:plan-tasks docs/specifications/<spec-slug>.md
 ```
 
 Or without a formal specification:

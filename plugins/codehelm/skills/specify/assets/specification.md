@@ -84,4 +84,4 @@ If none, write `None`.
 
 ---
 
-**Next step after approval:** `/codehelm:plan-tasks docs/specifications/<project-slug>.md`.
+**Next step after approval:** `/codehelm:plan-tasks docs/specifications/<spec-slug>.md`.

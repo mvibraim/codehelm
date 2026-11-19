@@ -10,7 +10,7 @@
 
 | Source | Version / commit / SHA-256 | Sections in scope |
 |---|---|---|
-| `docs/specifications/<file>.md` | `<revision>` | `<headings>` |
+| `docs/specifications/<spec-slug>.md` | `<revision>` | `<headings>` |
 
 *If the change has no formal specification, record the originating request and its date as the source. Requirements it states directly are `EXPLICIT`; inferred requirements approved by the engineer are `ASSUMPTION`. If a label differs from the specification's (an item `PROPOSED` there and approved here), note it in this table.*
 
