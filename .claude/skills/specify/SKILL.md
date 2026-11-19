@@ -11,6 +11,8 @@ Input: $ARGUMENTS
 
 **Purpose:** Convert a problem description into a reviewed statement of **what** the system must do. Use this skill only when a specification is needed; for well-defined engineering tasks, `/plan-tasks` can work directly from the request. Do **not** plan implementation, choose the architecture or write code.
 
+**No input:** if `$ARGUMENTS` is empty, ask for the business brief, as text or a file path. Do not guess a source from the repository or the conversation. **STOP** and change no files until the engineer answers.
+
 ### Phase A — Discover (read-only)
 
 1. Read the project's `CLAUDE.md` **if one exists**; it belongs to that project and is **not provided or overwritten by CodeHelm**. If absent, continue using this self-contained skill and the repository's actual conventions. Read the supplied business brief/source documents and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If the input is a file path, read the file; if it is text, treat that text as the source. If any referenced source is inaccessible, report it; do not guess.

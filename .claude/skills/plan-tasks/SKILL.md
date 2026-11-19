@@ -11,6 +11,8 @@ Plan request and/or source documents: $ARGUMENTS
 
 **Purpose:** Create a human-approved, requirements-traceable engineering plan. This skill is task-neutral: it applies to features, fixes, Docker, CI, observability, refactors and other changes.
 
+**No input:** if `$ARGUMENTS` is empty, ask for a change request or the path to a specification, and list the Markdown files under `docs/specifications/`, if any, as options. Do not guess a request from the repository or the conversation. **STOP** and change no files until the engineer answers.
+
 ### Phase A — Discover and classify (read-only)
 
 1. Read the project's `CLAUDE.md` **if present**, and respect its project-specific instructions. CodeHelm does not supply or require that file; when absent, work from this skill and the repository's existing conventions. Inspect relevant repository structure, existing design/docs, build/test commands and Git conventions. Check `git status --short` when Git is initialized; otherwise note the absence of Git and do not initialize it. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**

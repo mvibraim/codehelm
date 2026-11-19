@@ -151,6 +151,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 - Specify (only if needed), then plan and question first; **no modifications before approval**.
 - No automatic branch creation, staging, commits or pushes.
+- Missing arguments are never guessed. Each skill asks for them and stops. `/audit` lists the plans under `docs/plans/`, `/plan-tasks` lists the specifications under `docs/specifications/`, and `/implement` lists the plans or the selected plan's tasks with their statuses.
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
 - Full unit **and** integration suites for each proposed commit. If not yet available, bootstrap both suites first. A suite may be skipped only when you approved it as `NOT APPLICABLE — <reason>` for that task; a missing or failing suite otherwise blocks the task.
 - Document meaningful decisions, keep task-to-requirement traceability and audit code↔docs.

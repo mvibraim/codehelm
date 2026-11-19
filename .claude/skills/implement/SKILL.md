@@ -13,18 +13,27 @@ Requested plan and task: $ARGUMENTS
 
 Task statuses (`NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW`, `DONE`) follow the task status lifecycle section in `plan.md`.
 
+### Missing arguments (read-only)
+
+Apply this check first, with or without `--done`. Never guess a plan or task.
+
+- **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/plan-tasks`. **STOP.**
+- **Plan name but no task ID:** read that plan's `plan.md` and list its tasks with their statuses (for `--done`, point out the `READY FOR HUMAN REVIEW` tasks). Ask for the exact task ID. **STOP.**
+
+Change no files while arguments are missing; continue only after the engineer gives both values.
+
 ### Mark a task DONE (`--done`)
 
 `/implement <plan-name> <task-id> --done` records that the engineer has reviewed and accepted the task. When `--done` is present, follow only these steps and skip Phases A–D:
 
-1. Read `docs/plans/<plan-name>/plan.md` and confirm the task exists. If the plan or task is missing, stop and report it.
+1. Apply "Missing arguments" above. Read `docs/plans/<plan-name>/plan.md` and confirm the task exists. If the plan or task is missing, stop and report it.
 2. If the task is `READY FOR HUMAN REVIEW`, the invocation itself is the approval: set it to `DONE`. If it is `NOT STARTED` or `BLOCKED — <reason>`, show the current status, warn that it has not passed `/implement` verification and set `DONE` only after explicit confirmation. If it is already `DONE`, report that and change nothing.
 3. Edit only that task's status line. Do not change code, tests, `verification.md` or any other task.
 4. Report the old and new status, then remind the engineer to include `plan.md` in the task's commit. **STOP.**
 
 ### Phase A — Prepare (read-only, except confirmed DONE statuses and approved suite amendments)
 
-1. Parse `<plan-name> <task-id>`; if missing, ask for the exact IDs. If `--done` is present, follow "Mark a task DONE" above instead. Read the project's `CLAUDE.md` **only if it exists**; CodeHelm does not provide one. Read `docs/plans/<plan-name>/plan.md`, `decisions.md` and `verification.md`. If the plan artifacts are absent, stop and direct the engineer to `/plan-tasks` rather than inventing them. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
+1. Parse `<plan-name> <task-id>`; if either is missing, follow "Missing arguments" above. If `--done` is present, follow "Mark a task DONE" above instead. Read the project's `CLAUDE.md` **only if it exists**; CodeHelm does not provide one. Read `docs/plans/<plan-name>/plan.md`, `decisions.md` and `verification.md`. If the plan artifacts are absent, stop and direct the engineer to `/plan-tasks` rather than inventing them. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
 2. Confirm the task exists and has been approved; review only linked acceptance criteria and relevant sections in original specifications. Check source version/hash if recorded. If a source changed, stop and ask to re-plan. Use targeted file search; do not dump the entire repo, unrelated history, generated files or long logs into context.
 3. Inspect repository and `git status --short`, current branch and test commands. Do not overwrite/mix preexisting uncommitted work or silently switch/create a branch.
 4. Read task statuses in `plan.md`:
