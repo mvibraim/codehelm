@@ -147,7 +147,7 @@ If you forget, the next `/implement` run asks which `READY FOR HUMAN REVIEW` tas
 /audit <plan-name>             # full review at milestone / delivery
 ```
 
-Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
+Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
 
 ## Core rules
 

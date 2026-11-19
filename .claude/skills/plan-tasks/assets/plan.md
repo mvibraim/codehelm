@@ -1,6 +1,5 @@
 # Plan: <plan name>
 
-**Task ID:** `<task-id>`  
 **Type:** `feat | fix | build | ci | chore | refactor | perf | test | docs`  
 **Suggested branch:** `<type>/<slug>`  
 **Status:** `APPROVED | PROPOSED`  

@@ -49,7 +49,7 @@ Task statuses (`NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW`, 
 2. Run build/static checks and task-specific checks listed in the plan (e.g., container build + smoke test, workflow lint, metrics endpoint test, DB migration test). Capture concise success summaries and full relevant failure diagnostics; avoid unnecessary large tool output.
 3. Inspect `git diff --check`, `git diff` and `git status --short`. Validate the scope and compare implemented behavior and tests against linked requirements and approved `decisions.md`.
 4. If any mandatory verification cannot run or fails, report the exact blocker and set the task to `BLOCKED — <reason>`; do **not** label it ready for commit. Do not invent results. Hosted CI success must be checked after the approved push; a local YAML lint is not equivalent.
-5. Only when every mandatory check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). In both cases, add executed test evidence to `verification.md` as *provisional*, awaiting independent audit. Never set `DONE` for the task just implemented; only the engineer accepts it, through `--done` or at the start of a later run. Do not mark requirements VERIFIED merely because code exists.
+5. Only when every mandatory check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). In both cases, add executed test evidence to `verification.md` as *provisional*, awaiting independent audit. Do not add rows to its audit log; only `/audit` does. Never set `DONE` for the task just implemented; only the engineer accepts it, through `--done` or at the start of a later run. Do not mark requirements VERIFIED merely because code exists.
 
 ### Phase D — Hand off
 

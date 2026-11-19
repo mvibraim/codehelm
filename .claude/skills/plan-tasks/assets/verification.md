@@ -1,10 +1,16 @@
 # Verification: <Plan name>
 
-**Task ID:** `<task-id>`  
-**Audited revision:** `<git sha or uncommitted working tree>`  
-**Audit date:** `<date>`
-
 Statuses: `VERIFIED` / `FAILED` / `NOT VERIFIED` / `NOT APPLICABLE`.
+
+## Audit log
+
+`/audit` appends one row per run and never edits or removes earlier rows. The sections below show the current state; this log keeps the history.
+
+| Date | Revision | Scope | Summary | Open findings |
+|---|---|---|---|---|
+| — | — | — | No audits yet | — |
+
+*Revision: git SHA or `uncommitted working tree`. Scope: a task ID (`S01`) or `full`. Open findings: count by severity after the run, for example `3 (1 high, 2 medium)` or `0`.*
 
 ## Requirements evidence matrix
 
