@@ -32,6 +32,19 @@
 
 Brief component/data flow description. Reference decision IDs from `decisions.md`; don't duplicate detailed rationale.
 
+## Task status lifecycle
+
+`NOT STARTED` → `READY FOR HUMAN REVIEW` → `DONE`. A task whose work had to stop is `BLOCKED — <reason>` until `/implement` resumes it.
+
+| Status | Meaning | Set by |
+|---|---|---|
+| `NOT STARTED` | Approved; no work begun | `/plan-tasks` when it writes the plan |
+| `BLOCKED — <reason>` | Work stopped until the stated reason is resolved | `/implement` when a mandatory check fails or cannot run, or a deviation needs approval |
+| `READY FOR HUMAN REVIEW` | Implemented and verified locally; not yet accepted by the engineer and not independently audited | `/implement` at the end of Phase C, when every mandatory check passed |
+| `DONE` | Reviewed and accepted by the engineer | `/implement <plan-name> <task-id> --done`, or `/implement` when the engineer confirms it at the start of a later run |
+
+Only `DONE` satisfies a dependency. Run `--done` before committing the task, so the status change lands in the task's own commit. `/audit` reads these statuses and reports mismatches with the evidence, but never changes them.
+
 ## Ordered implementation tasks
 
 ### S01 — <task title>

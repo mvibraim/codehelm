@@ -130,7 +130,15 @@ Each task should have acceptance criteria, links to applicable requirements, and
 /implement <plan-name> <task-id>   # for example, /implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites plus relevant specialized checks, checks docs against code and **stops for your review**. It must not stage, commit, push or continue to S02.
+Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites plus relevant specialized checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It must not stage, commit, push or continue to S02.
+
+When you have reviewed and accepted the task, mark it `DONE` **before** committing, so the status change lands in the task's own commit:
+
+```text
+/implement <plan-name> <task-id> --done   # for example, /implement booking-api S01 --done
+```
+
+If you forget, the next `/implement` run asks which `READY FOR HUMAN REVIEW` tasks you have accepted and marks them `DONE` before it changes anything else. When those status lines are the only uncommitted changes in `plan.md`, it recommends committing them on their own (for example, `docs: mark S02 as done`) before you approve its proposal, so the next task's commit holds only its own work. If you skip that, the status changes are part of the next task's diff, and the handoff says so.
 
 ## 3. Audit
 
@@ -145,7 +153,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 - Specify (only if needed), then plan and question first; **no modifications before approval**.
 - No automatic branch creation, staging, commits or pushes.
-- One approved implementation task per invocation.
+- One approved implementation task per invocation, started only when its dependencies are `DONE`.
 - Full unit **and** integration suites for each proposed code commit. If not yet available, bootstrap both suites first.
 - Document meaningful decisions, keep task-to-requirement traceability and audit code↔docs.
 - Keep plans proportionate; small chores shouldn't require invented architectural alternatives.
@@ -153,7 +161,16 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 ## Note on task status
 
-Implementation may report a task as `READY FOR HUMAN REVIEW`, but that is **not the same as committed or independently VERIFIED**. The engineer controls Git commits; `/audit` establishes requirement verification with evidence.
+Each task in `plan.md` carries one status, defined in the plan's "Task status lifecycle" section:
+
+| Status | Meaning | Set by |
+| --- | --- | --- |
+| `NOT STARTED` | Approved; no work begun | `/plan-tasks` |
+| `BLOCKED — <reason>` | A mandatory check failed or could not run, or a deviation needs approval | `/implement` |
+| `READY FOR HUMAN REVIEW` | Implemented and verified locally; not yet accepted by you | `/implement` |
+| `DONE` | Reviewed and accepted by you | `/implement … --done`, or `/implement` when you confirm it at the start of a later run |
+
+`READY FOR HUMAN REVIEW` is **not the same as committed or independently VERIFIED**. The engineer controls Git commits and decides when a task is `DONE`. Only `DONE` satisfies a dependency. `/audit` never changes a status; it reports mismatches between a status and the evidence as findings, and establishes requirement verification with evidence.
 
 ### Compact durable handoffs
 

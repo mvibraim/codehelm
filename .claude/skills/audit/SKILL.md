@@ -23,7 +23,8 @@ For independence, prefer a fresh Claude session. Do not rely on the implementati
 2. Compare specification versions/hashes with those recorded in the plan. Flag changes rather than silently treating the old plan as current.
 3. Read actual test results/reports or execute documented **unit + integration** suites if needed and permitted. Never treat a test name or claim that tests passed as proof. Record exact commands, output summary and date/revision when available.
 4. Look for requirements without tasks, tasks without source justification, undocumented implementation, deviations from accepted decisions, missing edge-case coverage and test assertions that do not actually validate the business rule.
-5. For infrastructure/CI/observability changes, inspect relevant specialized checks (container smoke, workflow run, emitted metric tests, migrations). If live checks cannot be executed, mark appropriately.
+5. Read each in-scope task's status (task status lifecycle in `plan.md`) and compare it with the evidence. Report mismatches as findings, for example: `DONE` while the task's changes are missing or its checks fail; `READY FOR HUMAN REVIEW` with failing, missing or unrecorded checks; `NOT STARTED` while the task's code exists; `BLOCKED` without a reason; a task with code whose dependencies are not `DONE`. Never change a task status yourself.
+6. For infrastructure/CI/observability changes, inspect relevant specialized checks (container smoke, workflow run, emitted metric tests, migrations). If live checks cannot be executed, mark appropriately.
 
 ### Phase B — Verify each criterion
 
@@ -41,7 +42,7 @@ Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAI
 
 1. Prioritize findings by severity; cite precise file locations and requirement IDs. Separate proven failures from unverified concerns and propose proportionate fixes.
 2. Identify missing/weak tests, unapproved design decisions, stale documents and implementation drift.
-3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. Preserve previous meaningful history; don't erase open findings without justification.
+3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. Task statuses in `plan.md` stay unchanged; record status mismatches as findings instead. Preserve previous meaningful history; don't erase open findings without justification.
 4. Propose next small, reviewable correction tasks where needed; do not implement them and do not silently change the approved plan.
 5. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings.
 

@@ -45,7 +45,7 @@ After explicit approval:
    - `${CLAUDE_SKILL_DIR}/assets/decisions.md`
    - `${CLAUDE_SKILL_DIR}/assets/verification.md`
    Do not require a `docs/templates/` directory in the target project. Preserve existing plan artifacts and avoid overwriting them without approval.
-2. `plan.md`: source references/versions, approved requirements, proposed architecture, acceptance criteria, task checklist, dependencies and requirement-to-task matrix.
+2. `plan.md`: source references/versions, approved requirements, proposed architecture, acceptance criteria, task checklist, dependencies and requirement-to-task matrix. Keep the template's task status lifecycle section unchanged and set every task to `NOT STARTED`.
 3. `decisions.md`: accepted decisions and their rationale, alternatives, costs and revisit conditions. For trivial work, say `No material design decisions`.
 4. `verification.md`: create one entry per requirement/acceptance criterion, initially `NOT VERIFIED`, with empty implementation and test evidence.
 5. Give a concise handoff: plan name, suggested branch, approved decision IDs, first task, configured verification commands and next command (`/implement <plan-name> <task-id>`). State missing information explicitly rather than relying on chat history.
