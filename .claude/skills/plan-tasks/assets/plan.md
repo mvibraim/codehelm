@@ -2,7 +2,8 @@
 
 **Type:** `feat | fix | build | ci | chore | refactor | perf | test | docs`  
 **Suggested branch:** `<type>/<slug>`  
-**Status:** `APPROVED | PROPOSED`  
+**Plan status:** `APPROVED`  
+**Plan version:** `1.0`  
 **Approval:** `<date / reviewer / reference>`
 
 ## Specification sources and versions

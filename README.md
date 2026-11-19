@@ -85,7 +85,7 @@ Claude extracts only sourced requirements, identifies gaps, asks **business clar
 docs/specifications/<spec>.md
 ```
 
-If you already have an approved specification, skip this phase.
+The saved file is marked `Approved`, because it is written only after your approval. If you already have an approved specification, skip this phase. If you pass `/plan-tasks` a specification that is not marked `Approved`, it warns you and asks whether to plan from it anyway.
 
 ## 1. Plan
 

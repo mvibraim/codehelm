@@ -40,7 +40,7 @@ Input: $ARGUMENTS
 Only after explicit approval:
 
 1. Suggest a stable, descriptive slug. Create `docs/specifications/` if needed and save to `docs/specifications/<project-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
-2. Include status/version/date, source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
+2. Set the template's status to `Approved` with version, update date and approval reference (date and approver), and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
 3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next command: `/plan-tasks docs/specifications/<project-slug>.md`.
 4. Do **not** create implementation tasks, choose an architecture, modify application/configuration code, stage, commit, push or switch/create branches.
 

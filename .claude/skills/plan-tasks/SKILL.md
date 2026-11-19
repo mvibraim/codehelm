@@ -14,7 +14,7 @@ Plan request and/or source documents: $ARGUMENTS
 ### Phase A — Discover and classify (read-only)
 
 1. Read the project's `CLAUDE.md` **if present**, and respect its project-specific instructions. CodeHelm does not supply or require that file; when absent, work from this skill and the repository's existing conventions. Inspect relevant repository structure, existing design/docs, build/test commands and Git conventions. Check `git status --short` when Git is initialized; otherwise note the absence of Git and do not initialize it. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**
-2. Read all supplied specification documents completely enough to capture relevant rules. If a referenced file cannot be read, report that limitation instead of guessing. Do not alter original specifications.
+2. Read all supplied specification documents completely enough to capture relevant rules. If a referenced file cannot be read, report that limitation instead of guessing. Do not alter original specifications. Check each specification's status field: if it is missing or not `Approved` (for example `Draft`), warn the engineer and carry the item into Phase B.
 3. Choose a short `plan-name` and suggest a change type (`feat`, `fix`, `build`, `ci`, `chore`, `refactor`, `perf`, `test`, `docs`) and branch name. Do **not** create the branch.
 4. Extract explicit functional requirements, business rules, nonfunctional constraints, error behavior and acceptance criteria. Preserve existing IDs and provenance labels unchanged; otherwise assign stable `FR-###`, `BR-###`, `NFR-###` and `AC-###` IDs. Cite source file + section/page where practical. Give every requirement and acceptance criterion exactly one basis label:
    - `EXPLICIT`: stated in a named source (a specification section, or the engineer's request with its date).
@@ -27,7 +27,8 @@ Plan request and/or source documents: $ARGUMENTS
 
 1. Ask a **small, prioritized group** of material questions; provide reasonable alternatives and your tentative recommendation.
 2. Explicitly distinguish requirements from assumptions and engineering choices. List every `PROPOSED` requirement or acceptance criterion, including any still marked `PROPOSED` in a supplied specification, and ask the engineer to approve or reject each. An approved item becomes `ASSUMPTION`; a rejected item moves out of scope. Do not edit the specification; when the plan's label differs from the specification's, say so in the plan's source reference.
-3. **STOP and wait** for answers. Repeat only when essential ambiguities remain. Do not produce authoritative plan files yet.
+3. If a supplied specification is not `Approved` (Phase A step 2), ask the engineer whether to plan from it anyway or to finish it with `/specify` first. Do not change its status yourself. When the engineer chooses to proceed, record its actual status next to its version in `plan.md`'s sources table.
+4. **STOP and wait** for answers. Repeat only when essential ambiguities remain. Do not produce authoritative plan files yet.
 
 ### Phase C — Propose design and execution plan (read-only)
 
@@ -49,7 +50,7 @@ After explicit approval:
    - `${CLAUDE_SKILL_DIR}/assets/decisions.md`
    - `${CLAUDE_SKILL_DIR}/assets/verification.md`
    Do not require a `docs/templates/` directory in the target project. Preserve existing plan artifacts and avoid overwriting them without approval.
-2. `plan.md`: source references/versions, approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`), proposed architecture, task checklist, dependencies and requirement-to-task matrix. Keep the template's task status lifecycle section unchanged and set every task to `NOT STARTED`. Write an approved not-applicable suite as `NOT APPLICABLE — <reason> (approved <date>)` in that task's `Unit tests` or `Integration tests` field.
+2. `plan.md`: the template's header with `Plan status` `APPROVED`, `Plan version` `1.0` and the approval date/reference; source references/versions, approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`), proposed architecture, task checklist, dependencies and requirement-to-task matrix. Keep the template's task status lifecycle section unchanged and set every task to `NOT STARTED`. Write an approved not-applicable suite as `NOT APPLICABLE — <reason> (approved <date>)` in that task's `Unit tests` or `Integration tests` field.
 3. `decisions.md`: accepted decisions and their rationale, alternatives, costs and revisit conditions. For trivial work, say `No material design decisions`.
 4. `verification.md`: create one entry per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, initially `NOT VERIFIED`, with empty implementation and test evidence and `Recorded by` = `—`. Keep the template's executed checks table and audit log empty (only their placeholder rows); `/implement` and `/audit` append rows to them.
 5. Give a concise handoff: plan name, suggested branch, approved decision IDs, first task, configured verification commands and next command (`/implement <plan-name> <task-id>`). State missing information explicitly rather than relying on chat history.
