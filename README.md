@@ -130,7 +130,7 @@ Each task should have acceptance criteria, links to applicable requirements, and
 /implement <plan-name> <task-id>   # for example, /implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites plus relevant specialized checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It must not stage, commit, push or continue to S02.
+Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites plus relevant specialized checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It records its check results in `verification.md` marked `Recorded by: implement (provisional)` and leaves them `NOT VERIFIED`, because only an audit can confirm them. It must not stage, commit, push or continue to S02.
 
 When you have reviewed and accepted the task, mark it `DONE` **before** committing, so the status change lands in the task's own commit:
 
@@ -147,7 +147,7 @@ If you forget, the next `/implement` run asks which `READY FOR HUMAN REVIEW` tas
 /audit <plan-name>             # full review at milestone / delivery
 ```
 
-Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
+Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`. It treats provisional evidence from `/implement` as claims to re-check, and switches a row to `Recorded by: audit` only with checks it executed itself. Only `/audit` sets `VERIFIED`. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
 
 ## Core rules
 

@@ -2,6 +2,8 @@
 
 Statuses: `VERIFIED` / `FAILED` / `NOT VERIFIED` / `NOT APPLICABLE`.
 
+Recorded by: `implement (provisional)` for evidence that `/implement` reports about its own task, or `audit` for evidence that `/audit` executed or checked independently. Provisional evidence always stays `NOT VERIFIED`; only `/audit` sets `VERIFIED`, and only on rows recorded by `audit`.
+
 ## Audit log
 
 `/audit` appends one row per run and never edits or removes earlier rows. The sections below show the current state; this log keeps the history.
@@ -14,18 +16,19 @@ Statuses: `VERIFIED` / `FAILED` / `NOT VERIFIED` / `NOT APPLICABLE`.
 
 ## Requirements evidence matrix
 
-| Requirement | Source | Planned tasks | Code evidence | Executed test evidence | Docs/decision alignment | Status |
-|---|---|---|---|---|---|---|
-| FR-001 | `<source>#<section>` | S01 | — | — | Not yet evaluated | NOT VERIFIED |
+| Requirement | Source | Planned tasks | Code evidence | Executed test evidence | Docs/decision alignment | Recorded by | Status |
+|---|---|---|---|---|---|---|---|
+| FR-001 | `<source>#<section>` | S01 | — | — | Not yet evaluated | — | NOT VERIFIED |
+
+*One row per requirement or acceptance criterion, updated in place. `/implement` may fill a row only as `implement (provisional)`; `/audit` switches it to `audit` only with evidence from its own executed checks.*
 
 ## Executed checks
 
-| Check | Exact command / CI link | Revision / environment | Observed result | Status |
-|---|---|---|---|---|
-| Unit tests | — | — | — | NOT VERIFIED |
-| Integration tests | — | — | — | NOT VERIFIED |
-| Build / static checks | — | — | — | NOT VERIFIED |
-| Specialized checks | — | — | — | NOT VERIFIED |
+| Task | Check | Exact command / CI link | Revision / environment | Observed result | Recorded by | Status |
+|---|---|---|---|---|---|---|
+| — | — | — | — | No checks recorded yet | — | — |
+
+*Append-only: add one row per check per run and never edit or remove earlier rows; replace only the `No checks recorded yet` placeholder row. Task: a task ID (`S01`), or `full` for a full audit. Check: `Unit tests`, `Integration tests`, `Build / static checks` or a named specialized check.*
 
 ## Findings and follow-ups
 
