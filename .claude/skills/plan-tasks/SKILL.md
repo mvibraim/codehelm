@@ -35,10 +35,10 @@ Plan request and/or source documents: $ARGUMENTS
 2. Propose small, *independently reviewable and testable* tasks (`S01`, `S02`, ...). Each task must specify:
    - objective, boundaries, dependency and linked requirement IDs (if any)
    - acceptance criteria by `AC-###` ID, likely affected components and relevant doc updates
-   - **full unit suite, full integration suite** and any targeted/specialized checks
+   - **full unit suite, full integration suite** and any targeted/specialized checks. A suite may be `NOT APPLICABLE — <reason>` only when it cannot meaningfully apply to the task (for example, a `docs` change, or a project with no integration boundary). Name each such suite and its reason in the proposal; it needs the engineer's explicit approval in step 4
    - one suggested Conventional Commit message
-3. Include a requirement-to-task mapping that exposes uncovered/out-of-scope rules. Make the first bootstrap step create working test suites when absent.
-4. Present architecture decisions, risks, execution order and proposed branch. If an item is still `PROPOSED`, ask for its approval or rejection here as in Phase B; the approved plan contains no `PROPOSED` items. Make every task independently understandable from its written scope, dependencies and acceptance criteria so a fresh session can implement it. **STOP for explicit approval of the full plan.** Do not edit or create files before this approval.
+3. Include a requirement-to-task mapping that exposes uncovered/out-of-scope rules. Make the first bootstrap step create working test suites when absent, except for a suite that is approved as `NOT APPLICABLE` for every task.
+4. Present architecture decisions, risks, execution order and proposed branch. If an item is still `PROPOSED`, ask for its approval or rejection here as in Phase B; the approved plan contains no `PROPOSED` items. List every suite marked `NOT APPLICABLE` with its task and reason, so that approving the plan explicitly approves each one. Make every task independently understandable from its written scope, dependencies and acceptance criteria so a fresh session can implement it. **STOP for explicit approval of the full plan.** Do not edit or create files before this approval.
 
 ### Phase D — Write approved artifacts (documentation-only)
 
@@ -49,7 +49,7 @@ After explicit approval:
    - `${CLAUDE_SKILL_DIR}/assets/decisions.md`
    - `${CLAUDE_SKILL_DIR}/assets/verification.md`
    Do not require a `docs/templates/` directory in the target project. Preserve existing plan artifacts and avoid overwriting them without approval.
-2. `plan.md`: source references/versions, approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`), proposed architecture, task checklist, dependencies and requirement-to-task matrix. Keep the template's task status lifecycle section unchanged and set every task to `NOT STARTED`.
+2. `plan.md`: source references/versions, approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`), proposed architecture, task checklist, dependencies and requirement-to-task matrix. Keep the template's task status lifecycle section unchanged and set every task to `NOT STARTED`. Write an approved not-applicable suite as `NOT APPLICABLE — <reason> (approved <date>)` in that task's `Unit tests` or `Integration tests` field.
 3. `decisions.md`: accepted decisions and their rationale, alternatives, costs and revisit conditions. For trivial work, say `No material design decisions`.
 4. `verification.md`: create one entry per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, initially `NOT VERIFIED`, with empty implementation and test evidence and `Recorded by` = `—`. Keep the template's executed checks table and audit log empty (only their placeholder rows); `/implement` and `/audit` append rows to them.
 5. Give a concise handoff: plan name, suggested branch, approved decision IDs, first task, configured verification commands and next command (`/implement <plan-name> <task-id>`). State missing information explicitly rather than relying on chat history.

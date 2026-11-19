@@ -120,7 +120,7 @@ For illustration, a plan for an **Inventory Reservation API** might contain task
 | `S01` | Establish the application, persistence setup, and working test infrastructure | Build succeeds; unit and integration suites run |
 | `S02` | Expose a read-only product availability endpoint | Availability unit tests and API/database integration tests |
 
-Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/audit` can trace them through to `verification.md`. Items still `PROPOSED` must be approved (they become `ASSUMPTION`) or rejected before the plan is saved. **One task means one proposed reviewable commit**; the complete unit and integration suites still run after every implementation task.
+Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/audit` can trace them through to `verification.md`. Items still `PROPOSED` must be approved (they become `ASSUMPTION`) or rejected before the plan is saved. **One task means one proposed reviewable commit**; the complete unit and integration suites still run after every implementation task. A suite that cannot meaningfully apply to a task (for example, a `docs` change, or a project with no integration boundary) may be marked `NOT APPLICABLE — <reason>` in that task, but only with your explicit approval of the plan or of an amendment that `/implement` proposes.
 
 ## 2. Implement one task
 
@@ -128,7 +128,7 @@ Each task should have acceptance criteria (`AC-###`), links to applicable requir
 /implement <plan-name> <task-id>   # for example, /implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites plus relevant specialized checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It records its check results in `verification.md` marked `Recorded by: implement (provisional)` and leaves them `NOT VERIFIED`, because only an audit can confirm them. It must not stage, commit, push or continue to S02.
+Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites (except a suite approved as `NOT APPLICABLE` for the task) plus relevant specialized checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It records its check results in `verification.md` marked `Recorded by: implement (provisional)` and leaves them `NOT VERIFIED`, because only an audit can confirm them. It must not stage, commit, push or continue to S02.
 
 When you have reviewed and accepted the task, mark it `DONE` **before** committing, so the status change lands in the task's own commit:
 
@@ -152,7 +152,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 - Specify (only if needed), then plan and question first; **no modifications before approval**.
 - No automatic branch creation, staging, commits or pushes.
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
-- Full unit **and** integration suites for each proposed code commit. If not yet available, bootstrap both suites first.
+- Full unit **and** integration suites for each proposed commit. If not yet available, bootstrap both suites first. A suite may be skipped only when you approved it as `NOT APPLICABLE — <reason>` for that task; a missing or failing suite otherwise blocks the task.
 - Document meaningful decisions, keep task-to-requirement traceability and audit code↔docs.
 - Keep plans proportionate; small chores shouldn't require invented architectural alternatives.
 - If sources or requirements change, pause and request re-approval before proceeding.
