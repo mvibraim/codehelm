@@ -1,7 +1,7 @@
 # [Project Name] — Business Specification
 
 **Status:** Draft | **Version:** 0.1 | **Updated:** YYYY-MM-DD  
-**Source:** [Assignment brief or original requirement file; original stays unchanged]
+**Source:** [Original brief or requirement file; original stays unchanged]
 
 > This describes **what** the system must do. Technical design, implementation tasks and Git commits are produced later by `/plan-tasks`.
 

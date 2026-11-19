@@ -33,8 +33,6 @@ No endless specification documents. No mysterious AI-generated commits. No wakin
 - **`/implement` — Sail one leg at a time.** Implement a single approved task, verify it, then stop for human review.
 - **`/audit` — Check the navigation.** Compare specifications, decisions, code and test evidence.
 
-No AI-agent-specific project instructions or LLM evaluation requirements are included in this backend starter.
-
 ## Structure
 
 ```text
@@ -66,7 +64,7 @@ A **fresh Claude Code session** is more important than opening a new terminal. Y
 
 | Skill | Fresh session? | Suggested model | Why |
 | --- | --- | --- | --- |
-| `/specify` | Prefer a fresh session when starting from a new or long assignment | **Opus** for ambiguous briefs; **Sonnet** for straightforward ones | Careful business-question discovery without unrelated implementation context |
+| `/specify` | Prefer a fresh session when starting from a new or long brief | **Opus** for ambiguous briefs; **Sonnet** for straightforward ones | Careful business-question discovery without unrelated implementation context |
 | `/plan-tasks` | Prefer a fresh session after the specification is approved | **Opus** for architecture/trade-offs; **Sonnet** for small changes | Build a plan from saved requirements rather than old conversation assumptions |
 | `/implement` | Prefer a fresh session **for each approved task** | **Sonnet** by default; **Opus** for difficult concurrency or debugging | Reduce context and keep each reviewable change narrowly scoped |
 | `/audit` | **Yes**, use an independent fresh session when practical | **Sonnet** for task audits; **Opus** for critical/full reviews | Review evidence skeptically without relying on the implementation discussion |
@@ -78,7 +76,7 @@ A **fresh Claude Code session** is more important than opening a new terminal. Y
 Store the original project brief unchanged in a markdown file, then run:
 
 ```text
-/specify docs/assignments/<project-brief>.md
+/specify docs/briefs/<brief>.md
 ```
 
 Claude extracts only sourced requirements, identifies gaps, asks **business clarification questions** and **stops**; when stakeholders are unavailable you approve clearly documented assumptions. Claude then drafts a specification without architecture or implementation tasks and **stops again for approval**. After approval it saves:
@@ -111,7 +109,7 @@ docs/plans/<plan-name>/decisions.md
 docs/plans/<plan-name>/verification.md
 ```
 
-It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Keep specifications private if the employer requires it.
+It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Respect any confidentiality restrictions on the source documents before committing them.
 
 ### Example of small, reviewable tasks
 

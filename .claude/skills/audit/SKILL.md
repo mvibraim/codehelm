@@ -13,7 +13,7 @@ Plan and optional task: $ARGUMENTS
 
 **Two modes:**
 - **Task audit:** `/audit <plan-name> <task-id>`: inspect only the task, its linked requirements, changed files, tests and decisions. Prefer this before each human-reviewed commit.
-- **Full change audit:** `/audit <plan-name>`: check all in-scope requirements and tasks, integration boundaries, architectural consistency and delivery readiness. Run at milestones and before submission.
+- **Full change audit:** `/audit <plan-name>`: check all in-scope requirements and tasks, integration boundaries, architectural consistency and delivery readiness. Run at milestones and before delivery.
 
 For independence, prefer a fresh Claude session. Do not rely on the implementation conversation for evidence.
 
