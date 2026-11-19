@@ -122,7 +122,7 @@ For illustration, a plan for an **Inventory Reservation API** might contain task
 | `S01` | Establish the application, persistence setup, and working test infrastructure | Build succeeds; unit and integration suites run |
 | `S02` | Expose a read-only product availability endpoint | Availability unit tests and API/database integration tests |
 
-Each task should have acceptance criteria, links to applicable requirements, and a suggested commit message. **One task means one proposed reviewable commit**; the complete unit and integration suites still run after every implementation task.
+Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/audit` can trace them through to `verification.md`. Items still `PROPOSED` must be approved (they become `ASSUMPTION`) or rejected before the plan is saved. **One task means one proposed reviewable commit**; the complete unit and integration suites still run after every implementation task.
 
 ## 2. Implement one task
 

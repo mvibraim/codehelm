@@ -11,7 +11,7 @@
 |---|---|---|
 | `docs/specifications/<file>.md` | `<revision>` | `<headings>` |
 
-*If the change has no formal specification, record the originating task/request and label requirements as proposed/approved assumptions.*
+*If the change has no formal specification, record the originating request and its date as the source. Requirements it states directly are `EXPLICIT`; inferred requirements approved by the engineer are `ASSUMPTION`. If a label differs from the specification's (an item `PROPOSED` there and approved here), note it in this table.*
 
 ## Goal and scope
 
@@ -23,9 +23,17 @@
 
 ## Requirements and acceptance criteria
 
-| ID | Explicit requirement or approved assumption | Source reference | Acceptance criteria |
-|---|---|---|---|
-| FR-001 | ... | `<path>#<heading>` | ... |
+| ID | Requirement | Source reference | Basis | Acceptance criteria |
+|---|---|---|---|---|
+| FR-001 | ... | `<path>#<heading>` | EXPLICIT | AC-001 |
+| BR-001 | ... | `<approved assumption, date>` | ASSUMPTION | AC-002 |
+
+| ID | Covers | Scenario (Given / When / Then) | Source reference | Basis |
+|---|---|---|---|---|
+| AC-001 | FR-001 | Given ... When ... Then ... | `<path>#<heading>` | EXPLICIT |
+| AC-002 | BR-001 | Given ... When ... Then ... | `<approved assumption, date>` | ASSUMPTION |
+
+*Keep IDs and labels from the specification unchanged. Basis: `EXPLICIT` (stated in a named source) or `ASSUMPTION` (approved by the engineer). `PROPOSED` items are resolved before approval, so an approved plan contains none.*
 
 ## Architecture and implementation approach
 
@@ -52,7 +60,7 @@ Only `DONE` satisfies a dependency. Run `--done` before committing the task, so 
 - **Requirement IDs:** `FR-001`
 - **Dependencies:** none
 - **Scope / files:** ...
-- **Acceptance criteria:** ...
+- **Acceptance criteria:** `AC-001`
 - **Unit tests:** full suite plus new/updated cases ...
 - **Integration tests:** full suite plus new/updated cases ...
 - **Other verification:** build / Docker smoke / workflow validation as relevant
@@ -77,6 +85,7 @@ Only `DONE` satisfies a dependency. Run `--done` before committing the task, so 
 | Requirement | Planned task(s) | Coverage |
 |---|---|---|
 | FR-001 | S01 | Planned |
+| AC-001 | S01 | Planned |
 
 ## Open risks and agreed limitations
 

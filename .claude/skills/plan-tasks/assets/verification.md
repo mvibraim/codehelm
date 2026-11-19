@@ -19,8 +19,9 @@ Recorded by: `implement (provisional)` for evidence that `/implement` reports ab
 | Requirement | Source | Planned tasks | Code evidence | Executed test evidence | Docs/decision alignment | Recorded by | Status |
 |---|---|---|---|---|---|---|---|
 | FR-001 | `<source>#<section>` | S01 | — | — | Not yet evaluated | — | NOT VERIFIED |
+| AC-001 | `<source>#<section>` | S01 | — | — | Not yet evaluated | — | NOT VERIFIED |
 
-*One row per requirement or acceptance criterion, updated in place. `/implement` may fill a row only as `implement (provisional)`; `/audit` switches it to `audit` only with evidence from its own executed checks.*
+*One row per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, updated in place. `/implement` may fill a row only as `implement (provisional)`; `/audit` switches it to `audit` only with evidence from its own executed checks.*
 
 ## Executed checks
 
