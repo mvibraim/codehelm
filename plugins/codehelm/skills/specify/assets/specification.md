@@ -4,7 +4,7 @@
 **Approval:** [Date / approver / reference]  
 **Source:** [Original brief or requirement file; original stays unchanged]
 
-> This describes **what** the system must do. Technical design, implementation tasks and Git commits are produced later by `/plan-tasks`.
+> This describes **what** the system must do. Technical design, implementation tasks and Git commits are produced later by `/codehelm:plan-tasks`.
 
 ## 1. Problem and desired outcome
 
@@ -84,4 +84,4 @@ If none, write `None`.
 
 ---
 
-**Next step after approval:** `/plan-tasks docs/specifications/<project-slug>.md`.
+**Next step after approval:** `/codehelm:plan-tasks docs/specifications/<project-slug>.md`.

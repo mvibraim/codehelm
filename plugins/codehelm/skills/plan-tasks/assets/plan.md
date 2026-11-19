@@ -42,16 +42,16 @@ Brief component/data flow description. Reference decision IDs from `decisions.md
 
 ## Task status lifecycle
 
-`NOT STARTED` → `READY FOR HUMAN REVIEW` → `DONE`. A task whose work had to stop is `BLOCKED — <reason>` until `/implement` resumes it.
+`NOT STARTED` → `READY FOR HUMAN REVIEW` → `DONE`. A task whose work had to stop is `BLOCKED — <reason>` until `/codehelm:implement` resumes it.
 
 | Status | Meaning | Set by |
 |---|---|---|
-| `NOT STARTED` | Approved; no work begun | `/plan-tasks` when it writes the plan |
-| `BLOCKED — <reason>` | Work stopped until the stated reason is resolved | `/implement` when a mandatory check fails or cannot run, or a deviation needs approval |
-| `READY FOR HUMAN REVIEW` | Implemented and verified locally; not yet accepted by the engineer and not independently audited | `/implement` at the end of Phase C, when every mandatory check passed |
-| `DONE` | Reviewed and accepted by the engineer | `/implement <plan-name> <task-id> --done`, or `/implement` when the engineer confirms it at the start of a later run |
+| `NOT STARTED` | Approved; no work begun | `/codehelm:plan-tasks` when it writes the plan |
+| `BLOCKED — <reason>` | Work stopped until the stated reason is resolved | `/codehelm:implement` when a mandatory check fails or cannot run, or a deviation needs approval |
+| `READY FOR HUMAN REVIEW` | Implemented and verified locally; not yet accepted by the engineer and not independently audited | `/codehelm:implement` at the end of Phase C, when every mandatory check passed |
+| `DONE` | Reviewed and accepted by the engineer | `/codehelm:implement <plan-name> <task-id> --done`, or `/codehelm:implement` when the engineer confirms it at the start of a later run |
 
-Only `DONE` satisfies a dependency. Run `--done` before committing the task, so the status change lands in the task's own commit. `/audit` reads these statuses and reports mismatches with the evidence, but never changes them.
+Only `DONE` satisfies a dependency. Run `--done` before committing the task, so the status change lands in the task's own commit. `/codehelm:audit` reads these statuses and reports mismatches with the evidence, but never changes them.
 
 ## Ordered implementation tasks
 
@@ -81,7 +81,7 @@ Only `DONE` satisfies a dependency. Run `--done` before committing the task, so 
 - **Docs updated:** ...
 - **Proposed commit:** ...
 
-*Every task runs the project's full unit and integration suites. A suite may be `NOT APPLICABLE — <reason> (approved <date>)` only with the engineer's explicit approval, given when the plan is approved or later as a plan amendment proposed by `/implement`. `/implement` skips only an approved `NOT APPLICABLE` suite, and skipping it never makes the task `BLOCKED`. A missing or failing suite that is not approved as `NOT APPLICABLE` still blocks the task.*
+*Every task runs the project's full unit and integration suites. A suite may be `NOT APPLICABLE — <reason> (approved <date>)` only with the engineer's explicit approval, given when the plan is approved or later as a plan amendment proposed by `/codehelm:implement`. `/codehelm:implement` skips only an approved `NOT APPLICABLE` suite, and skipping it never makes the task `BLOCKED`. A missing or failing suite that is not approved as `NOT APPLICABLE` still blocks the task.*
 
 ## Requirements-to-task traceability
 

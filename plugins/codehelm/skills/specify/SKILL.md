@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 Input: $ARGUMENTS
 
-**Purpose:** Convert a problem description into a reviewed statement of **what** the system must do. Use this skill only when a specification is needed; for well-defined engineering tasks, `/plan-tasks` can work directly from the request. Do **not** plan implementation, choose the architecture or write code.
+**Purpose:** Convert a problem description into a reviewed statement of **what** the system must do. Use this skill only when a specification is needed; for well-defined engineering tasks, `/codehelm:plan-tasks` can work directly from the request. Do **not** plan implementation, choose the architecture or write code.
 
 **No input:** if `$ARGUMENTS` is empty, ask for the business brief, as text or a file path. Do not guess a source from the repository or the conversation. **STOP** and change no files until the engineer answers.
 
@@ -43,7 +43,7 @@ Only after explicit approval:
 
 1. Suggest a stable, descriptive slug. Create `docs/specifications/` if needed and save to `docs/specifications/<project-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
 2. Set the template's status to `Approved` with version, update date and approval reference (date and approver), and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
-3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next command: `/plan-tasks docs/specifications/<project-slug>.md`.
+3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next command: `/codehelm:plan-tasks docs/specifications/<project-slug>.md`.
 4. Do **not** create implementation tasks, choose an architecture, modify application/configuration code, stage, commit, push or switch/create branches.
 
-**Context:** The approved Markdown file is the durable handoff to `/plan-tasks`; do not rely on the prior chat as the sole record of requirements.
+**Context:** The approved Markdown file is the durable handoff to `/codehelm:plan-tasks`; do not rely on the prior chat as the sole record of requirements.

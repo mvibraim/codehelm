@@ -2,11 +2,11 @@
 
 Statuses: `VERIFIED` / `FAILED` / `NOT VERIFIED` / `NOT APPLICABLE`.
 
-Recorded by: `implement (provisional)` for evidence that `/implement` reports about its own task, or `audit` for evidence that `/audit` executed or checked independently. Provisional evidence always stays `NOT VERIFIED`; only `/audit` sets `VERIFIED`, and only on rows recorded by `audit`.
+Recorded by: `implement (provisional)` for evidence that `/codehelm:implement` reports about its own task, or `audit` for evidence that `/codehelm:audit` executed or checked independently. Provisional evidence always stays `NOT VERIFIED`; only `/codehelm:audit` sets `VERIFIED`, and only on rows recorded by `audit`.
 
 ## Audit log
 
-`/audit` appends one row per run and never edits or removes earlier rows. The sections below show the current state; this log keeps the history.
+`/codehelm:audit` appends one row per run and never edits or removes earlier rows. The sections below show the current state; this log keeps the history.
 
 | Date | Revision | Scope | Summary | Open findings |
 |---|---|---|---|---|
@@ -21,7 +21,7 @@ Recorded by: `implement (provisional)` for evidence that `/implement` reports ab
 | FR-001 | `<source>#<section>` | S01 | — | — | Not yet evaluated | — | NOT VERIFIED |
 | AC-001 | `<source>#<section>` | S01 | — | — | Not yet evaluated | — | NOT VERIFIED |
 
-*One row per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, updated in place. `/implement` may fill a row only as `implement (provisional)`; `/audit` switches it to `audit` only with evidence from its own executed checks.*
+*One row per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, updated in place. `/codehelm:implement` may fill a row only as `implement (provisional)`; `/codehelm:audit` switches it to `audit` only with evidence from its own executed checks.*
 
 ## Executed checks
 

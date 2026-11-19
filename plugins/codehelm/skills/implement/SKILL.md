@@ -17,23 +17,23 @@ Task statuses (`NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW`, 
 
 Apply this check first, with or without `--done`. Never guess a plan or task.
 
-- **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/plan-tasks`. **STOP.**
+- **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. **STOP.**
 - **Plan name but no task ID:** read that plan's `plan.md` and list its tasks with their statuses (for `--done`, point out the `READY FOR HUMAN REVIEW` tasks). Ask for the exact task ID. **STOP.**
 
 Change no files while arguments are missing; continue only after the engineer gives both values.
 
 ### Mark a task DONE (`--done`)
 
-`/implement <plan-name> <task-id> --done` records that the engineer has reviewed and accepted the task. When `--done` is present, follow only these steps and skip Phases A–D:
+`/codehelm:implement <plan-name> <task-id> --done` records that the engineer has reviewed and accepted the task. When `--done` is present, follow only these steps and skip Phases A–D:
 
 1. Apply "Missing arguments" above. Read `docs/plans/<plan-name>/plan.md` and confirm the task exists. If the plan or task is missing, stop and report it.
-2. If the task is `READY FOR HUMAN REVIEW`, the invocation itself is the approval: set it to `DONE`. If it is `NOT STARTED` or `BLOCKED — <reason>`, show the current status, warn that it has not passed `/implement` verification and set `DONE` only after explicit confirmation. If it is already `DONE`, report that and change nothing.
+2. If the task is `READY FOR HUMAN REVIEW`, the invocation itself is the approval: set it to `DONE`. If it is `NOT STARTED` or `BLOCKED — <reason>`, show the current status, warn that it has not passed `/codehelm:implement` verification and set `DONE` only after explicit confirmation. If it is already `DONE`, report that and change nothing.
 3. Edit only that task's status line. Do not change code, tests, `verification.md` or any other task.
 4. Report the old and new status, then remind the engineer to include `plan.md` in the task's commit. **STOP.**
 
 ### Phase A — Prepare (read-only, except confirmed DONE statuses and approved suite amendments)
 
-1. Parse `<plan-name> <task-id>`; if either is missing, follow "Missing arguments" above. If `--done` is present, follow "Mark a task DONE" above instead. Read the project's `CLAUDE.md` **only if it exists**; CodeHelm does not provide one. Read `docs/plans/<plan-name>/plan.md`, `decisions.md` and `verification.md`. If the plan artifacts are absent, stop and direct the engineer to `/plan-tasks` rather than inventing them. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
+1. Parse `<plan-name> <task-id>`; if either is missing, follow "Missing arguments" above. If `--done` is present, follow "Mark a task DONE" above instead. Read the project's `CLAUDE.md` **only if it exists**; CodeHelm does not provide one. Read `docs/plans/<plan-name>/plan.md`, `decisions.md` and `verification.md`. If the plan artifacts are absent, stop and direct the engineer to `/codehelm:plan-tasks` rather than inventing them. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
 2. Confirm the task exists and has been approved; review only linked acceptance criteria and relevant sections in original specifications. Check source version/hash if recorded. If a source changed, stop and ask to re-plan. Use targeted file search; do not dump the entire repo, unrelated history, generated files or long logs into context.
 3. Inspect the repository and test commands. When Git is initialized, also check `git status --short` and the current branch. Otherwise note that Git is absent: preexisting uncommitted work cannot be detected, so treat every file outside the task's scope as the engineer's. Do not overwrite/mix preexisting uncommitted work or silently switch/create a branch.
 4. Read task statuses in `plan.md`:
@@ -62,7 +62,7 @@ Change no files while arguments are missing; continue only after the engineer gi
    - **Executed checks:** append one row per check run in Phase C, with the task ID, exact command, revision/environment (`uncommitted working tree` when Git is absent), observed result, `Recorded by` = `implement (provisional)` and status `NOT VERIFIED`. Never edit earlier rows. A failed or blocked check is still recorded with its observed result. For a suite skipped as approved `NOT APPLICABLE`, append a row with command `—` and observed result `Not run: approved NOT APPLICABLE — <reason>`, status `NOT VERIFIED`.
    - **Requirements evidence matrix:** for each requirement linked to this task, fill code and executed test evidence, set `Recorded by` = `implement (provisional)` and keep the status `NOT VERIFIED`. Do not overwrite a row recorded by `audit`; leave it and mention the newer evidence in the handoff instead.
    - If an older `verification.md` lacks the `Recorded by` column (or, for executed checks, the `Task` column), add it and put `—` in existing rows; do not guess who recorded them.
-   - Never set `VERIFIED`, `FAILED` or `NOT APPLICABLE` and never use `Recorded by` = `audit`; only `/audit` does. Do not add rows to the audit log; only `/audit` does. Never set `DONE` for the task just implemented; only the engineer accepts it, through `--done` or at the start of a later run. Do not mark requirements VERIFIED merely because code exists.
+   - Never set `VERIFIED`, `FAILED` or `NOT APPLICABLE` and never use `Recorded by` = `audit`; only `/codehelm:audit` does. Do not add rows to the audit log; only `/codehelm:audit` does. Never set `DONE` for the task just implemented; only the engineer accepts it, through `--done` or at the start of a later run. Do not mark requirements VERIFIED merely because code exists.
 
 ### Phase D — Hand off
 
@@ -73,6 +73,6 @@ Report concisely:
 - Known limitations and requirements needing audit
 - Suggested single Conventional Commit message
 - Suggested review commands when Git is initialized: `git diff --check`, `git diff`, `git status --short`. Without Git, point to the files changed list instead
-- **Fresh-session handoff:** plan name + task ID + approved decisions referenced, task status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`), exact checks and outcomes, pending human action and the next command. If earlier tasks were marked `DONE` in this run and those status changes were not committed separately, say that this diff also contains them. For a ready task, recommend this order: review, optionally `/audit <plan-name> <task-id>`, then `/implement <plan-name> <task-id> --done`, then commit. Save lasting decisions and verification evidence in Markdown, not only chat.
+- **Fresh-session handoff:** plan name + task ID + approved decisions referenced, task status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`), exact checks and outcomes, pending human action and the next command. If earlier tasks were marked `DONE` in this run and those status changes were not committed separately, say that this diff also contains them. For a ready task, recommend this order: review, optionally `/codehelm:audit <plan-name> <task-id>`, then `/codehelm:implement <plan-name> <task-id> --done`, then commit. Save lasting decisions and verification evidence in Markdown, not only chat.
 
 **STOP.** Wait for the engineer to review, stage and commit manually. Never stage, commit, push or start the next task without fresh explicit approval.

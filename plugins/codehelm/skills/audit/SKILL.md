@@ -12,10 +12,10 @@ Plan and optional task: $ARGUMENTS
 **Purpose:** An evidence-based consistency audit; do not fix production code or change Git state.
 
 **Two modes:**
-- **Task audit:** `/audit <plan-name> <task-id>`: inspect only the task, its linked requirements, changed files, tests and decisions. Prefer this before each human-reviewed commit.
-- **Full change audit:** `/audit <plan-name>`: check all in-scope requirements and tasks, integration boundaries, architectural consistency and delivery readiness. Run at milestones and before delivery.
+- **Task audit:** `/codehelm:audit <plan-name> <task-id>`: inspect only the task, its linked requirements, changed files, tests and decisions. Prefer this before each human-reviewed commit.
+- **Full change audit:** `/codehelm:audit <plan-name>`: check all in-scope requirements and tasks, integration boundaries, architectural consistency and delivery readiness. Run at milestones and before delivery.
 
-**No plan name:** if `$ARGUMENTS` is empty, list the folders under `docs/plans/` and ask which plan to audit, and optionally which task. Never pick one yourself, even when only one plan exists. If there are none, report that and direct the engineer to `/plan-tasks`. **STOP** and change no files until the engineer answers.
+**No plan name:** if `$ARGUMENTS` is empty, list the folders under `docs/plans/` and ask which plan to audit, and optionally which task. Never pick one yourself, even when only one plan exists. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. **STOP** and change no files until the engineer answers.
 
 For independence, prefer a fresh Claude session. Do not rely on the implementation conversation for evidence.
 
