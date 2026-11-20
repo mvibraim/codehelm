@@ -23,7 +23,7 @@ For independence, prefer a fresh Claude session. Do not rely on the implementati
 
 If the project is not a Git repository, stop and ask the engineer to run `git init` or to approve that you run it.
 
-1. Read `docs/plans/<plan-name>/{plan,decisions,verification}.md`. If the plan artifacts are missing, report the gap rather than fabricating a plan. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs. Find the task's changes with `git status --short`, `git diff` and `git log`. For a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
+1. Read `docs/plans/<plan-name>/{plan,decisions}.md`, and its `verification.md` if an earlier audit created it. If the plan artifacts are missing, report the gap rather than fabricating a plan. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs. Find the task's changes with `git status --short`, `git diff` and `git log`. For a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
 2. Compare specification versions/hashes with those recorded in the plan. Flag changes rather than silently treating the old plan as current.
 3. Read actual test results/reports or execute the plan's **Test commands** and the tasks' **Extra checks** if needed and permitted. Never treat a test name or claim that tests passed as proof. Record exact commands, output summary and date/revision when available.
 4. Look for requirements without tasks, tasks without source justification, undocumented implementation, deviations from accepted decisions, missing edge-case coverage, test assertions that do not actually validate the business rule, and test commands that miss a suite the changes need (for example, a plan approved without integration tests whose changes now cross an integration boundary).
@@ -33,26 +33,24 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 ### Phase B — Verify each criterion
 
 For every applicable requirement and acceptance criterion, record:
-- Stable requirement/criterion ID and source reference
+- Stable requirement/criterion ID, as in `plan.md`
 - Planned task(s)
 - Actual source file/symbol evidence
-- Test file/case and executed test result
-- Documentation/decision alignment
-- Recorded by: `audit` when this audit executed or independently checked the evidence; otherwise keep the existing value
+- Test file/case, with the executed command and its result
 - Status: `VERIFIED`, `FAILED`, `NOT VERIFIED` or `NOT APPLICABLE`
 
-Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAILED` means demonstrated contradiction/failure. `NOT VERIFIED` means missing, blocked or insufficient evidence. `NOT APPLICABLE` requires explanation.
+Check documentation and decision alignment too, and record gaps as findings.
 
-Treat rows recorded by `implement (provisional)`, or with `—`, as claims to re-check, not as proof. Switch a matrix row to `audit` only after running its checks yourself (or reading a CI run or report for the audited revision) and then set its status from that evidence. If you cannot re-check it, leave the row `implement (provisional)` and `NOT VERIFIED`. A row may be `VERIFIED` only when it is recorded by `audit`.
+Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAILED` means demonstrated contradiction/failure. `NOT VERIFIED` means missing, blocked or insufficient evidence. `NOT APPLICABLE` requires explanation.
 
 ### Phase C — Report and document
 
 1. Prioritize findings by severity; cite precise file locations and requirement IDs. Separate proven failures from unverified concerns and propose proportionate fixes.
 2. Identify missing/weak tests, unapproved design decisions, stale documents and implementation drift.
-3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. Task statuses in `plan.md` stay unchanged; record status mismatches as findings instead. Preserve previous meaningful history; don't erase open findings without justification.
-   - **Requirements evidence matrix:** update in-scope rows in place as described in Phase B.
-   - **Executed checks:** append one row per check this audit ran or read, with the scope as `Task` (the task ID or `full`) and `Recorded by` = `audit`. Never edit or remove earlier rows, including provisional ones; replace only the `No checks recorded yet` placeholder row.
-4. Append one row to the `## Audit log` table in `verification.md`: date, audited revision (git SHA, or `uncommitted working tree` when uncommitted changes are in scope), scope (the task ID or `full`), a one-line summary and the open findings counted by severity after this run. Never edit or remove earlier rows; replace only the `No audits yet` placeholder row.
+3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. On the first audit of a plan, create it from the bundled template `${CLAUDE_SKILL_DIR}/assets/verification.md`. Task statuses in `plan.md` stay unchanged; record status mismatches as findings instead. Preserve previous meaningful history; don't erase open findings without justification.
+   - **Evidence:** one row per in-scope requirement and acceptance criterion, as described in Phase B, updated in place.
+   - **Findings:** one row per finding, with its severity, the requirement ID or task, the evidence, the next action and its status.
+4. Append one row to the `## Audit log` table in `verification.md`: date, audited revision (git SHA, or `uncommitted working tree` when uncommitted changes are in scope), scope (the task ID or `full`), a one-line summary and the open findings counted by severity after this run, for example `3 (1 high, 2 medium)` or `0`. Never edit or remove earlier rows.
 5. Propose next small, reviewable correction tasks where needed; do not implement them and do not silently change the approved plan.
 6. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings.
 

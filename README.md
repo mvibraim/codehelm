@@ -49,9 +49,11 @@ plugins/codehelm/
       assets/specification.md
     plan-tasks/
       SKILL.md
-      assets/{plan,decisions,verification}.md
+      assets/{plan,decisions}.md
     implement/SKILL.md
-    audit/SKILL.md
+    audit/
+      SKILL.md
+      assets/verification.md
 ```
 
 ## Install
@@ -123,7 +125,6 @@ Claude reads sources, asks focused clarification questions, **stops for your ans
 ```text
 docs/plans/<plan-name>/plan.md
 docs/plans/<plan-name>/decisions.md
-docs/plans/<plan-name>/verification.md
 ```
 
 It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Respect any confidentiality restrictions on the source documents before committing them.
@@ -145,7 +146,7 @@ Each task should have acceptance criteria (`AC-###`), links to applicable requir
 /codehelm:implement <plan-name> <task-id>   # for example, /codehelm:implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs every plan test command plus the task's extra checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It records its check results in `verification.md` marked `Recorded by: implement (provisional)` and leaves them `NOT VERIFIED`, because only an audit can confirm them. It must not stage, commit, push or continue to S02.
+Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs every plan test command plus the task's extra checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. The status records the result: `READY FOR HUMAN REVIEW` means every check passed, and `BLOCKED — <reason>` says what failed. The handoff lists the commands and their results; only `/codehelm:audit` writes `verification.md`. It must not stage, commit, push or continue to S02.
 
 When you have reviewed and accepted the task, mark it `DONE` **before** committing, so the status change lands in the task's own commit:
 
@@ -162,7 +163,7 @@ If you forget, the next `/codehelm:implement` run asks which `READY FOR HUMAN RE
 /codehelm:audit <plan-name>             # full review at milestone / delivery
 ```
 
-Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`. It treats provisional evidence from `/codehelm:implement` as claims to re-check, and switches a row to `Recorded by: audit` only with checks it executed itself. Only `/codehelm:audit` sets `VERIFIED`. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
+Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`, creating it on the first audit of a plan. It is the only skill that writes this file and the only one that sets `VERIFIED`, and it never treats a claim that tests passed as proof. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
 
 ## Core rules
 
@@ -191,7 +192,7 @@ Each task in `plan.md` carries one status, defined in the plan's "Task status li
 
 ### Compact durable handoffs
 
-Before ending a session, ensure important decisions are in `decisions.md`, task progress in `plan.md` and actual checks in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
+Before ending a session, ensure important decisions are in `decisions.md` and task progress in `plan.md`; audit results are in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
 
 ## License
 

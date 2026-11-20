@@ -47,14 +47,12 @@ Plan request and/or source documents: $ARGUMENTS
 
 After explicit approval:
 
-1. Create `docs/plans/<plan-name>/` if absent. Create or update **only** its `plan.md`, `decisions.md` and `verification.md`, based on the **bundled** templates:
+1. Create `docs/plans/<plan-name>/` if absent. Create or update **only** its `plan.md` and `decisions.md`, based on the **bundled** templates:
    - `${CLAUDE_SKILL_DIR}/assets/plan.md`
    - `${CLAUDE_SKILL_DIR}/assets/decisions.md`
-   - `${CLAUDE_SKILL_DIR}/assets/verification.md`
-   Do not require a `docs/templates/` directory in the target project. Preserve existing plan artifacts and avoid overwriting them without approval.
+   Do not create `verification.md`; `/codehelm:audit` creates it on its first run. Do not require a `docs/templates/` directory in the target project. Preserve existing plan artifacts and avoid overwriting them without approval.
 2. `plan.md`: the template's header with `Plan status` `APPROVED`, `Plan version` `1.0` and the approval date/reference; source references/versions, approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`), proposed architecture, test commands, task checklist with each task's extra checks, dependencies and requirement-to-task matrix. Keep the template's task status lifecycle section unchanged and set every task to `NOT STARTED`. When the engineer approved a plan without integration tests, write `Integration: none — <reason> (approved <date>)` in the test commands.
 3. `decisions.md`: accepted decisions and their rationale, alternatives, costs and revisit conditions. For trivial work, say `No material design decisions`.
-4. `verification.md`: create one entry per requirement and per acceptance criterion, using the same `FR/BR/NFR/AC-###` IDs as `plan.md`, initially `NOT VERIFIED`, with empty implementation and test evidence and `Recorded by` = `—`. Keep the template's executed checks table and audit log empty (only their placeholder rows); `/codehelm:implement` and `/codehelm:audit` append rows to them.
-5. Give a concise handoff: plan name, suggested branch, approved decision IDs, first task, test commands and next command (`/codehelm:implement <plan-name> <task-id>`). State missing information explicitly rather than relying on chat history.
+4. Give a concise handoff: plan name, suggested branch, approved decision IDs, first task, test commands and next command (`/codehelm:implement <plan-name> <task-id>`). State missing information explicitly rather than relying on chat history.
 
 Never implement application/config code. End after writing the plan.
