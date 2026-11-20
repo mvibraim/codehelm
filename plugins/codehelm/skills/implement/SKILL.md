@@ -57,7 +57,7 @@ Give one concise handoff, readable in a fresh session:
 - **Commands and results:** each test command and extra check, with its observed outcome
 - **Status:** plan name, task ID and its status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`). If Phase A set a dependency to `DONE`, say that this diff also contains that status change.
 - **Commit message:** one suggested Conventional Commit message
-- **Next:** for a ready task, review the diff, optionally run `/codehelm:audit <plan-name> <task-id>`, then reply "accepted" or request changes; for a blocked task, what must be resolved first
+- **Next:** for a ready task, review the diff, optionally run `/codehelm:audit <plan-name> <task-id>` if the task is risky, then reply "accepted" or request changes; for a blocked task, what must be resolved first
 
 **STOP for review.** Wait for the engineer's reply:
 - **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line, and suggest the Conventional Commit message, noting that `plan.md` belongs in the commit. Do not stage or commit. **STOP.**

@@ -3,31 +3,33 @@ name: audit
 description: Independently audit a planned change against source specifications, accepted decisions, code, tests and actual verification evidence.
 argument-hint: "[plan-name] [optional task-id]"
 disable-model-invocation: true
+context: fork
+background: false
 ---
 
 **CodeHelm ground rules:** Follow the project's CLAUDE.md and conventions, but never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks for that action. Keep the engineer's uncommitted changes intact. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
 Plan and optional task: $ARGUMENTS
 
-**Purpose:** An evidence-based consistency audit; do not fix production code or change Git state.
+**Purpose:** An evidence-based consistency audit; do not fix production code or change Git state. Report gaps that affect correctness, and skip style.
 
 **Two modes:**
-- **Task audit:** `/codehelm:audit <plan-name> <task-id>`: inspect only the task, its linked requirements, changed files, tests and decisions. Prefer this before each human-reviewed commit.
-- **Full change audit:** `/codehelm:audit <plan-name>`: check all in-scope requirements and tasks, integration boundaries, architectural consistency and delivery readiness. Run at milestones and before delivery.
+- **Full change audit:** `/codehelm:audit <plan-name>`: check all in-scope requirements and tasks, integration boundaries, architectural consistency and delivery readiness. Recommended at milestones and before delivery.
+- **Task audit (optional):** `/codehelm:audit <plan-name> <task-id>`: inspect only the task, its linked requirements, changed files, tests and decisions. Meant for risky tasks, before the engineer accepts them.
 
-**No plan name:** if `$ARGUMENTS` is empty, list the folders under `docs/plans/` and ask which plan to audit, and optionally which task. Never pick one yourself, even when only one plan exists. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. **STOP** and change no files until the engineer answers.
+This skill runs in a forked subagent without the conversation history, which keeps the audit independent of the implementation discussion. It cannot ask questions mid-run: wherever it must ask, it ends the run with the question and changes no files.
 
-For independence, prefer a fresh Claude session. Do not rely on the implementation conversation for evidence.
+**No plan name:** if `$ARGUMENTS` is empty, list the folders under `docs/plans/` and end the run by asking the engineer to rerun `/codehelm:audit <plan-name> [task-id]` with one of them. Never pick one yourself, even when only one plan exists. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. **STOP** and change no files.
 
 ### Phase A — Gather evidence (read-only)
 
-If the project is not a Git repository, stop and ask the engineer to run `git init` or to approve that you run it.
+If the project is not a Git repository, stop and ask the engineer to run `git init` and then rerun the audit.
 
 1. Read `docs/plans/<plan-name>/plan.md`, and its `verification.md` if an earlier audit created it. If the plan is missing, report the gap rather than fabricating a plan. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs. Find the task's changes with `git status --short`, `git diff` and `git log`. For a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
 2. For each source file, run `git diff <sha> -- <source>` with the commit in the plan's `Approved` line. Flag changes rather than silently treating the old plan as current.
 3. Read actual test results/reports or execute the plan's **Test commands** and the tasks' **Extra checks** if needed and permitted. Never treat a test name or claim that tests passed as proof. Record exact commands, output summary and date/revision when available.
 4. Look for requirements without tasks, tasks without source justification, undocumented implementation, deviations from accepted decisions, missing edge-case coverage, test assertions that do not actually validate the business rule, and test commands that miss a suite the changes need (for example, a plan approved without integration tests whose changes now cross an integration boundary).
-5. Read each in-scope task's status in `plan.md` (`NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW` when implemented with every check passed, or `DONE` once the engineer accepted it) and compare it with the evidence. Report mismatches as findings, for example: `DONE` while the task's changes are missing or its checks fail; `READY FOR HUMAN REVIEW` with failing, missing or unrecorded checks; `NOT STARTED` while the task's code exists; `BLOCKED` without a reason; a task with code whose dependencies are not `DONE`. Never change a task status yourself.
+5. Read each in-scope task's status in `plan.md` (`NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW` when implemented with every check passed, or `DONE` once the engineer accepted it) and compare it with the evidence. Report a status the evidence contradicts as a finding, such as `DONE` or `READY FOR HUMAN REVIEW` with missing changes or failing checks, or `NOT STARTED` with existing code. Never change a task status yourself.
 6. For infrastructure/CI/observability changes, inspect relevant specialized checks (container smoke, workflow run, emitted metric tests, migrations). If live checks cannot be executed, mark appropriately.
 
 ### Phase B — Verify each criterion

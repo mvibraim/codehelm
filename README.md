@@ -86,7 +86,7 @@ A **fresh Claude Code session** is more important than opening a new terminal. Y
 | `/codehelm:specify` | Prefer a fresh session when starting from a new or long brief | **Opus** for ambiguous briefs; **Sonnet** for straightforward ones | Careful business-question discovery without unrelated implementation context |
 | `/codehelm:plan-tasks` | Prefer a fresh session after the specification is approved | **Opus** for architecture/trade-offs; **Sonnet** for small changes | Build a plan from saved requirements rather than old conversation assumptions |
 | `/codehelm:implement` | Prefer a fresh session **for each approved task** | **Sonnet** by default; **Opus** for difficult concurrency or debugging | Reduce context and keep each reviewable change narrowly scoped |
-| `/codehelm:audit` | **Yes**, use an independent fresh session when practical | **Sonnet** for task audits; **Opus** for critical/full reviews | Review evidence skeptically without relying on the implementation discussion |
+| `/codehelm:audit` | No: it runs in its own subagent without the conversation history | **Sonnet** for task audits; **Opus** for critical/full reviews | Review evidence skeptically without relying on the implementation discussion |
 
 **Practical commands:** `/model opus` or `/model sonnet`, then invoke the skill. After a completed phase or task, use `/clear` (or exit and start `claude` again) **only after** recording decisions, test results and unfinished work. Use `/compact` instead if a task is still in progress and the context is long. You don't need a new terminal window for every skill and frequent model switching mid-task is unnecessary.
 
@@ -152,17 +152,17 @@ Accept before you commit, so the `DONE` status lands in the task's own commit. I
 ## 3. Audit
 
 ```text
-/codehelm:audit <plan-name> <task-id>   # scoped review before the proposed commit
-/codehelm:audit <plan-name>             # full review at milestone / delivery
+/codehelm:audit <plan-name>             # full review, recommended at milestones and before delivery
+/codehelm:audit <plan-name> <task-id>   # optional scoped review of a risky task, before you accept it
 ```
 
-Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, then writes grounded evidence to `verification.md`, creating it on the first audit of a plan. It is the only skill that writes this file and the only one that sets `VERIFIED`, and it never treats a claim that tests passed as proof. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. Running an audit in a separate fresh Claude session provides more independent review.
+Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed tests, reports the gaps that affect correctness and skips style, then writes grounded evidence to `verification.md`, creating it on the first audit of a plan. It is the only skill that writes this file and the only one that sets `VERIFIED`, and it never treats a claim that tests passed as proof. Each run also appends a row to the file's audit log (date, revision, scope, summary, open findings) and never rewrites earlier rows, so repeated audits keep their history. The audit does **not** change implementation code or create Git commits. It runs in a forked subagent that doesn't see the conversation, so its review stays independent of the implementation discussion, and you wait for its report. Because it can't ask questions mid-run, a run without a plan name lists the plans and asks you to run the command again with one.
 
 ## Core rules
 
 - Specify (only if needed), then plan and question first; **no modifications before approval**.
 - No automatic branch creation, staging, commits or pushes.
-- `/codehelm:implement` and `/codehelm:audit` need a Git repository. Without one, they stop and ask you to run `git init` or to let them run it.
+- `/codehelm:implement` and `/codehelm:audit` need a Git repository. Without one, they stop and ask you to run `git init`; `/codehelm:implement` can also run it with your approval.
 - A missing plan or specification is never guessed. Each skill asks for it and stops. `/codehelm:audit` lists the plans under `docs/plans/`, `/codehelm:plan-tasks` lists the specifications under `docs/specifications/`, and `/codehelm:implement` lists the plans. Given only a plan, `/codehelm:implement` takes its next ready task.
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
 - The plan's test commands (full unit **and** integration suites, plus build or lint) run for each proposed commit. If a suite is missing, the plan sets it up first, unless you approved "no integration tests" for the whole plan. A failing baseline stops the task before any edit; afterwards, a missing command or a failure the task did not cause blocks it.
