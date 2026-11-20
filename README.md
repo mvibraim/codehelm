@@ -142,10 +142,10 @@ Each task should have acceptance criteria (`AC-###`), links to applicable requir
 ## 2. Implement one task
 
 ```text
-/codehelm:implement <plan-name> <task-id>   # for example, /codehelm:implement booking-api S01
+/codehelm:implement <plan-name> [task-id]   # for example, /codehelm:implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs every plan test command plus the task's extra checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. Reply "accepted" and it sets the task to `DONE` and suggests the commit message; request changes and it applies them, re-runs every check and stops again. The status records the result: `READY FOR HUMAN REVIEW` means every check passed, and `BLOCKED — <reason>` says what failed. The handoff lists the commands and their results; only `/codehelm:audit` writes `verification.md`. It must not stage, commit, push or continue to S02.
+Without a task ID, Claude picks the next `NOT STARTED` task whose dependencies are done. It reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE` and runs the plan's test commands as a baseline. It stops first only if a source changed since approval, the working tree has uncommitted changes, the task needs work outside its scope or the baseline fails; otherwise it names the task and starts. It writes the tests for the task's acceptance criteria first and confirms they fail, implements exactly one slice, runs every plan test command plus the task's extra checks, fixes failures it caused, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**, its one approval stop per task. Reply "accepted" and it sets the task to `DONE` and suggests the commit message; request changes and it applies them, re-runs every check and stops again. The status records the result: `READY FOR HUMAN REVIEW` means every check passed, and `BLOCKED — <reason>` names a cause outside the task, such as a pre-existing failure, missing infrastructure or a needed plan change. The handoff lists the commands and their results; only `/codehelm:audit` writes `verification.md`. It must not stage, commit, push or continue to S02.
 
 Accept before you commit, so the `DONE` status lands in the task's own commit. If you end the session without replying, the task stays `READY FOR HUMAN REVIEW`; a later run that depends on it asks once whether you accepted it.
 
@@ -163,9 +163,9 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 - Specify (only if needed), then plan and question first; **no modifications before approval**.
 - No automatic branch creation, staging, commits or pushes.
 - `/codehelm:implement` and `/codehelm:audit` need a Git repository. Without one, they stop and ask you to run `git init` or to let them run it.
-- Missing arguments are never guessed. Each skill asks for them and stops. `/codehelm:audit` lists the plans under `docs/plans/`, `/codehelm:plan-tasks` lists the specifications under `docs/specifications/`, and `/codehelm:implement` lists the plans or the selected plan's tasks with their statuses.
+- A missing plan or specification is never guessed. Each skill asks for it and stops. `/codehelm:audit` lists the plans under `docs/plans/`, `/codehelm:plan-tasks` lists the specifications under `docs/specifications/`, and `/codehelm:implement` lists the plans. Given only a plan, `/codehelm:implement` takes its next ready task.
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
-- The plan's test commands (full unit **and** integration suites, plus build or lint) run for each proposed commit. If a suite is missing, the plan sets it up first, unless you approved "no integration tests" for the whole plan. A missing or failing test command blocks the task.
+- The plan's test commands (full unit **and** integration suites, plus build or lint) run for each proposed commit. If a suite is missing, the plan sets it up first, unless you approved "no integration tests" for the whole plan. A failing baseline stops the task before any edit; afterwards, a missing command or a failure the task did not cause blocks it.
 - Document meaningful decisions, keep task-to-requirement traceability and audit code↔docs.
 - Keep plans proportionate; small chores shouldn't require invented architectural alternatives.
 - If sources or requirements change, pause and request re-approval before proceeding.
