@@ -31,7 +31,7 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
    - Every dependency of the selected task must be `DONE`. If a dependency is still `READY FOR HUMAN REVIEW`, ask once whether the engineer has reviewed and accepted it, and set it to `DONE` only on yes: the answer is the approval for that status line. This is the only edit allowed in Phase A. If any dependency is still not `DONE`, **STOP** and name the unfinished dependencies.
    - The selected task must be `NOT STARTED` or `BLOCKED — <reason>`; resume a blocked task only when its reason is resolved. If it is `READY FOR HUMAN REVIEW` or `DONE`, **STOP** and ask whether to rework it.
 5. If the plan and code conflict, a newly discovered requirement changes the approach, the task needs work outside its **Scope** or it is too large for one reviewable commit, **STOP**. Explain the smallest required plan amendment and request approval; never silently redesign or expand scope.
-6. **Green baseline:** run every command in the plan's **Test commands** section before editing. If any fails, **STOP** and report the failure without changing files: the task would otherwise end `BLOCKED` for a failure it did not cause.
+6. **Green baseline:** run every command in the plan's **Test commands** section before editing, except those marked as created by this task. If any fails, **STOP** and report the failure without changing files: the task would otherwise end `BLOCKED` for a failure it did not cause.
 7. **Start directly.** When none of the stops above applied, state the task and its scope in one line and continue to Phase B without waiting for approval. The plan's approval covers the task; the review in Phase D is this task's approval stop.
 
 ### Phase B — Implement
