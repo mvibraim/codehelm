@@ -54,6 +54,6 @@ Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAI
    - **Findings:** one row per finding, with its severity, the requirement ID or task, the evidence, the next action and its status.
 4. Append one row to the `## Audit log` table in `verification.md`: date, audited revision (git SHA, or `uncommitted working tree` when uncommitted changes are in scope), scope (the task ID or `full`), a one-line summary and the open findings counted by severity after this run, for example `3 (1 high, 2 medium)` or `0`. Never edit or remove earlier rows.
 5. Propose next small, reviewable correction tasks where needed; do not implement them and do not silently change the approved plan.
-6. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings, and suggest committing `verification.md` before the next task, together with the task's changes after a task audit.
+6. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings, and suggest committing `verification.md` before the next task, with the task's changes after a task audit.
 
 Never claim full coverage from passing tests alone.
