@@ -23,7 +23,7 @@ Plan request and/or source documents: $ARGUMENTS
    - `ASSUMPTION`: not stated in a source, but approved by the engineer.
    - `PROPOSED`: inferred or suggested by you and not yet approved.
    If no specification exists, derive the list from the request: what the request states directly is `EXPLICIT` (source: the request), and everything you infer is `PROPOSED`. Each acceptance criterion names the requirement IDs it covers and states an observable outcome (Given/When/Then where practical).
-5. Identify scope boundaries, contradictions, unknowns, dependencies and edge cases. The plan records the commit at approval (`git rev-parse HEAD`), and later skills detect source drift with `git diff <sha> -- <source>`. If `git status --short` shows a source file as modified or untracked, ask the engineer to commit it before approving the plan, because its drift can't be detected otherwise.
+5. Identify scope boundaries, contradictions, unknowns, dependencies and edge cases. The plan records the commit at approval (`git rev-parse HEAD`), and later skills detect source drift with `git diff <sha> -- <source>`. If the project is not a Git repository, has no commit yet, or `git status --short` shows a source file as modified or untracked, ask the engineer to set up Git or commit before approving the plan, because drift can't be detected otherwise.
 
 ### Phase B — Clarify (mandatory gate)
 
