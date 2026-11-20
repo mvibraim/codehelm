@@ -137,7 +137,7 @@ For illustration, a plan for an **Inventory Reservation API** might contain task
 | `S01` | Establish the application, persistence setup, and working test infrastructure | Build succeeds; unit and integration suites run |
 | `S02` | Expose a read-only product availability endpoint | Availability unit tests and API/database integration tests |
 
-Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/codehelm:audit` can trace them through to `verification.md`. Items still `PROPOSED` must be approved (they become `ASSUMPTION`) or rejected before the plan is saved. **One task means one proposed reviewable commit**; the complete unit and integration suites still run after every implementation task. A suite that cannot meaningfully apply to a task (for example, a `docs` change, or a project with no integration boundary) may be marked `NOT APPLICABLE — <reason>` in that task, but only with your explicit approval of the plan or of an amendment that `/codehelm:implement` proposes.
+Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/codehelm:audit` can trace them through to `verification.md`. Items still `PROPOSED` must be approved (they become `ASSUMPTION`) or rejected before the plan is saved. **One task means one proposed reviewable commit.** The plan's **Test commands** (the project's full unit and integration suites, plus its build or lint) are approved with the plan and run after every task, so each task lists only its extra checks. A project without tests gets a setup task first, unless you approve "no integration tests" once for the whole plan.
 
 ## 2. Implement one task
 
@@ -145,7 +145,7 @@ Each task should have acceptance criteria (`AC-###`), links to applicable requir
 /codehelm:implement <plan-name> <task-id>   # for example, /codehelm:implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs the complete unit and integration suites (except a suite approved as `NOT APPLICABLE` for the task) plus relevant specialized checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It records its check results in `verification.md` marked `Recorded by: implement (provisional)` and leaves them `NOT VERIFIED`, because only an audit can confirm them. It must not stage, commit, push or continue to S02.
+Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs every plan test command plus the task's extra checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. It records its check results in `verification.md` marked `Recorded by: implement (provisional)` and leaves them `NOT VERIFIED`, because only an audit can confirm them. It must not stage, commit, push or continue to S02.
 
 When you have reviewed and accepted the task, mark it `DONE` **before** committing, so the status change lands in the task's own commit:
 
@@ -171,7 +171,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 - `/codehelm:implement` and `/codehelm:audit` need a Git repository. Without one, they stop and ask you to run `git init` or to let them run it.
 - Missing arguments are never guessed. Each skill asks for them and stops. `/codehelm:audit` lists the plans under `docs/plans/`, `/codehelm:plan-tasks` lists the specifications under `docs/specifications/`, and `/codehelm:implement` lists the plans or the selected plan's tasks with their statuses.
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
-- Full unit **and** integration suites for each proposed commit. If not yet available, bootstrap both suites first. A suite may be skipped only when you approved it as `NOT APPLICABLE — <reason>` for that task; a missing or failing suite otherwise blocks the task.
+- The plan's test commands (full unit **and** integration suites, plus build or lint) run for each proposed commit. If a suite is missing, the plan sets it up first, unless you approved "no integration tests" for the whole plan. A missing or failing test command blocks the task.
 - Document meaningful decisions, keep task-to-requirement traceability and audit code↔docs.
 - Keep plans proportionate; small chores shouldn't require invented architectural alternatives.
 - If sources or requirements change, pause and request re-approval before proceeding.

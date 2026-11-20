@@ -22,6 +22,14 @@
 
 **Out of scope:** ...
 
+## Test commands
+
+- **Unit:** `<command>`
+- **Integration:** `<command>`
+- **Build / lint:** `<command>`
+
+*Every task runs all of these, plus its own extra checks. Write `Integration: none — <reason> (approved <date>)` only when the engineer approved a plan without integration tests.*
+
 ## Requirements and acceptance criteria
 
 | ID | Requirement | Source reference | Basis | Acceptance criteria |
@@ -62,9 +70,7 @@ Only `DONE` satisfies a dependency. Run `--done` before committing the task, so 
 - **Dependencies:** none
 - **Scope / files:** ...
 - **Acceptance criteria:** `AC-001`
-- **Unit tests:** full suite plus new/updated cases ...
-- **Integration tests:** full suite plus new/updated cases ...
-- **Other verification:** build / Docker smoke / workflow validation as relevant
+- **Extra checks:** for example, a container build and smoke test
 - **Docs updated:** ...
 - **Proposed commit:** `feat: ...`
 
@@ -75,13 +81,9 @@ Only `DONE` satisfies a dependency. Run `--done` before committing the task, so 
 - **Dependencies:** S01
 - **Scope / files:** ...
 - **Acceptance criteria:** ...
-- **Unit tests:** ...
-- **Integration tests:** `NOT APPLICABLE — <reason> (approved <date>)`
-- **Other verification:** ...
+- **Extra checks:** none
 - **Docs updated:** ...
 - **Proposed commit:** ...
-
-*Every task runs the project's full unit and integration suites. A suite may be `NOT APPLICABLE — <reason> (approved <date>)` only with the engineer's explicit approval, given when the plan is approved or later as a plan amendment proposed by `/codehelm:implement`. `/codehelm:implement` skips only an approved `NOT APPLICABLE` suite, and skipping it never makes the task `BLOCKED`. A missing or failing suite that is not approved as `NOT APPLICABLE` still blocks the task.*
 
 ## Requirements-to-task traceability
 
