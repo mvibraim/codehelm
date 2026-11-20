@@ -146,15 +146,9 @@ Each task should have acceptance criteria (`AC-###`), links to applicable requir
 /codehelm:implement <plan-name> <task-id>   # for example, /codehelm:implement booking-api S01
 ```
 
-Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs every plan test command plus the task's extra checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. The status records the result: `READY FOR HUMAN REVIEW` means every check passed, and `BLOCKED — <reason>` says what failed. The handoff lists the commands and their results; only `/codehelm:audit` writes `verification.md`. It must not stage, commit, push or continue to S02.
+Claude reads the approved plan and original sources, checks for drift, confirms every dependency is `DONE`, proposes the file edits and **stops for your approval**. After approval it implements exactly one slice, runs every plan test command plus the task's extra checks, checks docs against code, sets the task to `READY FOR HUMAN REVIEW` and **stops for your review**. Reply "accepted" and it sets the task to `DONE` and suggests the commit message; request changes and it applies them, re-runs every check and stops again. The status records the result: `READY FOR HUMAN REVIEW` means every check passed, and `BLOCKED — <reason>` says what failed. The handoff lists the commands and their results; only `/codehelm:audit` writes `verification.md`. It must not stage, commit, push or continue to S02.
 
-When you have reviewed and accepted the task, mark it `DONE` **before** committing, so the status change lands in the task's own commit:
-
-```text
-/codehelm:implement <plan-name> <task-id> --done   # for example, /codehelm:implement booking-api S01 --done
-```
-
-If you forget, the next `/codehelm:implement` run asks which `READY FOR HUMAN REVIEW` tasks you have accepted and marks them `DONE` before it changes anything else. When those status lines are the only uncommitted changes in `plan.md`, it recommends committing them on their own (for example, `docs: mark S02 as done`) before you approve its proposal, so the next task's commit holds only its own work. If you skip that, the status changes are part of the next task's diff, and the handoff says so.
+Accept before you commit, so the `DONE` status lands in the task's own commit. If you end the session without replying, the task stays `READY FOR HUMAN REVIEW`; a later run that depends on it asks once whether you accepted it.
 
 ## 3. Audit
 
@@ -179,14 +173,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 ## Note on task status
 
-Each task in `plan.md` carries one status, defined in the plan's "Task status lifecycle" section:
-
-| Status | Meaning | Set by |
-| --- | --- | --- |
-| `NOT STARTED` | Approved; no work begun | `/codehelm:plan-tasks` |
-| `BLOCKED — <reason>` | A mandatory check failed or could not run, or a deviation needs approval | `/codehelm:implement` |
-| `READY FOR HUMAN REVIEW` | Implemented and verified locally; not yet accepted by you | `/codehelm:implement` |
-| `DONE` | Reviewed and accepted by you | `/codehelm:implement … --done`, or `/codehelm:implement` when you confirm it at the start of a later run |
+Each task in `plan.md` carries one status: `NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW` or `DONE`. The plan's "Task status lifecycle" section defines them and which skill sets each one.
 
 `READY FOR HUMAN REVIEW` is **not the same as committed or independently VERIFIED**. The engineer controls Git commits and decides when a task is `DONE`. Only `DONE` satisfies a dependency. `/codehelm:audit` never changes a status; it reports mismatches between a status and the evidence as findings, and establishes requirement verification with evidence.
 

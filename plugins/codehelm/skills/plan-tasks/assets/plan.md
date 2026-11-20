@@ -57,9 +57,9 @@ Brief component/data flow description. Reference decision IDs from `decisions.md
 | `NOT STARTED` | Approved; no work begun | `/codehelm:plan-tasks` when it writes the plan |
 | `BLOCKED — <reason>` | Work stopped until the stated reason is resolved | `/codehelm:implement` when a mandatory check fails or cannot run, or a deviation needs approval |
 | `READY FOR HUMAN REVIEW` | Implemented and verified locally; not yet accepted by the engineer and not independently audited | `/codehelm:implement` at the end of Phase C, when every mandatory check passed |
-| `DONE` | Reviewed and accepted by the engineer | `/codehelm:implement <plan-name> <task-id> --done`, or `/codehelm:implement` when the engineer confirms it at the start of a later run |
+| `DONE` | Reviewed and accepted by the engineer | `/codehelm:implement` when the engineer accepts the task at its review stop, or confirms it at the start of a later run that depends on it |
 
-Only `DONE` satisfies a dependency. Run `--done` before committing the task, so the status change lands in the task's own commit. `/codehelm:audit` reads these statuses and reports mismatches with the evidence, but never changes them.
+Only `DONE` satisfies a dependency. Accept the task at the review stop before committing it, so the status change lands in the task's own commit. `/codehelm:audit` reads these statuses and reports mismatches with the evidence, but never changes them.
 
 ## Ordered implementation tasks
 
