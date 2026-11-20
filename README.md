@@ -75,8 +75,6 @@ Plugin skills are namespaced, so CodeHelm's skills run as `/codehelm:specify`, `
 
 **Updating:** the plugin has a fixed `version`, so new releases reach you when the version changes. Run `claude plugin update codehelm@codehelm`, or turn on auto-update for the `codehelm` marketplace in `/plugin`.
 
-**Upgrading from an earlier copy-based install:** remove the copied `specify`, `plan-tasks`, `implement` and `audit` folders from your project's `.claude/skills/` so they don't compete with the plugin's bare names. Plans you already created keep the old command names (for example `/implement`) in their task status lifecycle section; they still work as bare names, or you can update them by hand.
-
 ## Skill usage: terminal, context and model
 
 A **fresh Claude Code session** is more important than opening a new terminal. You can start a new `claude` session in a fresh terminal **or** run `/clear` in the existing Claude Code terminal, but only after decisions and progress are saved to Markdown. Use `/model` to choose a model; these are suggestions, not hard requirements or settings embedded in the skills.
