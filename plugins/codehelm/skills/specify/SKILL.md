@@ -24,16 +24,16 @@ Input: $ARGUMENTS
 ### Phase B — Clarify (mandatory stop)
 
 1. Briefly summarize the problem and what is explicitly known.
-2. Ask a small, prioritized set of **material business-behavior questions**, grouping related questions. Separate questions for the stakeholders from reasonable assumptions the engineer may approve when stakeholders are unavailable.
-3. Offer options and consequences where helpful, but **do not silently decide**. Note which unanswered points are blockers versus manageable, recorded assumptions.
+2. Ask at most five numbered **material business-behavior questions** per round, most important first, each with options, their consequences where helpful and your recommended answer. Separate questions for the stakeholders from reasonable assumptions the engineer may approve when stakeholders are unavailable.
+3. **Do not silently decide.** Note which unanswered points are blockers versus manageable, recorded assumptions.
 4. **STOP for the engineer's answers.** Iterate only where material ambiguity remains. If there is no stakeholder available, request approval for clearly labeled assumptions rather than claiming they were confirmed externally.
 
 ### Phase C — Draft and review (no file edits)
 
-1. Prepare a concise specification following the bundled `${CLAUDE_SKILL_DIR}/assets/specification.md` template, using only relevant sections. Include: business problem and goals, actors, scope/out-of-scope, functional requirements, business rules, nonfunctional expectations, acceptance scenarios, fixed constraints, approved assumptions and unresolved questions.
+1. Prepare a concise specification: fill the bundled `${CLAUDE_SKILL_DIR}/assets/specification.md` template and omit empty sections.
 2. Give each requirement an ID and **traceable provenance**: source reference, user-approved assumption or visibly unapproved proposal. Keep acceptance scenarios tied to requirement IDs and express observable Given/When/Then outcomes.
 3. Keep the specification technology-neutral unless the source imposes explicit technology constraints. **Do not** propose repositories/classes, database tables, locking techniques, endpoint designs, task breakdowns, commits or a detailed test implementation strategy.
-4. Show contradictions, missing answers and scope risks clearly; never represent proposed behavior as a confirmed requirement. Ask for explicit approval of the complete draft and any remaining assumptions.
+4. Show contradictions, missing answers and scope risks clearly; never represent proposed behavior as a confirmed requirement. Ask for explicit approval of the complete draft and of each remaining `PROPOSED` item: an approved item becomes `ASSUMPTION` with an `A-###` entry, and an unapproved item becomes a `Q-###` open question.
 5. **STOP for approval before writing any files.** If the user requests changes, revise the draft and seek approval again.
 
 ### Phase D — Save the approved specification (documentation only)
@@ -41,5 +41,5 @@ Input: $ARGUMENTS
 Only after explicit approval:
 
 1. Suggest a stable, descriptive slug. Create `docs/specifications/` if needed and save to `docs/specifications/<spec-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
-2. Fill the template's `Approved` line with the approval date and the source path, and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
+2. Fill the template's `Approved` line with the approval date and the source path, and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. The saved specification contains no `PROPOSED` items: every requirement is `EXPLICIT` or `ASSUMPTION`, and anything unapproved is a `Q-###` open question. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
 3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next command: `/codehelm:plan-tasks docs/specifications/<spec-slug>.md`.

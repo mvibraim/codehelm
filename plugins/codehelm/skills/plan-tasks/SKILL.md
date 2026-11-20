@@ -27,8 +27,8 @@ Plan request and/or source documents: $ARGUMENTS
 
 ### Phase B — Clarify (mandatory gate)
 
-1. Ask a **small, prioritized group** of material questions; provide reasonable alternatives and your tentative recommendation.
-2. Explicitly distinguish requirements from assumptions and engineering choices. List every `PROPOSED` requirement or acceptance criterion, including any still marked `PROPOSED` in a supplied specification, and ask the engineer to approve or reject each. Ask this once, here: an approved item becomes `ASSUMPTION`, a rejected item moves out of scope, and the plan you propose in Phase C contains no `PROPOSED` items. Do not edit the specification; when the plan's label differs from the specification's, say so in the plan's source reference.
+1. Ask at most five numbered material questions per round, most important first, each with options and your recommended answer.
+2. Explicitly distinguish requirements from assumptions and engineering choices. List every `PROPOSED` requirement or acceptance criterion and ask the engineer to approve or reject each. Ask this once, here: an approved item becomes `ASSUMPTION`, a rejected item moves out of scope, and the plan you propose in Phase C contains no `PROPOSED` items.
 3. **STOP and wait** for answers. Repeat only when essential ambiguities remain. Do not produce authoritative plan files yet.
 
 ### Phase C — Propose design and execution plan (read-only)

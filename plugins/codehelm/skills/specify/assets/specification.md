@@ -2,7 +2,7 @@
 
 Approved: <date> · Source: <path>
 
-## 1. Problem and desired outcome
+## Problem and desired outcome
 
 **Problem:** [Business problem and consequences]
 
@@ -10,13 +10,13 @@ Approved: <date> · Source: <path>
 
 **Users / interacting systems:** [Relevant actors]
 
-## 2. Scope
+## Scope
 
 **In scope:** [Requested capabilities]
 
 **Out of scope:** [Explicitly excluded capabilities; distinguish exclusions from assumptions]
 
-## 3. Functional requirements
+## Functional requirements
 
 | ID | Observable behavior | Provenance / source | Basis |
 |---|---|---|---|
@@ -25,13 +25,13 @@ Approved: <date> · Source: <path>
 
 Basis: `EXPLICIT` (documented source) or `ASSUMPTION` (approved by engineer).
 
-## 4. Business rules and invariants
+## Business rules and invariants
 
 | ID | Rule or invariant | Provenance / basis |
 |---|---|---|
 | BR-001 | [What must always hold] | [Source or approved assumption] |
 
-## 5. Nonfunctional requirements
+## Nonfunctional requirements
 
 | ID | Quality expectation or constraint | Provenance / basis |
 |---|---|---|
@@ -39,7 +39,7 @@ Basis: `EXPLICIT` (documented source) or `ASSUMPTION` (approved by engineer).
 
 If a numeric target is unknown, say `TBD`, not an invented number.
 
-## 6. Acceptance scenarios
+## Acceptance scenarios
 
 ### AC-001 — [Meaningful scenario]
 
@@ -56,7 +56,7 @@ If a numeric target is unknown, say `TBD`, not an invented number.
 **When** ...  
 **Then** ...
 
-## 7. Constraints and dependencies
+## Constraints and dependencies
 
 **Mandatory technology / environment:** [Only when required by the source]
 
@@ -64,15 +64,13 @@ If a numeric target is unknown, say `TBD`, not an invented number.
 
 **Delivery expectations:** [Only when required by the source]
 
-## 8. Approved assumptions
+## Approved assumptions
 
 | ID | Assumption and why it was needed | Approved by / when | Affected requirements |
 |---|---|---|---|
 | A-001 | [Assumption that wasn't specified externally] | [Engineer + date] | FR-002 |
 
-If none, write `None`.
-
-## 9. Open questions and limitations
+## Open questions and limitations
 
 | ID | Question / uncertainty | Impact | Status |
 |---|---|---|---|

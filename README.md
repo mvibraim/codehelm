@@ -98,7 +98,7 @@ Store the original project brief unchanged in a markdown file, then run:
 /codehelm:specify docs/briefs/<brief>.md
 ```
 
-Claude extracts only sourced requirements, identifies gaps, asks **business clarification questions** and **stops**; when stakeholders are unavailable you approve clearly documented assumptions. Claude then drafts a specification without architecture or implementation tasks and **stops again for approval**. After approval it saves:
+Claude extracts only sourced requirements, identifies gaps, asks **business clarification questions** (at most five numbered questions per round, each with options and a recommended answer) and **stops**; when stakeholders are unavailable you approve clearly documented assumptions. Claude then drafts a specification without architecture or implementation tasks and **stops again for approval**. Anything you don't approve becomes an open question, so the saved specification contains no `PROPOSED` items. After approval it saves:
 
 ```text
 docs/specifications/<spec-slug>.md
@@ -120,7 +120,7 @@ Or without a formal specification:
 /codehelm:plan-tasks Fix duplicate booking creation
 ```
 
-Claude reads sources, asks focused clarification questions, **stops for your answers**, proposes architecture and small tasks, **stops for approval**, then writes:
+Claude reads sources, asks at most five numbered clarification questions per round, each with options and a recommended answer, **stops for your answers**, proposes architecture and small tasks, **stops for approval**, then writes:
 
 ```text
 docs/plans/<plan-name>/plan.md
@@ -137,7 +137,7 @@ For illustration, a plan for an **Inventory Reservation API** might contain task
 | `S01` | Establish the application, persistence setup, and working test infrastructure | Build succeeds; unit and integration suites run |
 | `S02` | Expose a read-only product availability endpoint | Availability unit tests and API/database integration tests |
 
-Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/codehelm:audit` can trace them through to `verification.md`. Claude asks you once, with its clarification questions, to approve (they become `ASSUMPTION`) or reject every item still `PROPOSED`, so the proposed plan contains none. **One task means one proposed reviewable commit:** one concern, a diff you can read in about ten minutes and, apart from setup, a vertical slice that changes observable behavior. Claude plans no speculative "might need" features and no wrappers around framework features, and each new dependency or abstraction gets a decision entry. The plan's **Test commands** (the project's full unit and integration suites, plus its build or lint) are approved with the plan and run after every task, so each task lists only its extra checks. A project without tests gets a setup task first, unless you approve "no integration tests" once for the whole plan.
+Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/codehelm:audit` can trace them through to `verification.md`. Claude asks you once, with its clarification questions, to approve (they become `ASSUMPTION`) or reject every item it inferred (`PROPOSED`), so the proposed plan contains none. **One task means one proposed reviewable commit:** one concern, a diff you can read in about ten minutes and, apart from setup, a vertical slice that changes observable behavior. Claude plans no speculative "might need" features and no wrappers around framework features, and each new dependency or abstraction gets a decision entry. The plan's **Test commands** (the project's full unit and integration suites, plus its build or lint) are approved with the plan and run after every task, so each task lists only its extra checks. A project without tests gets a setup task first, unless you approve "no integration tests" once for the whole plan.
 
 ## 2. Implement one task
 
