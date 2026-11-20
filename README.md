@@ -49,7 +49,7 @@ plugins/codehelm/
       assets/specification.md
     plan-tasks/
       SKILL.md
-      assets/{plan,decisions}.md
+      assets/plan.md
     implement/SKILL.md
     audit/
       SKILL.md
@@ -104,7 +104,7 @@ Claude extracts only sourced requirements, identifies gaps, asks **business clar
 docs/specifications/<spec-slug>.md
 ```
 
-The saved file is marked `Approved`, because it is written only after your approval. If you already have an approved specification, skip this phase. If you pass `/codehelm:plan-tasks` a specification that is not marked `Approved`, it warns you and asks whether to plan from it anyway.
+The saved file records its approval date and source, because it is written only after your approval. If you already have an approved specification, skip this phase.
 
 ## 1. Plan
 
@@ -124,10 +124,9 @@ Claude reads sources, asks focused clarification questions, **stops for your ans
 
 ```text
 docs/plans/<plan-name>/plan.md
-docs/plans/<plan-name>/decisions.md
 ```
 
-It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Respect any confidentiality restrictions on the source documents before committing them.
+The plan holds the goal, test commands, requirements, decisions and tasks, and records the commit it was approved at, so later skills can detect changes to its sources with `git diff`. Commit the specification before approving the plan. It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Respect any confidentiality restrictions on the source documents before committing them.
 
 ### Example of small, reviewable tasks
 
@@ -173,13 +172,13 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 
 ## Note on task status
 
-Each task in `plan.md` carries one status: `NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW` or `DONE`. The plan's "Task status lifecycle" section defines them and which skill sets each one.
+Each task in `plan.md` carries one status: `NOT STARTED`, `BLOCKED — <reason>`, `READY FOR HUMAN REVIEW` or `DONE`. `/codehelm:plan-tasks` sets `NOT STARTED`, and `/codehelm:implement` sets the others.
 
 `READY FOR HUMAN REVIEW` is **not the same as committed or independently VERIFIED**. The engineer controls Git commits and decides when a task is `DONE`. Only `DONE` satisfies a dependency. `/codehelm:audit` never changes a status; it reports mismatches between a status and the evidence as findings, and establishes requirement verification with evidence.
 
 ### Compact durable handoffs
 
-Before ending a session, ensure important decisions are in `decisions.md` and task progress in `plan.md`; audit results are in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
+Before ending a session, ensure important decisions and task progress are in `plan.md`; audit results are in `verification.md`. The skill should also end with a concise human-readable handoff stating current task/status, tests run, blockers and next command. No separate tracking file is required.
 
 ## License
 

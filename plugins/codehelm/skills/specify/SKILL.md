@@ -41,5 +41,5 @@ Input: $ARGUMENTS
 Only after explicit approval:
 
 1. Suggest a stable, descriptive slug. Create `docs/specifications/` if needed and save to `docs/specifications/<spec-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
-2. Set the template's status to `Approved` with version, update date and approval reference (date and approver), and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
+2. Fill the template's `Approved` line with the approval date and the source path, and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
 3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next command: `/codehelm:plan-tasks docs/specifications/<spec-slug>.md`.

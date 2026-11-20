@@ -1,10 +1,6 @@
 # [Project Name] — Business Specification
 
-**Status:** Approved | **Version:** 1.0 | **Updated:** YYYY-MM-DD  
-**Approval:** [Date / approver / reference]  
-**Source:** [Original brief or requirement file; original stays unchanged]
-
-> This describes **what** the system must do. Technical design, implementation tasks and Git commits are produced later by `/codehelm:plan-tasks`.
+Approved: <date> · Source: <path>
 
 ## 1. Problem and desired outcome
 
@@ -27,7 +23,7 @@
 | FR-001 | The system must ... | `[brief.md § Section]` | EXPLICIT |
 | FR-002 | The system must ... | `[User approved assumption A-001]` | ASSUMPTION |
 
-Basis: `EXPLICIT` (documented source), `ASSUMPTION` (approved by engineer) or `PROPOSED` (awaiting approval; must not be treated as final).
+Basis: `EXPLICIT` (documented source) or `ASSUMPTION` (approved by engineer).
 
 ## 4. Business rules and invariants
 
@@ -81,7 +77,3 @@ If none, write `None`.
 | ID | Question / uncertainty | Impact | Status |
 |---|---|---|---|
 | Q-001 | [Unresolved business behavior] | [Blocker or nonblocking] | OPEN |
-
----
-
-**Next step after approval:** `/codehelm:plan-tasks docs/specifications/<spec-slug>.md`.
