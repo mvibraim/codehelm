@@ -126,7 +126,7 @@ Claude reads sources, asks focused clarification questions, **stops for your ans
 docs/plans/<plan-name>/plan.md
 ```
 
-The plan holds the goal, test commands, requirements, decisions and tasks, and records the commit it was approved at, so later skills can detect changes to its sources with `git diff`. Commit the specification before approving the plan. It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Respect any confidentiality restrictions on the source documents before committing them.
+The plan holds the goal, test commands, requirements, decisions and tasks, and records the commit it was approved at, so later skills can detect changes to its sources with `git diff`. A change with one or two tasks and no real design choice gets a lite plan: goal, test commands and tasks only, with each task's acceptance criteria written in the task. Commit the specification before approving the plan. It suggests a branch; **you** create/switch branches and commit the planning docs when ready. Respect any confidentiality restrictions on the source documents before committing them.
 
 ### Example of small, reviewable tasks
 
@@ -137,7 +137,7 @@ For illustration, a plan for an **Inventory Reservation API** might contain task
 | `S01` | Establish the application, persistence setup, and working test infrastructure | Build succeeds; unit and integration suites run |
 | `S02` | Expose a read-only product availability endpoint | Availability unit tests and API/database integration tests |
 
-Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/codehelm:audit` can trace them through to `verification.md`. Items still `PROPOSED` must be approved (they become `ASSUMPTION`) or rejected before the plan is saved. **One task means one proposed reviewable commit.** The plan's **Test commands** (the project's full unit and integration suites, plus its build or lint) are approved with the plan and run after every task, so each task lists only its extra checks. A project without tests gets a setup task first, unless you approve "no integration tests" once for the whole plan.
+Each task should have acceptance criteria (`AC-###`), links to applicable requirements, and a suggested commit message. The plan keeps the specification's requirement and acceptance criteria IDs and its `EXPLICIT` / `ASSUMPTION` labels unchanged, so `/codehelm:audit` can trace them through to `verification.md`. Claude asks you once, with its clarification questions, to approve (they become `ASSUMPTION`) or reject every item still `PROPOSED`, so the proposed plan contains none. **One task means one proposed reviewable commit:** one concern, a diff you can read in about ten minutes and, apart from setup, a vertical slice that changes observable behavior. Claude plans no speculative "might need" features and no wrappers around framework features, and each new dependency or abstraction gets a decision entry. The plan's **Test commands** (the project's full unit and integration suites, plus its build or lint) are approved with the plan and run after every task, so each task lists only its extra checks. A project without tests gets a setup task first, unless you approve "no integration tests" once for the whole plan.
 
 ## 2. Implement one task
 
@@ -167,7 +167,7 @@ Claude checks source requirements ↔ plan ↔ decisions ↔ code ↔ executed t
 - One approved implementation task per invocation, started only when its dependencies are `DONE`.
 - The plan's test commands (full unit **and** integration suites, plus build or lint) run for each proposed commit. If a suite is missing, the plan sets it up first, unless you approved "no integration tests" for the whole plan. A failing baseline stops the task before any edit; afterwards, a missing command or a failure the task did not cause blocks it.
 - Document meaningful decisions, keep task-to-requirement traceability and audit code↔docs.
-- Keep plans proportionate; small chores shouldn't require invented architectural alternatives.
+- Keep plans proportionate: a small change gets a lite plan, and small chores shouldn't require invented architectural alternatives.
 - If sources or requirements change, pause and request re-approval before proceeding.
 
 ## Note on task status
