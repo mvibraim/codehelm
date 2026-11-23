@@ -20,11 +20,11 @@ Requested plan and task: $ARGUMENTS
 Apply this check first. Never guess a plan.
 
 - **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. Change no files. **STOP.**
-- **Plan name but no task ID:** read that plan's `plan.md`. If the current branch is a task's **Branch**, select that task. Otherwise select the first task, in plan order, that is `NOT STARTED` and whose dependencies are all `DONE` or `READY FOR HUMAN REVIEW` (Phase A step 4 confirms the latter). Name it and continue with it.
+- **Plan name but no task ID:** read that plan's `plan.md`. If the current branch is a task's **Branch**, select that task. Otherwise select the first task, in plan order, that is `NOT STARTED` and whose dependencies are all `DONE`. Name it and continue with it.
   - If every task is `DONE`, report that the plan is complete and suggest `/codehelm:audit <plan-name>`. Change no files. **STOP.**
   - If no task qualifies, list the tasks with their statuses, say why none is ready and ask for a task ID. Change no files. **STOP.**
 
-### Phase A — Prepare (read-only, except a confirmed dependency's DONE status)
+### Phase A — Prepare (read-only)
 
 If the project is not a Git repository, stop and ask the engineer to run `git init` or to approve that you run it.
 
@@ -32,7 +32,7 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 2. Confirm the task exists and has been approved. Its **Covers** line names the requirement and acceptance criterion IDs it implements: read them, and only the relevant sections, in the spec on the plan's `Sources` line or in the plan's Requirements table. For each source file, run `git diff <sha> -- <source>` with the commit in the plan's `Approved` line. If a source changed, stop and ask to re-plan. Use targeted file search; do not dump the entire repo, unrelated history, generated files or long logs into context.
 3. Inspect the repository, the plan's test commands, `git status --short` and the current branch. If the current branch is not the task's **Branch** in `plan.md`, name both and **STOP**: the task's pull request is opened from its own branch, which the engineer creates from the updated default branch. If the tree has uncommitted changes, list them and **STOP** for approval to work alongside them. Never overwrite or mix in preexisting work, and never switch or create a branch.
 4. Read task statuses in `plan.md`:
-   - Every dependency of the selected task must be `DONE`. If a dependency is still `READY FOR HUMAN REVIEW`, ask once whether the engineer has reviewed and accepted it, and set it to `DONE` only on yes: the answer is the approval for that status line. If any dependency is still not `DONE`, **STOP** and name the unfinished dependencies. A dependency accepted on its own branch shows as `DONE` here only after its pull request merges: ask the engineer to merge it, update the default branch and start this task's branch from it.
+   - Every dependency of the selected task must be `DONE`; otherwise **STOP** and name the unfinished dependencies. A dependency accepted on its own branch shows as `DONE` here only after its pull request merges: ask the engineer to merge it, update the default branch and start this task's branch from it.
    - The selected task must be `NOT STARTED` or `BLOCKED — <reason>`; resume a blocked task only when its reason is resolved. If it is `READY FOR HUMAN REVIEW` or `DONE`, **STOP** and ask whether to rework it.
 5. If the plan and code conflict, a newly discovered requirement changes the approach, the task needs work outside its **Scope** or it is too large for one reviewable commit, **STOP**. Explain the smallest required plan amendment and request approval; never silently redesign or expand scope.
 6. **Green baseline:** run every command in the plan's **Test commands** section before editing, except those marked as created by this task. If any fails, **STOP** and report the failure without changing files: the task would otherwise end `BLOCKED` for a failure it did not cause. When resuming a `BLOCKED` task, failures in the task's own uncommitted tests are expected and don't stop it; only other failures do.
@@ -50,7 +50,7 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 2. Capture concise success summaries and full relevant failure diagnostics; avoid unnecessary large tool output.
 3. Inspect `git diff --check`, `git diff` and `git status --short`. Validate the scope and compare implemented behavior and tests against linked requirements, the plan's decisions and the ADRs they link.
 4. **Fix, then block:** if a check fails because of this task's changes, fix it within the task's scope and re-run the full set from step 1. Set `BLOCKED — <reason>`, and not `READY FOR HUMAN REVIEW`, only for causes outside the task: a pre-existing failure, missing infrastructure or a needed plan change. Report the exact blocker and never invent results. You never push, so never claim hosted CI passed.
-5. Only when every test command and extra check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). The commands and their results go in the Phase D handoff. Do not create or edit `verification.md`; only `/codehelm:audit` writes it. Set `DONE` only when the engineer accepts the task (Phase D) or confirms it as a dependency at the start of a later run (Phase A step 4).
+5. Only when every test command and extra check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). The commands and their results go in the Phase D handoff. Do not create or edit `verification.md`; only `/codehelm:audit` writes it. Set `DONE` only when the engineer accepts the task (Phase D).
 
 ### Phase D — Hand off
 
@@ -58,7 +58,7 @@ Give one concise handoff, readable in a fresh session:
 - **What changed and why:** how it works, important code paths, decision IDs applied, trade-offs and known limitations
 - **Files:** code, tests and docs changed
 - **Commands and results:** each test command and extra check, with its observed outcome
-- **Status:** plan name, task ID and its status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`). If Phase A set a dependency to `DONE`, say that this diff also contains that status change.
+- **Status:** plan name, task ID and its status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`).
 - **Commit:** one suggested Conventional Commit subject, plus a body only when it helps. Its commands come on acceptance, once `plan.md` holds `DONE`.
 - **Review:** for a ready task, review the diff, run `/codehelm:audit <plan-name> <task-id>` first if the task is risky, then reply "accepted" or request changes. For a blocked task, what must be resolved first; when the engineer resolves it outside this session, **Next** is `/clear` and `/codehelm:implement <plan-name> <task-id>`, with no commit, because a task gets exactly one commit.
 
