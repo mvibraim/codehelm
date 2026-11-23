@@ -6,7 +6,7 @@ Approved: <date> · Source: <path>, or § Source brief
 
 **Problem:** [Business problem and consequences]
 
-**Goal:** [Expected outcome; avoid inventing metrics]
+**Goal:** [Expected outcome]
 
 **Users / interacting systems:** [Relevant actors]
 
@@ -23,8 +23,6 @@ Approved: <date> · Source: <path>, or § Source brief
 | FR-001 | The system must ... | `[brief.md § Section]` | EXPLICIT |
 | FR-002 | The system must ... | `[User approved assumption A-001]` | ASSUMPTION |
 
-Basis: `EXPLICIT` (documented source) or `ASSUMPTION` (approved by engineer).
-
 ## Business rules and invariants
 
 | ID | Rule or invariant | Provenance / basis |
@@ -36,8 +34,6 @@ Basis: `EXPLICIT` (documented source) or `ASSUMPTION` (approved by engineer).
 | ID | Quality expectation or constraint | Provenance / basis |
 |---|---|---|
 | NFR-001 | [Correctness, consistency, security, performance, etc.] | [Source or approved assumption] |
-
-If a numeric target is unknown, say `TBD`, not an invented number.
 
 ## Acceptance scenarios
 
@@ -58,11 +54,11 @@ If a numeric target is unknown, say `TBD`, not an invented number.
 
 ## Constraints and dependencies
 
-**Mandatory technology / environment:** [Only when required by the source]
+**Mandatory technology / environment:** [Technology the source imposes]
 
-**External dependencies / data:** [Only when relevant, including the other feature specs this one depends on, as `docs/specs/<spec-slug>.md`]
+**External dependencies / data:** [Systems and data the feature relies on, including the other feature specs this one depends on, as `docs/specs/<spec-slug>.md`]
 
-**Delivery expectations:** [Only when required by the source]
+**Delivery expectations:** [Delivery restrictions the source states]
 
 ## Approved assumptions
 

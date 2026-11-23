@@ -1,13 +1,13 @@
 # Verification: <plan name>
 
-## Audit log
-| Date | Revision | Scope | Summary | Open findings |
+## Findings
+| Severity | ID or task | Finding and evidence | Next action | Status |
 |---|---|---|---|---|
 
 ## Evidence
-| ID | Task | Code | Test evidence (command and result) | Status |
+| ID | Task | Code | Test (command and result) | Status |
 |---|---|---|---|---|
 
-## Findings
-| Severity | ID or task | Finding and evidence | Next action | Status |
+## Audit log
+| Date | Revision | Scope | Summary | Open findings |
 |---|---|---|---|---|

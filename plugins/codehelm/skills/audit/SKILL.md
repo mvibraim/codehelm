@@ -38,23 +38,14 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 
 ### Phase B — Verify each criterion
 
-For every applicable requirement and acceptance criterion, record:
-- Stable requirement/criterion ID, as in the spec or `plan.md`
-- Planned task(s)
-- Actual source file/symbol evidence
-- Test file/case, with the executed command and its result
-- Status: `VERIFIED`, `FAILED`, `NOT VERIFIED` or `NOT APPLICABLE`
-
-Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAILED` means demonstrated contradiction/failure. `NOT VERIFIED` means missing, blocked or insufficient evidence. `NOT APPLICABLE` requires explanation.
+Give every applicable requirement and acceptance criterion an Evidence row, by its ID in the spec or `plan.md`, with source file/symbol and test case evidence. Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAILED` means demonstrated contradiction/failure. `NOT VERIFIED` means missing, blocked or insufficient evidence. `NOT APPLICABLE` requires explanation.
 
 ### Phase C — Report and document
 
 1. Prioritize findings by severity; cite precise file locations and requirement IDs. Separate proven failures from unverified concerns and propose proportionate fixes.
 2. Identify missing/weak tests, unapproved design decisions, stale documents and implementation drift.
-3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. On the first audit of a plan, create it from the bundled template `${CLAUDE_SKILL_DIR}/assets/verification.md`. Preserve previous meaningful history; don't erase open findings without justification.
-   - **Evidence:** one row per in-scope requirement and acceptance criterion, as described in Phase B, updated in place.
-   - **Findings:** one row per finding, with its severity, the requirement ID or task, the evidence, the next action and its status.
-4. Append one row to the `## Audit log` table in `verification.md`: date, audited revision (git SHA, or `uncommitted working tree` when uncommitted changes are in scope), scope (the task ID or `full`), a one-line summary and the open findings counted by severity after this run, for example `3 (1 high, 2 medium)` or `0`. Never edit or remove earlier rows.
+3. Update **only** `docs/plans/<plan-name>/verification.md`, created on the first audit of a plan from the bundled template `${CLAUDE_SKILL_DIR}/assets/verification.md`: one Findings row per finding and the Evidence rows updated in place. Don't erase open findings without justification.
+4. Append one Audit log row. Revision is the git SHA, or `uncommitted working tree` when uncommitted changes are in scope; Scope is the task ID or `full`; Open findings counts them by severity after this run, such as `3 (1 high, 2 medium)` or `0`. Never edit or remove earlier rows.
 5. Propose next small, reviewable correction tasks where needed; do not implement them and do not silently change the approved plan.
 6. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings, then:
    - **Full audit:** **Next:** `git switch -c docs/audit-<plan-name>` only when on the default branch, `git add docs/plans/<plan-name>/verification.md`, `git commit -m 'docs: audit <plan-name>'`. When the change is ready for delivery, end with pushing the last task's branch and opening its pull request; otherwise, on `docs/audit-<plan-name>`, push and open its pull request; then `/clear` and the next command, such as `/codehelm:implement <plan-name>`.

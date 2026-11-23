@@ -8,8 +8,8 @@ Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 **Out of scope:** ...
 
 ## Test commands
-- Unit: `<command>`
-- Integration: `<command>`
+- Unit: `<command>`, or `<command>` (created by S01) when the setup task creates it
+- Integration: `<command>`, or `none — <reason> (approved <date>)`
 - Build / lint: `<command>`
 
 ## Requirements
