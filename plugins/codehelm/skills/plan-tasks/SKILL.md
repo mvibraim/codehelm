@@ -29,7 +29,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 ### Phase C — Propose design and execution plan (read-only)
 
-1. Recommend the simplest design consistent with the requirements and codebase; compare alternatives only when they matter. Plan only what the requirements need: no speculative or "might need" features, and no wrappers around framework or library features. Every new dependency or abstraction needs its own ADR, and changing an accepted decision needs a new ADR that supersedes it.
+1. Recommend the simplest design consistent with the requirements and codebase; compare alternatives only when they matter. Plan only what the requirements need: no speculative or "might need" features, and no wrappers around framework or library features. Propose an ADR only for a decision later tasks must respect or that is costly to reverse; name smaller choices, such as a helper or a small library, in the task's scope. Changing an accepted decision needs a new ADR that supersedes it.
 2. Propose small, *independently reviewable and testable* tasks (`S01`, `S02`, ...). Each task covers one concern, produces a diff a reviewer can read in about ten minutes and, apart from a setup task (step 3), is a vertical slice that changes observable behavior rather than one layer of several features. Each task ships as its own pull request, started from the default branch after its dependencies' pull requests merge. Each task must specify:
    - objective, boundaries, dependency and linked requirement IDs (if any)
    - acceptance criteria by `AC-###` ID, likely affected components and relevant doc updates
