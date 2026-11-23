@@ -1,7 +1,7 @@
 ---
 name: plan-tasks
 description: Analyze a specification or engineering request, ask focused questions, document approved decisions and plan small reviewable tasks.
-argument-hint: "[change request or paths to specifications]"
+argument-hint: "[change request, paths to specifications or a plan name to amend]"
 disable-model-invocation: true
 ---
 
@@ -11,15 +11,15 @@ disable-model-invocation: true
 
 Plan request and/or source documents: $ARGUMENTS
 
-**Purpose:** Create a human-approved, requirements-traceable engineering plan. This skill is task-neutral: it applies to features, fixes, Docker, CI, observability, refactors and other changes.
+**Purpose:** Create a human-approved, requirements-traceable engineering plan.
 
 **No input:** if `$ARGUMENTS` is empty, ask for a change request or the path to a specification, and list the Markdown files under `docs/specs/`, if any, as options. Do not guess a request from the repository or the conversation. **STOP** and change no files until the engineer answers.
 
 ### Phase A — Discover and classify (read-only)
 
-1. Inspect relevant repository structure, existing design/docs, the accepted ADRs that touch the change (in `docs/adr/`, or the project's own ADR folder) and Git conventions. Discover the project's full test commands (unit suite, integration suite, build or lint) from its configuration: documentation, build files, scripts or CI. **Prefer scoped searches and relevant file sections over loading the whole repository.**
-2. Read all supplied specification documents completely enough to capture relevant rules. A plan implements one spec; read others only for context, and if the request spans several, ask which one to plan. If a referenced file cannot be read, report that limitation instead of guessing.
-3. Choose a short `plan-name`: the spec's slug, or a more specific name if `docs/plans/<spec-slug>/` exists. Suggest the plan branch `docs/plan-<plan-name>`. Each task gets its own branch and pull request: `<type>/<plan-name>-<task-id>`, with the type (`feat`, `fix`, `build`, `ci`, `chore`, `refactor`, `perf`, `test`, `docs`) of the task's commit message and the task ID in lowercase, such as `feat/rate-limiting-s02`. Do **not** create branches.
+1. Inspect relevant repository structure, existing design/docs, the accepted ADRs that touch the change (in `docs/adr/`, or the project's own ADR folder) and Git conventions. Discover the project's full test commands (unit suite, integration suite, build or lint) from its configuration: documentation, build files, scripts or CI.
+2. Read all supplied specification documents completely enough to capture relevant rules. A plan implements one spec; read others only for context, and if the request spans several, ask which one to plan.
+3. Choose a short `plan-name`: the spec's slug, or a more specific name if `docs/plans/<spec-slug>/` exists. **Amend instead** when the input names an existing plan or asks to change one, such as for a blocked task or an audit finding: keep its name, tasks and statuses, and propose only the change. Suggest the plan branch `docs/plan-<plan-name>`. Each task gets its own branch and pull request: `<type>/<plan-name>-<task-id>`, with the type (`feat`, `fix`, `build`, `ci`, `chore`, `refactor`, `perf`, `test`, `docs`) of the task's commit message and the task ID in lowercase, such as `feat/rate-limiting-s02`. Do **not** create branches.
 4. Extract explicit functional requirements, business rules, nonfunctional constraints, error behavior and acceptance criteria. Preserve existing IDs and provenance labels unchanged; otherwise assign stable `FR-###`, `BR-###`, `NFR-###` and `AC-###` IDs. Cite source file + section/page where practical. Give every requirement and acceptance criterion exactly one basis label:
    - `EXPLICIT`: stated in a named source (a specification section, or the engineer's request with its date).
    - `ASSUMPTION`: not stated in a source, but approved by the engineer.
@@ -51,12 +51,13 @@ Plan request and/or source documents: $ARGUMENTS
 
 After explicit approval:
 
-1. Create `docs/plans/<plan-name>/` if absent. Create or update **only** its `plan.md`, based on the **bundled** template `${CLAUDE_SKILL_DIR}/assets/plan.md`, and the ADRs below; `/codehelm:audit` creates `verification.md` on its first run. Preserve existing plan artifacts and avoid overwriting them without approval.
+1. Create `docs/plans/<plan-name>/` if absent. Create or update **only** its `plan.md`, based on the **bundled** template `${CLAUDE_SKILL_DIR}/assets/plan.md`, and the ADRs below; `/codehelm:audit` creates `verification.md` on its first run. When amending, change only what was approved, keep each task's status unless the engineer approved resetting it, and update the `Approved` line.
    - Write one ADR per accepted decision from `${CLAUDE_SKILL_DIR}/assets/adr.md` at `docs/adr/NNNN-<decision-slug>.md`, using the next free number, or in the project's own ADR folder with its numbering and format.
    - Set each superseded ADR's status line to `Superseded by ADR-NNNN`. Never rewrite an accepted ADR in any other way.
 2. `plan.md`: the `Approved` line with the approval date and the commit at approval (`git rev-parse HEAD`); the sources; goal and scope; test commands; approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`); the Decisions section, linking the new ADRs and the accepted ones the plan relies on (for trivial work, write `No material design decisions`); the tasks, each set to `NOT STARTED` with its **Branch** line; and risks. When the engineer approved a plan without integration tests, write `Integration: none — <reason> (approved <date>)` in the test commands. Mark each test command the setup task creates with `(created by S01)`. On the lite path, write only the `Approved` and `Sources` lines, goal and scope, test commands and tasks, with each task's acceptance criteria in its **Covers** line, and omit the other sections.
-3. Give a concise handoff: plan name, suggested branches, approved decision IDs, first task, test commands and the next steps in order. Say that each task gets its own pull request. State missing information explicitly rather than relying on chat history.
+3. Give a concise handoff: plan name, suggested branches, approved decision IDs, first task, test commands and the next steps in order. Say that each task gets its own pull request.
    - **Full plan:** create the branch `docs/plan-<plan-name>`, commit `plan.md` and the new ADRs together on it (`docs: plan <plan-name>`) and open its pull request; after it merges, update the default branch and create the first task's branch; run `/clear`, then `/codehelm:implement <plan-name>`.
    - **Lite plan:** create the first task's branch, commit `plan.md` on it (`docs: plan <plan-name>`), so that the plan ships in that task's pull request, run `/clear`, then `/codehelm:implement <plan-name>`.
+   - **Amendment for a task with uncommitted work:** leave `plan.md` uncommitted so it ships in that task's one commit; run `/clear`, then `/codehelm:implement <plan-name> <task-id>`. Commit any other amendment like a full plan.
 
 Never implement application/config code. End after writing the plan.

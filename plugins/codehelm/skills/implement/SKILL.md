@@ -42,7 +42,7 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 
 1. **Test first:** write or update the unit and integration tests for the task's linked acceptance criteria, including relevant failure cases and edge conditions. Run them and confirm they fail for the expected reason, not because of a typo or broken setup. A task that changes no observable behavior, such as test setup, has no test to fail first; say so in the handoff.
 2. Implement only the selected task until those tests pass, following repository conventions, the plan's decisions and the ADRs they link. Avoid unrelated refactors and unnecessary dependencies.
-3. Keep docs aligned with code, including API/configuration/usage examples and accepted changes. If a new design decision becomes necessary, set the task to `BLOCKED — <reason>` and stop: it needs a new ADR, so the handoff directs the engineer to amend the plan with `/codehelm:plan-tasks`.
+3. Keep docs aligned with code, including API/configuration/usage examples and accepted changes. If a new design decision becomes necessary, set the task to `BLOCKED — <reason>` and stop: it needs a new ADR, so the handoff directs the engineer to amend the plan with `/codehelm:plan-tasks <plan-name>`.
 
 ### Phase C — Mandatory verification
 
