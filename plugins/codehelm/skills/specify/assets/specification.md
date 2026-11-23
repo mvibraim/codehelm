@@ -1,4 +1,4 @@
-# [Capability name] — Business Specification
+# Spec: [Feature name]
 
 Approved: <date> · Source: <path>
 
@@ -12,9 +12,9 @@ Approved: <date> · Source: <path>
 
 ## Scope
 
-**In scope:** [Requested capabilities]
+**In scope:** [Requested functionality]
 
-**Out of scope:** [Explicitly excluded capabilities; distinguish exclusions from assumptions]
+**Out of scope:** [Explicitly excluded functionality; distinguish exclusions from assumptions]
 
 ## Functional requirements
 
@@ -60,7 +60,7 @@ If a numeric target is unknown, say `TBD`, not an invented number.
 
 **Mandatory technology / environment:** [Only when required by the source]
 
-**External dependencies / data:** [Only when relevant, including the other capability specs this one depends on, as `docs/specs/<spec-slug>.md`]
+**External dependencies / data:** [Only when relevant, including the other feature specs this one depends on, as `docs/specs/<spec-slug>.md`]
 
 **Delivery expectations:** [Only when required by the source]
 
