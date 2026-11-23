@@ -48,6 +48,8 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
                                     # you commit the change
 /clear
 /codehelm:implement rate-limiting   # the next ready task, S02
+                                    # you commit the change
+/clear
 /codehelm:audit rate-limiting       # at a milestone, then you commit verification.md
 ```
 
@@ -72,7 +74,7 @@ A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) 
 
 ## Tips
 
-- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so run `/clear` once the plan or task status is saved. `/codehelm:audit` already runs in its own subagent.
+- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with the next steps in order: commit, `/clear`, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
 - **Pick the model for the work.** Use `/model opus` for ambiguous briefs and real design trade-offs, and `/model sonnet` for most implementation and task audits.
 - **Commit in the right order.** Commit the specification before you approve the plan, so later runs can detect changes to it, and commit the plan before the first task, because `/codehelm:implement` stops on uncommitted changes. Reply "accepted" before you commit a task, so its `DONE` status lands in the same commit.
 

@@ -57,10 +57,10 @@ Give one concise handoff, readable in a fresh session:
 - **Commands and results:** each test command and extra check, with its observed outcome
 - **Status:** plan name, task ID and its status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`). If Phase A set a dependency to `DONE`, say that this diff also contains that status change.
 - **Commit message:** one suggested Conventional Commit message
-- **Next:** for a ready task, review the diff, optionally run `/codehelm:audit <plan-name> <task-id>` if the task is risky, then reply "accepted" or request changes; for a blocked task, what must be resolved first
+- **Next:** for a ready task, review the diff, optionally run `/codehelm:audit <plan-name> <task-id>` if the task is risky, then reply "accepted" in this session or request changes; for a blocked task, what must be resolved first and, when the engineer resolves it outside this session, the next steps: run `/clear`, then `/codehelm:implement <plan-name> <task-id>` to resume it
 
 **STOP for review.** Wait for the engineer's reply:
-- **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line, and suggest the Conventional Commit message, noting that `plan.md`, and `verification.md` if an audit changed it, belong in the commit. Do not stage or commit. **STOP.**
+- **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line, and suggest the Conventional Commit message, noting that `plan.md`, and `verification.md` if an audit changed it, belong in the commit. Do not stage or commit. Then give the next steps in order: commit, run `/clear`, then `/codehelm:implement <plan-name>` for the next ready task, or `/codehelm:audit <plan-name>` when every task is `DONE`. **STOP.**
 - **Requested changes:** apply them within the task's scope (if one needs a plan change, follow Phase A step 5), re-run Phase C in full, hand off again and stop again.
 
 If the session ends without a reply, the task stays `READY FOR HUMAN REVIEW`.
