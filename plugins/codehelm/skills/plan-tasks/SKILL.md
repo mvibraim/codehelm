@@ -11,7 +11,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 **Purpose:** Create a human-approved, requirements-traceable engineering plan. This skill is task-neutral: it applies to features, fixes, Docker, CI, observability, refactors and other changes.
 
-**No input:** if `$ARGUMENTS` is empty, ask for a change request or the path to a specification, and list the Markdown files under `docs/specifications/`, if any, as options. Do not guess a request from the repository or the conversation. **STOP** and change no files until the engineer answers.
+**No input:** if `$ARGUMENTS` is empty, ask for a change request or the path to a specification, and list the Markdown files under `docs/specs/`, if any, as options. Do not guess a request from the repository or the conversation. **STOP** and change no files until the engineer answers.
 
 ### Phase A — Discover and classify (read-only)
 

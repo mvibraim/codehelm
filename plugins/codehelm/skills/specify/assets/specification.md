@@ -1,4 +1,4 @@
-# [Project Name] — Business Specification
+# [Capability name] — Business Specification
 
 Approved: <date> · Source: <path>
 
@@ -60,7 +60,7 @@ If a numeric target is unknown, say `TBD`, not an invented number.
 
 **Mandatory technology / environment:** [Only when required by the source]
 
-**External dependencies / data:** [Only when relevant]
+**External dependencies / data:** [Only when relevant, including the other capability specs this one depends on, as `docs/specs/<spec-slug>.md`]
 
 **Delivery expectations:** [Only when required by the source]
 

@@ -55,7 +55,7 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 
 ## The four skills
 
-- **`/codehelm:specify <brief>`** (optional): turns an incomplete business brief into an approved specification at `docs/specifications/<spec-slug>.md`.
+- **`/codehelm:specify <brief>`** (optional): turns an incomplete business brief into an approved specification of one business capability at `docs/specs/<spec-slug>.md`.
 - **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`; a small change gets a lite plan.
 - **`/codehelm:implement <plan> [task]`**: implements one task test-first, runs the plan's test commands and stops for your review.
 - **`/codehelm:audit <plan> [task]`**: checks requirements, plan, code and test evidence against each other in a separate subagent and records the result in `verification.md`.

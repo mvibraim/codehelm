@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Turn an incomplete business brief or requirements document into a human-approved, source-traceable project specification without designing architecture or implementation tasks.
+description: Turn an incomplete business brief or requirements document into a human-approved, source-traceable specification of one business capability without designing architecture or implementation tasks.
 argument-hint: "[problem description or paths to source documents]"
 disable-model-invocation: true
 ---
@@ -16,14 +16,14 @@ Input: $ARGUMENTS
 ### Phase A — Discover (read-only)
 
 1. Read the supplied business brief/source documents and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If the input is a file path, read the file; if it is text, treat that text as the source. If any referenced source is inaccessible, report it; do not guess.
-2. Inspect only relevant existing domain documentation to avoid contradicting an already agreed contract. Do not scan the full codebase unless an existing behavior must be clarified.
-3. Extract the problem, actors/external systems, goals, stated scope, explicit functional requirements, business invariants, quality constraints, acceptance examples and delivery restrictions.
+2. Inspect only relevant existing domain documentation, including the specs under `docs/specs/`, to avoid contradicting an already agreed contract. If a spec already covers the brief's capability, propose updating it (Phase D step 1). Do not scan the full codebase unless an existing behavior must be clarified.
+3. Name the business capabilities the brief covers, such as capture and refunds or webhooks delivery, never technical layers such as the API or the database. Extract the problem, actors/external systems, goals, stated scope, explicit functional requirements, business invariants, quality constraints, acceptance examples and delivery restrictions.
 4. Keep **three categories distinct**: `EXPLICIT` (supported by a named source), `ASSUMPTION` (user-approved), `PROPOSED` (not yet approved). Preserve requirement IDs in source documents and assign stable `FR-###`, `BR-###`, `NFR-###`, `AC-###` IDs where needed; include the source path + heading/page or conversation reference in the draft.
 5. Detect conflicts, missing state transitions, unclear error semantics, retries, concurrency rules, authorization boundaries and missing scope limits **only where relevant**. Never invent business rules, numeric SLA targets, permissions or features just to fill a template.
 
 ### Phase B — Clarify (mandatory stop)
 
-1. Briefly summarize the problem and what is explicitly known.
+1. Briefly summarize the problem and what is explicitly known. If the brief covers several capabilities, propose one spec per capability, each with a slug and a one-line scope, and ask which one to specify in this run, so that each spec stays small enough to review.
 2. Ask at most five numbered **material business-behavior questions** per round, most important first, each with options, their consequences where helpful and your recommended answer. Separate questions for the stakeholders from reasonable assumptions the engineer may approve when stakeholders are unavailable.
 3. **Do not silently decide.** Note which unanswered points are blockers versus manageable, recorded assumptions.
 4. **STOP for the engineer's answers.** Iterate only where material ambiguity remains. If there is no stakeholder available, request approval for clearly labeled assumptions rather than claiming they were confirmed externally.
@@ -40,6 +40,6 @@ Input: $ARGUMENTS
 
 Only after explicit approval:
 
-1. Suggest a stable, descriptive slug. Create `docs/specifications/` if needed and save to `docs/specifications/<spec-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
+1. Suggest a stable slug that names the capability in kebab-case business terms, such as `capture-and-refunds`, never a technical layer. Create `docs/specs/` if needed and save to `docs/specs/<spec-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
 2. Fill the template's `Approved` line with the approval date and the source path, and include source references, decisions on ambiguous business behavior, approved assumptions and unresolved questions or limitations. The saved specification contains no `PROPOSED` items: every requirement is `EXPLICIT` or `ASSUMPTION`, and anything unapproved is a `Q-###` open question. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
-3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. Suggest the next steps in order: commit the specification (`docs: specify <spec-slug>`), run `/clear`, then `/codehelm:plan-tasks docs/specifications/<spec-slug>.md`.
+3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. List the capabilities left for later `/codehelm:specify` runs. Suggest the next steps in order: commit the specification (`docs: specify <spec-slug>`), run `/clear`, then `/codehelm:plan-tasks docs/specs/<spec-slug>.md`.
