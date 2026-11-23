@@ -15,7 +15,7 @@ Input: $ARGUMENTS
 
 ### Phase A — Discover (read-only)
 
-1. Read the supplied business brief/source documents and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If the input is a file path, read the file; if it is text, treat that text as the source. If any referenced source is inaccessible, report it; do not guess.
+1. Read the supplied brief, as text or source documents, and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If any referenced source is inaccessible, report it; do not guess.
 2. Inspect only relevant existing domain documentation, including the specs under `docs/specs/`, to avoid contradicting an already agreed contract. If a spec already covers the brief's capability, propose updating it (Phase D step 1). Do not scan the full codebase unless an existing behavior must be clarified.
 3. Name the business capabilities the brief covers, such as capture and refunds or webhooks delivery, never technical layers such as the API or the database. Extract the problem, actors/external systems, goals, stated scope, explicit functional requirements, business invariants, quality constraints, acceptance examples and delivery restrictions.
 4. Keep **three categories distinct**: `EXPLICIT` (supported by a named source), `ASSUMPTION` (user-approved), `PROPOSED` (not yet approved). Preserve requirement IDs in source documents and assign stable `FR-###`, `BR-###`, `NFR-###`, `AC-###` IDs where needed; include the source path + heading/page or conversation reference in the draft.

@@ -41,15 +41,13 @@ For every applicable requirement and acceptance criterion, record:
 - Test file/case, with the executed command and its result
 - Status: `VERIFIED`, `FAILED`, `NOT VERIFIED` or `NOT APPLICABLE`
 
-Check documentation and decision alignment too, and record gaps as findings.
-
 Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAILED` means demonstrated contradiction/failure. `NOT VERIFIED` means missing, blocked or insufficient evidence. `NOT APPLICABLE` requires explanation.
 
 ### Phase C — Report and document
 
 1. Prioritize findings by severity; cite precise file locations and requirement IDs. Separate proven failures from unverified concerns and propose proportionate fixes.
 2. Identify missing/weak tests, unapproved design decisions, stale documents and implementation drift.
-3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. On the first audit of a plan, create it from the bundled template `${CLAUDE_SKILL_DIR}/assets/verification.md`. Task statuses in `plan.md` stay unchanged; record status mismatches as findings instead. Preserve previous meaningful history; don't erase open findings without justification.
+3. Update **only** `docs/plans/<plan-name>/verification.md` to record grounded findings, evidence and unresolved issues. On the first audit of a plan, create it from the bundled template `${CLAUDE_SKILL_DIR}/assets/verification.md`. Preserve previous meaningful history; don't erase open findings without justification.
    - **Evidence:** one row per in-scope requirement and acceptance criterion, as described in Phase B, updated in place.
    - **Findings:** one row per finding, with its severity, the requirement ID or task, the evidence, the next action and its status.
 4. Append one row to the `## Audit log` table in `verification.md`: date, audited revision (git SHA, or `uncommitted working tree` when uncommitted changes are in scope), scope (the task ID or `full`), a one-line summary and the open findings counted by severity after this run, for example `3 (1 high, 2 medium)` or `0`. Never edit or remove earlier rows.

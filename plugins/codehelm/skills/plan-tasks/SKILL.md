@@ -15,8 +15,8 @@ Plan request and/or source documents: $ARGUMENTS
 
 ### Phase A — Discover and classify (read-only)
 
-1. Inspect relevant repository structure, existing design/docs, the accepted ADRs that touch the change (in `docs/adr/`, or the project's own ADR folder) and Git conventions. Discover the project's full test commands (unit suite, integration suite, build or lint) from its configuration: documentation, build files, scripts or CI. Do not modify anything yet. **Prefer scoped searches and relevant file sections over loading the whole repository.**
-2. Read all supplied specification documents completely enough to capture relevant rules. A plan implements one spec; read others only for context, and if the request spans several, ask which one to plan. If a referenced file cannot be read, report that limitation instead of guessing. Do not alter original specifications.
+1. Inspect relevant repository structure, existing design/docs, the accepted ADRs that touch the change (in `docs/adr/`, or the project's own ADR folder) and Git conventions. Discover the project's full test commands (unit suite, integration suite, build or lint) from its configuration: documentation, build files, scripts or CI. **Prefer scoped searches and relevant file sections over loading the whole repository.**
+2. Read all supplied specification documents completely enough to capture relevant rules. A plan implements one spec; read others only for context, and if the request spans several, ask which one to plan. If a referenced file cannot be read, report that limitation instead of guessing.
 3. Choose a short `plan-name`: the spec's slug, or a more specific name if `docs/plans/<spec-slug>/` exists. Suggest a change type (`feat`, `fix`, `build`, `ci`, `chore`, `refactor`, `perf`, `test`, `docs`), the plan branch `docs/plan-<plan-name>` and the implementation branch `<type>/<plan-name>`. Do **not** create branches.
 4. Extract explicit functional requirements, business rules, nonfunctional constraints, error behavior and acceptance criteria. Preserve existing IDs and provenance labels unchanged; otherwise assign stable `FR-###`, `BR-###`, `NFR-###` and `AC-###` IDs. Cite source file + section/page where practical. Give every requirement and acceptance criterion exactly one basis label:
    - `EXPLICIT`: stated in a named source (a specification section, or the engineer's request with its date).
@@ -29,7 +29,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 1. Ask at most five numbered material questions per round, most important first, each with options and your recommended answer.
 2. Explicitly distinguish requirements from assumptions and engineering choices. List every `PROPOSED` requirement or acceptance criterion and ask the engineer to approve or reject each. Ask this once, here: an approved item becomes `ASSUMPTION`, a rejected item moves out of scope, and the plan you propose in Phase C contains no `PROPOSED` items.
-3. **STOP and wait** for answers. Repeat only when essential ambiguities remain. Do not produce authoritative plan files yet.
+3. **STOP and wait** for answers. Repeat only when essential ambiguities remain.
 
 ### Phase C — Propose design and execution plan (read-only)
 
@@ -49,7 +49,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 After explicit approval:
 
-1. Create `docs/plans/<plan-name>/` if absent. Create or update **only** its `plan.md`, based on the **bundled** template `${CLAUDE_SKILL_DIR}/assets/plan.md`, and the ADRs below. Do not create `verification.md`; `/codehelm:audit` creates it on its first run. Do not require a `docs/templates/` directory in the target project. Preserve existing plan artifacts and avoid overwriting them without approval.
+1. Create `docs/plans/<plan-name>/` if absent. Create or update **only** its `plan.md`, based on the **bundled** template `${CLAUDE_SKILL_DIR}/assets/plan.md`, and the ADRs below; `/codehelm:audit` creates `verification.md` on its first run. Preserve existing plan artifacts and avoid overwriting them without approval.
    - Write one ADR per accepted decision from `${CLAUDE_SKILL_DIR}/assets/adr.md` at `docs/adr/NNNN-<decision-slug>.md`, using the next free number, or in the project's own ADR folder with its numbering and format.
    - Set each superseded ADR's status line to `Superseded by ADR-NNNN`. Never rewrite an accepted ADR in any other way.
 2. `plan.md`: the `Approved` line with the approval date, the commit at approval (`git rev-parse HEAD`) and the implementation branch; the sources; goal and scope; test commands; approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`); the Decisions section, linking the new ADRs and the accepted ones the plan relies on (for trivial work, write `No material design decisions`); the tasks, each set to `NOT STARTED`; and risks. When the engineer approved a plan without integration tests, write `Integration: none — <reason> (approved <date>)` in the test commands. Mark each test command the setup task creates with `(created by S01)`. On the lite path, write only the `Approved` and `Sources` lines, goal and scope, test commands and tasks, with each task's acceptance criteria in its **Covers** line, and omit the other sections.
