@@ -11,7 +11,7 @@ effort: high
 
 **CodeHelm ground rules:** Never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks. Keep the engineer's uncommitted changes. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
-**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit`: Opus at `high`. `/codehelm:implement`: Sonnet at `medium`. If this session differs (the model family your system prompt names, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff names the `/model` and `/effort` the next command needs and this session lacks; `/codehelm:audit` sets its own.
+**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit`: Opus at `high`. `/codehelm:implement`: Sonnet at `medium`. If this session differs (the model family your system prompt names, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: the commit commands (single-quoted and without apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, the `/model` and `/effort` the next command needs and this session lacks (`/codehelm:audit` sets its own), then the next command.
 
 Plan and optional task: $ARGUMENTS
 
@@ -56,8 +56,8 @@ Use `VERIFIED` only for supported behavior with adequate executed evidence. `FAI
    - **Findings:** one row per finding, with its severity, the requirement ID or task, the evidence, the next action and its status.
 4. Append one row to the `## Audit log` table in `verification.md`: date, audited revision (git SHA, or `uncommitted working tree` when uncommitted changes are in scope), scope (the task ID or `full`), a one-line summary and the open findings counted by severity after this run, for example `3 (1 high, 2 medium)` or `0`. Never edit or remove earlier rows.
 5. Propose next small, reviewable correction tasks where needed; do not implement them and do not silently change the approved plan.
-6. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings, then give the next steps:
-   - **Full audit:** commit `verification.md` on the current task's branch, or, on the default branch, on a new branch `docs/audit-<plan-name>` with its own pull request; run `/clear`, then the next command, if any, such as `/codehelm:implement <plan-name>` for the next ready task. When the change is ready for delivery: commit `verification.md` on the last task's branch, push that branch and open its pull request.
-   - **Task audit:** return to the task's review stop without running `/clear`, reply "accepted" or request changes, and commit `verification.md` with the task's changes.
+6. Summarize whether the **audited scope** is ready for human review / final delivery and what remains blocked. A task-level pass must never be presented as a full-change pass. Provide a concise fresh-session handoff that points to durable docs and outstanding findings, then:
+   - **Full audit:** **Next:** `git switch -c docs/audit-<plan-name>` only when on the default branch, `git add docs/plans/<plan-name>/verification.md`, `git commit -m 'docs: audit <plan-name>'`. When the change is ready for delivery, end with pushing the last task's branch and opening its pull request; otherwise, on `docs/audit-<plan-name>`, push and open its pull request; then `/clear` and the next command, such as `/codehelm:implement <plan-name>`.
+   - **Task audit:** no Next block: return to the task's review stop without `/clear`; `verification.md` ships in the task's commit.
 
 Never claim full coverage from passing tests alone.

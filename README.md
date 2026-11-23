@@ -81,9 +81,17 @@ A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) 
 
 ## Tips
 
-- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with the next steps in order, such as commit, `/clear`, the model switch, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
+- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with a **Next** block: the commit commands, any pull request step, `/clear`, the model switch, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
 - **Use the recommended model and effort.** Run `/codehelm:specify` and `/codehelm:plan-tasks` on Opus at `high` effort, and `/codehelm:implement` on Sonnet at `medium`. `/codehelm:audit` always runs on Opus at `high` in its own subagent. Each skill tells you in one line when the session differs, and each handoff names the switch for the next command.
-- **Commit in the right order.** A feature takes a specification pull request, a plan pull request with its new ADRs, then one pull request per task, from the task's branch named in the plan (`feat/rate-limiting-s01`) and with the task's one commit. Start each pull request from the default branch after the ones it depends on merge; tasks that don't depend on each other can run in parallel. A plan from a plain request has no specification pull request, and a lite plan's commit goes on the first task's branch instead of its own pull request. Merge the specification before you approve the plan, so later runs can detect changes to it, and commit the plan before the first task, because `/codehelm:implement` stops on uncommitted changes. Reply "accepted" before you commit a task, so its `DONE` status lands in the same commit. Run the full audit before the last task's pull request, which also carries `verification.md`.
+
+## Git flow
+
+CodeHelm suggests each branch, commit and pull request in its **Next** block; you run them. One feature takes, in order:
+
+1. **Specification** (optional): `docs/specify-<spec-slug>`, one commit, one pull request. Merge it before you approve the plan, so later runs can detect changes to it. A plan from a plain request skips this step.
+2. **Plan**: `docs/plan-<plan-name>`, with `plan.md` and its new ADRs in one commit and one pull request. Merge it before the first task, because `/codehelm:implement` stops on uncommitted changes. A lite plan's commit goes on the first task's branch instead.
+3. **Tasks**: one branch per task, named in the plan (`feat/rate-limiting-s01`), with the task's one commit and one pull request. Reply "accepted" before you commit, so the `DONE` status lands in the same commit. Start each task's branch from the default branch after its dependencies merge; tasks that don't depend on each other can run in parallel.
+4. **Audit**: run the full audit before the last task's pull request, which also carries `verification.md`. An audit from the default branch commits on `docs/audit-<plan-name>`, with its own pull request.
 
 ## License
 

@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 **CodeHelm ground rules:** Never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks. Keep the engineer's uncommitted changes. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
-**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit`: Opus at `high`. `/codehelm:implement`: Sonnet at `medium`. If this session differs (the model family your system prompt names, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff names the `/model` and `/effort` the next command needs and this session lacks; `/codehelm:audit` sets its own.
+**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit`: Opus at `high`. `/codehelm:implement`: Sonnet at `medium`. If this session differs (the model family your system prompt names, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: the commit commands (single-quoted and without apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, the `/model` and `/effort` the next command needs and this session lacks (`/codehelm:audit` sets its own), then the next command.
 
 Requested plan and task: $ARGUMENTS
 
@@ -59,18 +59,15 @@ Give one concise handoff, readable in a fresh session:
 - **Files:** code, tests and docs changed
 - **Commands and results:** each test command and extra check, with its observed outcome
 - **Status:** plan name, task ID and its status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`). If Phase A set a dependency to `DONE`, say that this diff also contains that status change.
-- **Commit:** one suggested Conventional Commit subject, plus a body only when it helps, and its trailer `Task: <plan-name>/<task-id>`. The commands to commit it come on acceptance, once `plan.md` holds the `DONE` status.
-- **Next:** for a ready task, review the diff, optionally run `/codehelm:audit <plan-name> <task-id>` if the task is risky, then reply "accepted" in this session or request changes; for a blocked task, what must be resolved first and, when the engineer resolves it outside this session, the next steps: leave the task's changes uncommitted, because a task gets exactly one commit; run `/clear`, then `/codehelm:implement <plan-name> <task-id>` to resume it, and that run asks to work alongside those changes
+- **Commit:** one suggested Conventional Commit subject, plus a body only when it helps. Its commands come on acceptance, once `plan.md` holds `DONE`.
+- **Review:** for a ready task, review the diff, run `/codehelm:audit <plan-name> <task-id>` first if the task is risky, then reply "accepted" or request changes. For a blocked task, what must be resolved first; when the engineer resolves it outside this session, **Next** is `/clear` and `/codehelm:implement <plan-name> <task-id>`, with no commit, because a task gets exactly one commit.
 
 **STOP for review.** Wait for the engineer's reply:
-- **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line, and give the commit as one block of commands for the engineer to run:
-  - `git add` listing the task's changed code, test and doc files, `docs/plans/<plan-name>/plan.md` and, if an audit changed it, `docs/plans/<plan-name>/verification.md`. Never `git add -A` or `git add .`, so the engineer's unrelated changes stay out.
-  - `git commit -m '<subject>' --trailer 'Task: <plan-name>/<task-id>'`, with a second `-m '<body>'` only when there is a body.
-  - Use single quotes and word the subject and body without apostrophes, so the commands run unchanged in Bash and PowerShell. `--trailer` needs Git 2.32 or later; on older Git, replace it with a second `-m 'Task: <plan-name>/<task-id>'`.
-
-  Suggest the task's pull request: its title is the commit subject, and its description links the spec named in the plan's `Sources` line (or names the request and its date), links the plan task (`docs/plans/<plan-name>/plan.md`, task ID and title), lists the requirement and acceptance criterion IDs in the task's **Covers** line, summarizes the change and lists each command with its result. Do not stage, commit, push or open the pull request. Then give the next steps in order:
-  - **Another task is not `DONE` yet:** run the commit commands, push the task's branch and open its pull request; after it merges, update the default branch and create the next task's branch, naming that task and its **Branch**: the first `NOT STARTED` task whose dependencies are all `DONE` once this one merges (a task that doesn't depend on this one can start from the default branch right away); run `/clear`, then `/codehelm:implement <plan-name>`.
-  - **Every task is `DONE` on this branch:** run the commit commands, run `/clear`, then `/codehelm:audit <plan-name>`; that full audit ends with pushing this branch and opening its pull request.
+- **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line. Suggest the pull request: the commit subject as title; a description linking the spec in the plan's `Sources` line (or naming the request), the plan task and the IDs in its **Covers** line, summarizing the change and listing each command with its result. Then **Next**:
+  1. `git add` with the task's changed files, `docs/plans/<plan-name>/plan.md` and any `verification.md` an audit changed; never `-A` or `.`.
+  2. `git commit -m '<subject>' --trailer 'Task: <plan-name>/<task-id>'`, with `-m '<body>'` after the subject only when there is a body. Before Git 2.32, replace `--trailer` with a last `-m 'Task: <plan-name>/<task-id>'`.
+  3. If another task is not `DONE`: push and open the pull request; once it merges, update the default branch and `git switch -c <Branch>` of the next task whose dependencies are then `DONE`, naming it; `/clear`; `/codehelm:implement <plan-name>`.
+  4. Otherwise: `/clear`; `/codehelm:audit <plan-name>`, whose full audit ends with this branch's pull request.
 
   **STOP.**
 - **Requested changes:** apply them within the task's scope (if one needs a plan change, follow Phase A step 5), re-run Phase C in full, hand off again and stop again.

@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 **CodeHelm ground rules:** Never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks. Keep the engineer's uncommitted changes. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
-**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit`: Opus at `high`. `/codehelm:implement`: Sonnet at `medium`. If this session differs (the model family your system prompt names, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff names the `/model` and `/effort` the next command needs and this session lacks; `/codehelm:audit` sets its own.
+**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit`: Opus at `high`. `/codehelm:implement`: Sonnet at `medium`. If this session differs (the model family your system prompt names, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: the commit commands (single-quoted and without apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, the `/model` and `/effort` the next command needs and this session lacks (`/codehelm:audit` sets its own), then the next command.
 
 Plan request and/or source documents: $ARGUMENTS
 
@@ -55,9 +55,9 @@ After explicit approval:
    - Write one ADR per accepted decision from `${CLAUDE_SKILL_DIR}/assets/adr.md` at `docs/adr/NNNN-<decision-slug>.md`, using the next free number, or in the project's own ADR folder with its numbering and format.
    - Set each superseded ADR's status line to `Superseded by ADR-NNNN`. Never rewrite an accepted ADR in any other way.
 2. `plan.md`: the `Approved` line with the approval date and the commit at approval (`git rev-parse HEAD`); the sources; goal and scope; test commands; approved requirements and acceptance criteria with their IDs, sources and basis labels (`EXPLICIT` or `ASSUMPTION`); the Decisions section, linking the new ADRs and the accepted ones the plan relies on (for trivial work, write `No material design decisions`); the tasks, each set to `NOT STARTED` with its **Branch** line; and risks. When the engineer approved a plan without integration tests, write `Integration: none — <reason> (approved <date>)` in the test commands. Mark each test command the setup task creates with `(created by S01)`. On the lite path, write only the `Approved` and `Sources` lines, goal and scope, test commands and tasks, with each task's acceptance criteria in its **Covers** line, and omit the other sections.
-3. Give a concise handoff: plan name, suggested branches, approved decision IDs, first task, test commands and the next steps in order. Say that each task gets its own pull request.
-   - **Full plan:** create the branch `docs/plan-<plan-name>`, commit `plan.md` and the new ADRs together on it (`docs: plan <plan-name>`) and open its pull request; after it merges, update the default branch and create the first task's branch; run `/clear`, then `/codehelm:implement <plan-name>`.
-   - **Lite plan:** create the first task's branch, commit `plan.md` on it (`docs: plan <plan-name>`), so that the plan ships in that task's pull request, run `/clear`, then `/codehelm:implement <plan-name>`.
-   - **Amendment for a task with uncommitted work:** leave `plan.md` uncommitted so it ships in that task's one commit; run `/clear`, then `/codehelm:implement <plan-name> <task-id>`. Commit any other amendment like a full plan.
+3. Give a concise handoff: plan name, approved decision IDs, first task and test commands, then **Next**:
+   - **Full plan:** `git switch -c docs/plan-<plan-name>`, `git add` with `plan.md` and the new ADRs, `git commit -m 'docs: plan <plan-name>'`; push and open its pull request; once it merges, update the default branch and `git switch -c <first task's Branch>`; `/clear`; `/codehelm:implement <plan-name>`.
+   - **Lite plan:** `git switch -c <first task's Branch>`, `git add docs/plans/<plan-name>/plan.md`, `git commit -m 'docs: plan <plan-name>'`; `/clear`; `/codehelm:implement <plan-name>`.
+   - **Amendment for a task with uncommitted work:** no commit, because `plan.md` ships in that task's one commit; `/clear`; `/codehelm:implement <plan-name> <task-id>`. Commit any other amendment like a full plan.
 
 Never implement application/config code. End after writing the plan.
