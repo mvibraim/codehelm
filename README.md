@@ -41,17 +41,22 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 ## Quick start
 
 ```text
+/model opus
+/effort high
 /codehelm:plan-tasks Add rate limiting to the public API   # answer questions, approve the plan
                                                            # you open the plan's pull request
                                                            # after it merges, you start feat/rate-limiting
 /clear
+/model sonnet                       # the handoff suggests the switch
+/effort medium
 /codehelm:implement rate-limiting   # S01 starts, review it, reply "accepted"
                                     # you commit the change
 /clear
 /codehelm:implement rate-limiting   # the next ready task, S02
                                     # you commit the change
 /clear
-/codehelm:audit rate-limiting       # at a milestone, then you commit verification.md
+/codehelm:audit rate-limiting       # at a milestone, runs on Opus at high by itself
+                                    # then you commit verification.md
                                     # after the final audit, you open the implementation pull request
 ```
 
@@ -76,8 +81,8 @@ A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) 
 
 ## Tips
 
-- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with the next steps in order, such as commit, `/clear`, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
-- **Pick the model for the work.** Use `/model opus` for ambiguous briefs and real design trade-offs, and `/model sonnet` for most implementation and task audits.
+- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with the next steps in order, such as commit, `/clear`, the model switch, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
+- **Use the recommended model and effort.** Run `/codehelm:specify` and `/codehelm:plan-tasks` on Opus at `high` effort, and `/codehelm:implement` on Sonnet at `medium`. `/codehelm:audit` always runs on Opus at `high` in its own subagent. Each skill asks before it runs on anything else, and each handoff names the switch for the next command.
 - **Commit in the right order.** A capability takes three pull requests, each started from the default branch after the previous one merges: the specification, the plan with its new ADRs, and the implementation with one commit per task. A plan from a plain request has no specification pull request, and a lite plan's commit opens the implementation pull request instead. Merge the specification before you approve the plan, so later runs can detect changes to it, and commit the plan before the first task, because `/codehelm:implement` stops on uncommitted changes. Reply "accepted" before you commit a task, so its `DONE` status lands in the same commit.
 
 ## License
