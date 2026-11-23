@@ -76,7 +76,7 @@ A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) 
 1. **Nothing happens without your approval.** Specifications and plans are saved only after you approve them, and `/codehelm:implement` only runs tasks from an approved plan. A source that changed since approval stops the work until you approve again.
 2. **You own Git.** CodeHelm never creates branches, stages, commits, pushes or opens pull requests unless you ask; it only suggests them. Every skill except `/codehelm:specify` needs a Git repository.
 3. **One task per run and per pull request.** `/codehelm:implement` does one task whose dependencies are `DONE`, on that task's own branch, and stops for your review until you accept it.
-4. **Tests gate every task.** The plan's test commands (unit and integration suites, plus build or lint) are approved with the plan, run before editing as a baseline (except the ones a setup task creates) and after implementing. A failure the task did not cause blocks it.
+4. **Tests gate every task.** The plan's test commands (unit and integration suites, plus build or lint) are approved with the plan, run before editing as a baseline (except the ones a setup task creates, and a resumed task's own tests) and after implementing. A failure the task did not cause blocks it.
 5. **Evidence, not claims.** Only `/codehelm:audit` marks a requirement `VERIFIED`, never takes "tests passed" as proof and never changes code or task status.
 
 ## Tips
