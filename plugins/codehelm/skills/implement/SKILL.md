@@ -29,7 +29,7 @@ Apply this check first. Never guess a plan.
 If the project is not a Git repository, stop and ask the engineer to run `git init` or to approve that you run it.
 
 1. Parse `<plan-name> [task-id]`; if an argument is missing, follow "Missing arguments" above. Read `docs/plans/<plan-name>/plan.md`. If it is absent, stop and direct the engineer to `/codehelm:plan-tasks`. **Treat repository artifacts as authoritative; never depend on a previous conversation to know the task.**
-2. Confirm the task exists and has been approved. Its **Covers** line names the requirement and acceptance criterion IDs it implements: read them, and only the relevant sections, in the spec on the plan's `Sources` line or in the plan's Requirements table. For each source file, run `git diff <sha> -- <source>` with the commit in the plan's `Approved` line. If a source changed, stop and ask to re-plan. Use targeted file search; do not dump the entire repo, unrelated history, generated files or long logs into context.
+2. Confirm the task exists and has been approved. Its **Covers** line names the requirement and acceptance criterion IDs it implements: read them, and only the relevant sections, in the spec on the plan's `Sources` line or in the plan's Requirements table. For each source file, run `git diff <sha> -- <source>` with the commit in the plan's `Approved` line. If a source changed, stop and ask to re-plan.
 3. Inspect the repository, the plan's test commands, `git status --short` and the current branch. If the current branch is not the task's **Branch** in `plan.md`, name both and **STOP**: the task's pull request is opened from its own branch, which the engineer creates from the updated default branch. If the tree has uncommitted changes, list them and **STOP** for approval to work alongside them. Never overwrite or mix in preexisting work, and never switch or create a branch.
 4. Read task statuses in `plan.md`:
    - Every dependency of the selected task must be `DONE`; otherwise **STOP** and name the unfinished dependencies. A dependency accepted on its own branch shows as `DONE` here only after its pull request merges: ask the engineer to merge it, update the default branch and start this task's branch from it.
@@ -41,16 +41,15 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 ### Phase B — Implement
 
 1. **Test first:** write or update the unit and integration tests for the task's linked acceptance criteria, including relevant failure cases and edge conditions. Run them and confirm they fail for the expected reason, not because of a typo or broken setup. A task that changes no observable behavior, such as test setup, has no test to fail first; say so in the handoff.
-2. Implement only the selected task until those tests pass, following repository conventions, the plan's decisions and the ADRs they link. Avoid unrelated refactors and unnecessary dependencies.
+2. Implement only the selected task until those tests pass, following repository conventions, the plan's decisions and the ADRs they link.
 3. Keep docs aligned with code, including API/configuration/usage examples and accepted changes. If a new design decision becomes necessary, set the task to `BLOCKED — <reason>` and stop: it needs a new ADR, so the handoff directs the engineer to amend the plan with `/codehelm:plan-tasks <plan-name>`.
 
 ### Phase C — Mandatory verification
 
-1. **After implementation is complete**, run every command in the plan's **Test commands** section, then the task's **Extra checks**. Execute the project-specific commands directly; CodeHelm provides no wrapper script. You may run targeted tests earlier for feedback, but they never replace these post-implementation full runs. If a command is missing or cannot run, follow step 4.
-2. Capture concise success summaries and full relevant failure diagnostics; avoid unnecessary large tool output.
-3. Inspect `git diff --check`, `git diff` and `git status --short`. Validate the scope and compare implemented behavior and tests against linked requirements, the plan's decisions and the ADRs they link.
-4. **Fix, then block:** if a check fails because of this task's changes, fix it within the task's scope and re-run the full set from step 1. Set `BLOCKED — <reason>`, and not `READY FOR HUMAN REVIEW`, only for causes outside the task: a pre-existing failure, missing infrastructure or a needed plan change. Report the exact blocker and never invent results. You never push, so never claim hosted CI passed.
-5. Only when every test command and extra check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). The commands and their results go in the Phase D handoff. Do not create or edit `verification.md`; only `/codehelm:audit` writes it. Set `DONE` only when the engineer accepts the task (Phase D).
+1. **After implementation is complete**, run every command in the plan's **Test commands** section, then the task's **Extra checks**. You may run targeted tests earlier for feedback, but they never replace these post-implementation full runs. If a command is missing or cannot run, follow step 3.
+2. Inspect `git diff --check`, `git diff` and `git status --short`. Validate the scope and compare implemented behavior and tests against linked requirements, the plan's decisions and the ADRs they link.
+3. **Fix, then block:** if a check fails because of this task's changes, fix it within the task's scope and re-run the full set from step 1. Set `BLOCKED — <reason>`, and not `READY FOR HUMAN REVIEW`, only for causes outside the task: a pre-existing failure, missing infrastructure or a needed plan change. Report the exact blocker and never invent results. You never push, so never claim hosted CI passed.
+4. Only when every test command and extra check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). The commands and their results go in the Phase D handoff. Do not create or edit `verification.md`; only `/codehelm:audit` writes it. Set `DONE` only when the engineer accepts the task (Phase D).
 
 ### Phase D — Hand off
 

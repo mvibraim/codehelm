@@ -11,21 +11,19 @@ disable-model-invocation: true
 
 Input: $ARGUMENTS
 
-**Purpose:** Convert a problem description into a reviewed statement of **what** the system must do. Use this skill only when a specification is needed; for well-defined engineering tasks, `/codehelm:plan-tasks` can work directly from the request. Do **not** plan implementation, choose the architecture or write code.
-
 **No input:** if `$ARGUMENTS` is empty, ask for the business brief, as text or a file path. Do not guess a source from the repository or the conversation. **STOP** and change no files until the engineer answers.
 
 ### Phase A — Discover (read-only)
 
 1. Read the supplied brief, as text or source documents, and the bundled template at `${CLAUDE_SKILL_DIR}/assets/specification.md`. If any referenced source is inaccessible, report it; do not guess.
-2. Inspect only relevant existing domain documentation, including the specs under `docs/specs/`, to avoid contradicting an already agreed contract. If a spec already covers the brief's feature, propose updating it (Phase D step 1). Do not scan the full codebase unless an existing behavior must be clarified.
+2. Inspect only relevant existing domain documentation, including the specs under `docs/specs/`, to avoid contradicting an already agreed contract. If a spec already covers the brief's feature, propose updating it and show the differences instead of overwriting it. Do not scan the full codebase unless an existing behavior must be clarified.
 3. Name the business features the brief covers, such as capture and refunds or webhooks delivery, never technical layers such as the API or the database. Extract the problem, actors/external systems, goals, stated scope, explicit functional requirements, business invariants, quality constraints, acceptance examples and delivery restrictions.
 4. Keep **three categories distinct**: `EXPLICIT` (supported by a named source), `ASSUMPTION` (user-approved), `PROPOSED` (not yet approved). Preserve requirement IDs in source documents and assign stable `FR-###`, `BR-###`, `NFR-###`, `AC-###` IDs where needed; cite the source path + heading/page in the draft, or `§ Source brief` for a brief given as chat text.
 5. Detect conflicts, missing state transitions, unclear error semantics, retries, concurrency rules, authorization boundaries and missing scope limits **only where relevant**. Never invent business rules, numeric SLA targets, permissions or features just to fill a template.
 
 ### Phase B — Clarify (mandatory stop)
 
-1. Briefly summarize the problem and what is explicitly known. If the brief covers several features, propose one spec per feature, each with a slug and a one-line scope, and ask which one to specify in this run, so that each spec stays small enough to review.
+1. Briefly summarize the problem and what is explicitly known, and propose the spec's slug: the feature in kebab-case business terms, such as `capture-and-refunds`. If the brief covers several features, propose one spec per feature, each with a slug and a one-line scope, and ask which one to specify in this run, so that each spec stays small enough to review.
 2. Ask at most five numbered **material business-behavior questions** per round, most important first, each with options, their consequences where helpful and your recommended answer. Separate questions for the stakeholders from reasonable assumptions the engineer may approve when stakeholders are unavailable.
 3. **Do not silently decide.** Note which unanswered points are blockers versus manageable, recorded assumptions.
 4. **STOP for the engineer's answers.** Iterate only where material ambiguity remains. If there is no stakeholder available, request approval for clearly labeled assumptions rather than claiming they were confirmed externally.
@@ -42,6 +40,6 @@ Input: $ARGUMENTS
 
 Only after explicit approval:
 
-1. Suggest a stable slug that names the feature in kebab-case business terms, such as `capture-and-refunds`, never a technical layer. Create `docs/specs/` if needed and save to `docs/specs/<spec-slug>.md`, using the bundled template. Do not overwrite an existing specification without express approval; propose an update and highlight differences instead.
+1. Save the approved draft to `docs/specs/<spec-slug>.md`, creating `docs/specs/` if needed.
 2. Quote a brief given as chat text unchanged under `## Source brief`, because the conversation is gone after `/clear`. The saved specification contains no `PROPOSED` items. Preserve the original brief and source documents unchanged and respect confidentiality restrictions.
 3. Confirm the file reflects the approved draft and report the saved path plus any unresolved issues. List the features left for later `/codehelm:specify` runs. **Next:** `git switch -c docs/specify-<spec-slug>`, `git add docs/specs/<spec-slug>.md`, `git commit -m 'docs: specify <spec-slug>'`; push and open its pull request; once it merges, update the default branch; `/clear`; `/codehelm:plan-tasks docs/specs/<spec-slug>.md`.
