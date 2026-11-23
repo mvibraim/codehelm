@@ -1,6 +1,6 @@
 # Plan: <plan name>
 
-Approved: <date> at commit `<sha>` · Branch: `<type>/<plan-name>`
+Approved: <date> at commit `<sha>`
 Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 
 ## Goal and scope
@@ -31,6 +31,7 @@ Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 - **Status:** `NOT STARTED`
 - **Covers:** FR-001, AC-001
 - **Depends on:** none
+- **Branch:** `<type>/<plan-name>-s01`
 - **Scope:** <files or components, docs to update>
 - **Extra checks:** <for example a container build and smoke test>
 - **Commit:** `feat: ...`
