@@ -64,7 +64,7 @@ Give one concise handoff, readable in a fresh session:
 **STOP for review.** Wait for the engineer's reply:
 - **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line. Suggest the pull request: the commit subject as title; a description linking the spec in the plan's `Sources` line (or naming the request), the plan task and the IDs in its **Covers** line, summarizing the change and listing each command with its result. Then **Next**:
   1. `git add` with the task's changed files, `docs/plans/<plan-name>/plan.md` and any `verification.md` an audit changed; never `-A` or `.`.
-  2. `git commit -m '<subject>' --trailer 'Task: <plan-name>/<task-id>'`, with `-m '<body>'` after the subject only when there is a body. Before Git 2.32, replace `--trailer` with a last `-m 'Task: <plan-name>/<task-id>'`.
+  2. `git commit -m '<subject>' -m 'Task: <plan-name>/<task-id>'`, with `-m '<body>'` between them only when there is a body.
   3. If another task is not `DONE`: push and open the pull request; once it merges, update the default branch and `git switch -c <Branch>` of the next task whose dependencies are then `DONE`, naming it; `/clear`; `/codehelm:implement <plan-name>`.
   4. Otherwise: `/clear`; `/codehelm:audit <plan-name>`, whose full audit ends with this branch's pull request.
 
