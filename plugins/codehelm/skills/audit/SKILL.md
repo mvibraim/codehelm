@@ -23,7 +23,7 @@ Plan and optional task: $ARGUMENTS
 
 This skill runs in a forked subagent without the conversation history, which keeps the audit independent of the implementation discussion. It cannot ask questions mid-run: wherever it must ask, it ends the run with the question and changes no files.
 
-**No plan name:** if `$ARGUMENTS` is empty, list the folders under `docs/plans/` and end the run by asking the engineer to rerun `/codehelm:audit <plan-name> [task-id]` with one of them. Never pick one yourself, even when only one plan exists. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. **STOP** and change no files.
+**No plan name:** if `$ARGUMENTS` is empty and `docs/plans/` holds exactly one plan folder, run a full change audit of that plan and name it in the report. If it holds several, list them and end the run by asking the engineer to rerun `/codehelm:audit <plan-name> [task-id]` with one of them. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. In both cases, **STOP** and change no files.
 
 ### Phase A — Gather evidence (read-only)
 
