@@ -37,15 +37,15 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 ### Phase B — Implement
 
 1. **Test first:** write or update the unit and integration tests for the task's linked acceptance criteria, including relevant failure cases and edge conditions. Run them and confirm they fail for the expected reason, not because of a typo or broken setup. A task that changes no observable behavior, such as test setup, has no test to fail first; say so in the handoff.
-2. Implement only the selected task until those tests pass, following repository conventions and the plan's decisions. Avoid unrelated refactors and unnecessary dependencies.
-3. Keep docs aligned with code, including API/configuration/usage examples and accepted changes. If new design decisions become necessary, set the task to `BLOCKED — <reason>` and stop for approval before deviating from the plan.
+2. Implement only the selected task until those tests pass, following repository conventions, the plan's decisions and the ADRs they link. Avoid unrelated refactors and unnecessary dependencies.
+3. Keep docs aligned with code, including API/configuration/usage examples and accepted changes. If a new design decision becomes necessary, set the task to `BLOCKED — <reason>` and stop: it needs a new ADR, so the handoff directs the engineer to amend the plan with `/codehelm:plan-tasks`.
 4. Preserve all unrelated user changes.
 
 ### Phase C — Mandatory verification
 
 1. **After implementation is complete**, run every command in the plan's **Test commands** section, then the task's **Extra checks**. Execute the project-specific commands directly; CodeHelm provides no wrapper script. You may run targeted tests earlier for feedback, but they never replace these post-implementation full runs. If a command is missing or cannot run, report the blocker and do not set `READY FOR HUMAN REVIEW` (see step 4).
 2. Capture concise success summaries and full relevant failure diagnostics; avoid unnecessary large tool output.
-3. Inspect `git diff --check`, `git diff` and `git status --short`. Validate the scope and compare implemented behavior and tests against linked requirements and the plan's decisions.
+3. Inspect `git diff --check`, `git diff` and `git status --short`. Validate the scope and compare implemented behavior and tests against linked requirements, the plan's decisions and the ADRs they link.
 4. **Fix, then block:** if a check fails because of this task's changes, fix it within the task's scope and re-run the full set from step 1. Set `BLOCKED — <reason>`, and not `READY FOR HUMAN REVIEW`, only for causes outside the task: a pre-existing failure, missing infrastructure or a needed plan change. Report the exact blocker and never invent results. You never push, so never claim hosted CI passed.
 5. Only when every test command and extra check passed, set the task to `READY FOR HUMAN REVIEW` (not committed). The status records the result: `READY FOR HUMAN REVIEW` means every check passed, and `BLOCKED — <reason>` says what failed. The commands and their results go in the Phase D handoff. Do not create or edit `verification.md`; only `/codehelm:audit` writes it. Set `DONE` only when the engineer accepts the task (Phase D) or confirms it as a dependency at the start of a later run (Phase A step 4).
 

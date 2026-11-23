@@ -23,7 +23,8 @@ Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 | AC-001 | FR-001 | Given ... when ... then ... | EXPLICIT |
 
 ## Decisions
-**ADR-001: <title>.** Chose ... over ... because ... Revisit if ...
+- [ADR-0003: <title>](../../adr/0003-<slug>.md), new
+- [ADR-0001: <title>](../../adr/0001-<slug>.md), existing
 
 ## Tasks
 ### S01: <title>

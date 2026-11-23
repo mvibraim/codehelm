@@ -58,7 +58,7 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 ## The four skills
 
 - **`/codehelm:specify <brief>`** (optional): turns an incomplete business brief into an approved specification of one business capability at `docs/specs/<spec-slug>.md`.
-- **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`; a small change gets a lite plan.
+- **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`, with one ADR per design decision in `docs/adr/`; a small change gets a lite plan.
 - **`/codehelm:implement <plan> [task]`**: implements one task test-first, runs the plan's test commands and stops for your review.
 - **`/codehelm:audit <plan> [task]`**: checks requirements, plan, code and test evidence against each other in a separate subagent and records the result in `verification.md`.
 
@@ -78,7 +78,7 @@ A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) 
 
 - **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with the next steps in order, such as commit, `/clear`, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
 - **Pick the model for the work.** Use `/model opus` for ambiguous briefs and real design trade-offs, and `/model sonnet` for most implementation and task audits.
-- **Commit in the right order.** A capability takes three pull requests, each started from the default branch after the previous one merges: the specification, the plan, and the implementation with one commit per task. A lite plan's commit opens the implementation pull request instead. Merge the specification before you approve the plan, so later runs can detect changes to it, and commit the plan before the first task, because `/codehelm:implement` stops on uncommitted changes. Reply "accepted" before you commit a task, so its `DONE` status lands in the same commit.
+- **Commit in the right order.** A capability takes three pull requests, each started from the default branch after the previous one merges: the specification, the plan with its new ADRs, and the implementation with one commit per task. A lite plan's commit opens the implementation pull request instead. Merge the specification before you approve the plan, so later runs can detect changes to it, and commit the plan before the first task, because `/codehelm:implement` stops on uncommitted changes. Reply "accepted" before you commit a task, so its `DONE` status lands in the same commit.
 
 ## License
 
