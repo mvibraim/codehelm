@@ -12,19 +12,7 @@
   <strong>Let Claude write the code. You steer the ship.</strong>
 </p>
 
-<p align="center">
-  A lightweight human-in-the-loop workflow for Claude Code.
-  <br />
-  Recommended for engineers who love AI but refuse to surrender the steering wheel.
-  <br />
-  Specify → Plan → Implement → Audit: one tested and reviewable change at a time.
-</p>
-
-<br>
-
-No mysterious AI-generated commits. No waking up to discover Claude refactored your entire application. Just a short approved plan, small tested tasks and a human firmly holding the wheel.
-
-**AI is your crew, not your captain.**
+CodeHelm is a Claude Code plugin that takes a change from brief to delivery in four skills (specify, plan, implement, audit), stops for your approval at each gate and ships one tested task per pull request.
 
 ## Install
 
@@ -43,55 +31,59 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 ```text
 /model opus
 /effort high
-/codehelm:plan-tasks Add rate limiting to the public API   # answer questions, approve the plan
-                                                           # you open the plan's pull request
-                                                           # after it merges, you start feat/rate-limiting-s01
+/codehelm:plan-tasks Add rate limiting to the public API
+  CodeHelm  3 questions: limit per key or per IP? 429 body? store?
+  you       1 per key, 2 JSON error, 3 in-memory
+  CodeHelm  plan: S01 limiter, S02 429 response; tests npm test, npm run test:int; ADR-0004
+  you       approve
+  CodeHelm  wrote docs/plans/rate-limiting/plan.md and docs/adr/0004-in-memory-limiter.md
+you: commit on docs/plan-rate-limiting, merge its pull request, start feat/rate-limiting-s01
 /clear
-/model sonnet                       # the handoff suggests the switch
+/model sonnet
 /effort medium
-/codehelm:implement rate-limiting   # S01 starts, review it, reply "accepted"
-                                    # you commit and open S01's pull request
-                                    # after it merges, you start feat/rate-limiting-s02
+/codehelm:implement rate-limiting
+  CodeHelm  S01: baseline green, 4 new tests fail, implemented, all checks pass
+  you       accepted
+  CodeHelm  git add src/limiter.ts test/limiter.test.ts docs/plans/rate-limiting/plan.md
+            git commit -m 'feat: add per-key rate limiter' -m 'Task: rate-limiting/S01'
+you: run them, merge S01's pull request, start feat/rate-limiting-s02
 /clear
-/codehelm:implement rate-limiting   # the last task, S02
-                                    # you commit the change
+/codehelm:implement rate-limiting      # S02, same loop, you commit
 /clear
-/codehelm:audit rate-limiting       # the full audit, runs on Opus at high by itself
-                                    # you commit verification.md and open S02's pull request
+/codehelm:audit rate-limiting          # runs on Opus at high by itself
+  CodeHelm  9 VERIFIED, 0 findings: ready for delivery
+you: commit verification.md, open S02's pull request
 ```
+
+Each handoff ends with a **Next** block that spells out your steps. Skills hand off through files, never chat, so `/clear` loses nothing, but don't clear while a task waits for your review.
 
 ## The four skills
 
-- **`/codehelm:specify <brief>`** (optional): turns an incomplete business brief into an approved specification of one business feature at `docs/specs/<spec-slug>.md`.
-- **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`, with one ADR in `docs/adr/` per design decision that later tasks must respect or that is costly to reverse. Each task links the requirement IDs it covers instead of copying them from the spec. Given a plan name, it amends that plan, for example when a task is blocked.
-- **`/codehelm:implement <plan> [task]`**: implements one task test-first, runs the plan's test commands and stops for your review. Once you accept, it gives the `git add` and `git commit` commands to run, with `-m 'Task: <plan-name>/<task-id>'` last, and suggests the task's pull request, whose description links the spec, the plan task and the IDs it covers.
-- **`/codehelm:audit <plan> [task]`**: checks requirements, plan, ADRs, code and test evidence against each other in a separate subagent and records the result in `verification.md`. Without a plan name, it audits the only plan, or lists the plans when there are several.
+| Command | Writes | Stops for you |
+| --- | --- | --- |
+| `/codehelm:specify <brief>` (optional) | `docs/specs/<spec-slug>.md`, one business feature | questions, then approval |
+| `/codehelm:plan-tasks <request, spec or plan>` | `docs/plans/<plan-name>/plan.md` and an ADR in `docs/adr/` per lasting decision | questions, then approval |
+| `/codehelm:implement <plan> [task]` | tests, then code for one task | review, until you reply "accepted"; earlier only when something is off |
+| `/codehelm:audit [plan] [task]` | `verification.md` | never |
 
-## Task status
-
-A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) to `DONE` (you accepted it), or to `BLOCKED — <reason>`, and only `DONE` satisfies a dependency.
+Use Opus at `high` effort for `/codehelm:specify` and `/codehelm:plan-tasks`, and Sonnet at `medium` for `/codehelm:implement`; each skill notes a mismatch in one line. `/codehelm:audit` runs on Opus at `high` by itself, in a fresh subagent.
 
 ## Rules
 
-1. **Nothing happens without your approval.** Specifications and plans are saved only after you approve them, and `/codehelm:implement` only runs tasks from an approved plan. A source that changed since approval stops the work until you approve again.
-2. **You own Git.** CodeHelm never creates branches, stages, commits, pushes or opens pull requests unless you ask; it only suggests them. Every skill except `/codehelm:specify` needs a Git repository.
-3. **One task per run and per pull request.** `/codehelm:implement` does one task whose dependencies are `DONE`, on that task's own branch, and stops for your review until you accept it.
-4. **Tests gate every task.** The plan's test commands (unit and integration suites, plus build or lint) are approved with the plan, run before editing as a baseline (except the ones a setup task creates, and a resumed task's own tests) and after implementing. A failure the task did not cause blocks it.
+1. **Nothing happens without your approval.** Specs and plans are saved only once you approve them, and a source that changes after approval stops the work.
+2. **You own Git.** CodeHelm only suggests branches, commits and pull requests; you run them. Every skill except `/codehelm:specify` needs a Git repository.
+3. **One task per run and per pull request.** A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) to `DONE` (you accepted it), or to `BLOCKED — <reason>`. `/codehelm:implement` takes the task on the current branch, or the next one whose dependencies are `DONE`.
+4. **Tests gate every task.** The plan's test commands are approved with the plan and run before editing (except what a setup task creates and a resumed task's own tests) and after. A failure the task didn't cause blocks it.
 5. **Evidence, not claims.** Only `/codehelm:audit` marks a requirement `VERIFIED`, never takes "tests passed" as proof and never changes code or task status.
-
-## Tips
-
-- **Start each skill in a fresh session.** The skills hand off through Markdown files, not chat, so each handoff ends with a **Next** block: the commit commands, any pull request step, `/clear`, the model switch, then the next command. Don't clear while a task waits for your review: a task audit runs in its own subagent and returns to that review, so reply "accepted" first.
-- **Use the recommended model and effort.** Run `/codehelm:specify` and `/codehelm:plan-tasks` on Opus at `high` effort, and `/codehelm:implement` on Sonnet at `medium`. `/codehelm:audit` always runs on Opus at `high` in its own subagent. Each skill tells you in one line when the session differs, and each handoff names the switch for the next command.
 
 ## Git flow
 
-CodeHelm suggests each branch, commit and pull request in its **Next** block; you run them. One feature takes, in order:
+One feature takes, in order:
 
-1. **Specification** (optional): `docs/specify-<spec-slug>`, one commit, one pull request. Merge it before you approve the plan, so later runs can detect changes to it. A plan from a plain request skips this step.
-2. **Plan**: `docs/plan-<plan-name>`, with `plan.md` and its new ADRs in one commit and one pull request. Merge it before the first task, because `/codehelm:implement` stops on uncommitted changes. A plan with no new ADR and at most two tasks commits on the first task's branch instead.
-3. **Tasks**: one branch per task, named in the plan (`feat/rate-limiting-s01`), with the task's one commit and one pull request. Reply "accepted" before you commit, so the `DONE` status lands in the same commit. Start each task's branch from the default branch after its dependencies merge; tasks that don't depend on each other can run in parallel.
-4. **Audit**: run the full audit before the last task's pull request, which also carries `verification.md`. An audit from the default branch commits on `docs/audit-<plan-name>`, with its own pull request.
+1. **Spec** (optional): `docs/specify-<spec-slug>`, one commit, one pull request. Merge it before you approve the plan.
+2. **Plan**: `docs/plan-<plan-name>`, with `plan.md` and its new ADRs. Merge it before the first task. A plan with no new ADR and at most two tasks commits on the first task's branch instead.
+3. **Tasks**: one branch per task, named in the plan, each with one commit and one pull request. Reply "accepted" before you commit, so `DONE` lands in that commit. Start each branch from the default branch once its dependencies merge; independent tasks can run in parallel.
+4. **Audit**: the full audit's `verification.md` ships in the last task's pull request, or on `docs/audit-<plan-name>` when run from the default branch.
 
 ## License
 

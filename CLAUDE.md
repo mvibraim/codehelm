@@ -60,6 +60,6 @@ Invariants that run through all four skills. Keep them consistent when editing a
 
 ## Editing conventions
 
-- When you change skill behavior, update `README.md` too (the quick start, the skill summaries, the task status line, the rules and the tips), and the reverse.
+- When you change skill behavior, update `README.md` too (the quick start, the skills table, the rules and the Git flow), and the reverse.
 - Users stay on the `version` in `plugins/codehelm/.claude-plugin/plugin.json` until it changes. Bump it (semver) when a release should reach users, and keep the plugin description in `plugin.json` and `marketplace.json` the same. Before a release, check `cat $(git ls-files 'plugins/*.md') | wc -w` against the current word budget (6,250 words).
 - Commit messages use Conventional Commits (`feat:`, `docs:`, ...), as in the existing history.
