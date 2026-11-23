@@ -20,7 +20,7 @@ Requested plan and task: $ARGUMENTS
 Apply this check first. Never guess a plan.
 
 - **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. Change no files. **STOP.**
-- **Plan name but no task ID:** read that plan's `plan.md` and select the first task, in plan order, that is `NOT STARTED` and whose dependencies are all `DONE` or `READY FOR HUMAN REVIEW` (Phase A step 4 confirms the latter). Name it and continue with it.
+- **Plan name but no task ID:** read that plan's `plan.md`. If the current branch is a task's **Branch**, select that task. Otherwise select the first task, in plan order, that is `NOT STARTED` and whose dependencies are all `DONE` or `READY FOR HUMAN REVIEW` (Phase A step 4 confirms the latter). Name it and continue with it.
   - If every task is `DONE`, report that the plan is complete and suggest `/codehelm:audit <plan-name>`. Change no files. **STOP.**
   - If no task qualifies, list the tasks with their statuses, say why none is ready and ask for a task ID. Change no files. **STOP.**
 
@@ -69,7 +69,7 @@ Give one concise handoff, readable in a fresh session:
   - Use single quotes and word the subject and body without apostrophes, so the commands run unchanged in Bash and PowerShell. `--trailer` needs Git 2.32 or later; on older Git, replace it with a second `-m 'Task: <plan-name>/<task-id>'`.
 
   Suggest the task's pull request: its title is the commit subject, and its description links the spec named in the plan's `Sources` line (or names the request and its date), links the plan task (`docs/plans/<plan-name>/plan.md`, task ID and title), lists the requirement and acceptance criterion IDs in the task's **Covers** line, summarizes the change and lists each command with its result. Do not stage, commit, push or open the pull request. Then give the next steps in order:
-  - **Another task is not `DONE` yet:** run the commit commands, push the task's branch and open its pull request; after it merges, update the default branch and create the next ready task's branch (a task that doesn't depend on this one can start from the default branch right away); run `/clear`, then `/codehelm:implement <plan-name>`.
+  - **Another task is not `DONE` yet:** run the commit commands, push the task's branch and open its pull request; after it merges, update the default branch and create the next task's branch, naming that task and its **Branch**: the first `NOT STARTED` task whose dependencies are all `DONE` once this one merges (a task that doesn't depend on this one can start from the default branch right away); run `/clear`, then `/codehelm:implement <plan-name>`.
   - **Every task is `DONE` on this branch:** run the commit commands, run `/clear`, then `/codehelm:audit <plan-name>`; that full audit ends with pushing this branch and opening its pull request.
 
   **STOP.**
