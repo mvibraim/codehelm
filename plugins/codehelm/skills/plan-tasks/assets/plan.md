@@ -1,6 +1,6 @@
 # Plan: <plan name>
 
-Approved: <date> at commit `<sha>` · Branch: `<type>/<slug>`
+Approved: <date> at commit `<sha>` · Branch: `<type>/<plan-name>`
 Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 
 ## Goal and scope
