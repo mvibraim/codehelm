@@ -64,7 +64,7 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 
 - **`/codehelm:specify <brief>`** (optional): turns an incomplete business brief into an approved specification of one business feature at `docs/specs/<spec-slug>.md`.
 - **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`, with one ADR per design decision in `docs/adr/`; a small change gets a lite plan.
-- **`/codehelm:implement <plan> [task]`**: implements one task test-first, runs the plan's test commands, suggests a commit message that ends with a `Task: <plan-name>/<task-id>` trailer and stops for your review. Once you accept, it suggests the task's pull request, whose description links the spec, the plan task and the IDs it covers.
+- **`/codehelm:implement <plan> [task]`**: implements one task test-first, runs the plan's test commands and stops for your review. Once you accept, it gives the `git add` and `git commit --trailer 'Task: <plan-name>/<task-id>'` commands to run (Git 2.32 or later) and suggests the task's pull request, whose description links the spec, the plan task and the IDs it covers.
 - **`/codehelm:audit <plan> [task]`**: checks requirements, plan, ADRs, code and test evidence against each other in a separate subagent and records the result in `verification.md`.
 
 ## Task status

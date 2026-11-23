@@ -59,13 +59,18 @@ Give one concise handoff, readable in a fresh session:
 - **Files:** code, tests and docs changed
 - **Commands and results:** each test command and extra check, with its observed outcome
 - **Status:** plan name, task ID and its status (`READY FOR HUMAN REVIEW` or `BLOCKED — <reason>`). If Phase A set a dependency to `DONE`, say that this diff also contains that status change.
-- **Commit message:** one suggested Conventional Commit message that ends, after a blank line, with the trailer `Task: <plan-name>/<task-id>`
+- **Commit:** one suggested Conventional Commit subject, plus a body only when it helps, and its trailer `Task: <plan-name>/<task-id>`. The commands to commit it come on acceptance, once `plan.md` holds the `DONE` status.
 - **Next:** for a ready task, review the diff, optionally run `/codehelm:audit <plan-name> <task-id>` if the task is risky, then reply "accepted" in this session or request changes; for a blocked task, what must be resolved first and, when the engineer resolves it outside this session, the next steps: leave the task's changes uncommitted, because a task gets exactly one commit; run `/clear`, then `/codehelm:implement <plan-name> <task-id>` to resume it, and that run asks to work alongside those changes
 
 **STOP for review.** Wait for the engineer's reply:
-- **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line, and repeat the suggested commit message with its `Task:` trailer, noting that `plan.md`, and `verification.md` if an audit changed it, belong in the commit. Suggest the task's pull request: its title is the commit subject, and its description links the spec named in the plan's `Sources` line (or names the request and its date), links the plan task (`docs/plans/<plan-name>/plan.md`, task ID and title), lists the requirement and acceptance criterion IDs in the task's **Covers** line, summarizes the change and lists each command with its result. Do not stage, commit, push or open the pull request. Then give the next steps in order:
-  - **Another task is not `DONE` yet:** commit, push the task's branch and open its pull request; after it merges, update the default branch and create the next ready task's branch (a task that doesn't depend on this one can start from the default branch right away); run `/clear`, then `/codehelm:implement <plan-name>`.
-  - **Every task is `DONE` on this branch:** commit, run `/clear`, then `/codehelm:audit <plan-name>`; that full audit ends with pushing this branch and opening its pull request.
+- **"accepted"** (or another explicit acceptance): set the task to `DONE`, editing only its status line, and give the commit as one block of commands for the engineer to run:
+  - `git add` listing the task's changed code, test and doc files, `docs/plans/<plan-name>/plan.md` and, if an audit changed it, `docs/plans/<plan-name>/verification.md`. Never `git add -A` or `git add .`, so the engineer's unrelated changes stay out.
+  - `git commit -m '<subject>' --trailer 'Task: <plan-name>/<task-id>'`, with a second `-m '<body>'` only when there is a body.
+  - Use single quotes and word the subject and body without apostrophes, so the commands run unchanged in Bash and PowerShell. `--trailer` needs Git 2.32 or later; on older Git, replace it with a second `-m 'Task: <plan-name>/<task-id>'`.
+
+  Suggest the task's pull request: its title is the commit subject, and its description links the spec named in the plan's `Sources` line (or names the request and its date), links the plan task (`docs/plans/<plan-name>/plan.md`, task ID and title), lists the requirement and acceptance criterion IDs in the task's **Covers** line, summarizes the change and lists each command with its result. Do not stage, commit, push or open the pull request. Then give the next steps in order:
+  - **Another task is not `DONE` yet:** run the commit commands, push the task's branch and open its pull request; after it merges, update the default branch and create the next ready task's branch (a task that doesn't depend on this one can start from the default branch right away); run `/clear`, then `/codehelm:implement <plan-name>`.
+  - **Every task is `DONE` on this branch:** run the commit commands, run `/clear`, then `/codehelm:audit <plan-name>`; that full audit ends with pushing this branch and opening its pull request.
 
   **STOP.**
 - **Requested changes:** apply them within the task's scope (if one needs a plan change, follow Phase A step 5), re-run Phase C in full, hand off again and stop again.
