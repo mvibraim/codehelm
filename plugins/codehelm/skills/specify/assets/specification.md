@@ -1,6 +1,6 @@
 # Spec: [Feature name]
 
-Approved: <date> · Source: <path>
+Approved: <date> · Source: <path>, or § Source brief
 
 ## Problem and desired outcome
 
@@ -75,3 +75,7 @@ If a numeric target is unknown, say `TBD`, not an invented number.
 | ID | Question / uncertainty | Impact | Status |
 |---|---|---|---|
 | Q-001 | [Unresolved business behavior] | [Blocker or nonblocking] | OPEN |
+
+## Source brief
+
+[Only for a brief given as chat text: the brief, quoted unchanged]
