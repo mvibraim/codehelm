@@ -22,7 +22,7 @@ Plan and optional task: $ARGUMENTS
 
 You can't ask mid-run: wherever you must ask, end the run with the question and change no files.
 
-**No plan name:** if `$ARGUMENTS` is empty and `docs/plans/` holds exactly one plan folder, run a full audit of that plan and name it in the report. If it holds several, list them and end the run by asking the engineer to rerun `/codehelm:audit <plan-name> [task-id]` with one of them. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. In both cases, **STOP** and change no files.
+**No plan name:** if `$ARGUMENTS` is empty and `docs/plans/` holds exactly one plan folder, run a full audit of that plan and name it in the report. If it holds several, list them and end the run by asking the engineer to rerun `/codehelm:audit <plan-name> [task-id]` with one of them. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. In both cases, change no files.
 
 ### Phase A — Gather evidence (read-only)
 

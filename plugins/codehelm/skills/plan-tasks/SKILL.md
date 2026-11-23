@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Plan request and/or source documents: $ARGUMENTS
 
-**No input:** if `$ARGUMENTS` is empty, ask for a change request or the path to a specification, and list the Markdown files under `docs/specs/`, if any, as options. Do not guess a request from the repository or the conversation. **STOP** and change no files until the engineer answers.
+**No input:** if `$ARGUMENTS` is empty, ask for a change request or the path to a specification, and list the Markdown files under `docs/specs/`, if any, as options. Do not guess a request from the repository or the conversation. Change no files until the engineer answers.
 
 ### Phase A — Discover and classify (read-only)
 

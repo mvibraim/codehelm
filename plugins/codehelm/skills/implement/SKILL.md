@@ -19,10 +19,10 @@ Requested plan and task: $ARGUMENTS
 
 Apply this check first. Never guess a plan.
 
-- **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. Change no files. **STOP.**
+- **No plan name:** list the folders under `docs/plans/` and ask which plan to use. If there are none, report that and direct the engineer to `/codehelm:plan-tasks`. Change no files.
 - **Plan name but no task ID:** read that plan's `plan.md`. If the current branch is a task's **Branch**, select that task. Otherwise select the first task, in plan order, that is `NOT STARTED` and whose dependencies are all `DONE`. Name it and continue with it.
-  - If every task is `DONE`, report that the plan is complete and suggest `/codehelm:audit <plan-name>`. Change no files. **STOP.**
-  - If no task qualifies, list the tasks with their statuses, say why none is ready and ask for a task ID. Change no files. **STOP.**
+  - If every task is `DONE`, report that the plan is complete and suggest `/codehelm:audit <plan-name>`. Change no files.
+  - If no task qualifies, list the tasks with their statuses, say why none is ready and ask for a task ID. Change no files.
 
 ### Phase A — Prepare (read-only)
 
@@ -67,6 +67,4 @@ Give one concise handoff, readable in a fresh session:
   2. `git commit -m '<subject>' -m 'Task: <plan-name>/<task-id>'`, with `-m '<body>'` between them only when there is a body.
   3. If another task is not `DONE`: push and open the pull request; once it merges, update the default branch and `git switch -c <Branch>` of the next task whose dependencies are then `DONE`, naming it; `/clear`; `/codehelm:implement <plan-name>`.
   4. Otherwise: `/clear`; `/codehelm:audit <plan-name>`, whose full audit ends with this branch's pull request.
-
-  **STOP.**
 - **Requested changes:** apply them within the task's scope (if one needs a plan change, follow Phase A step 5), re-run Phase C in full, hand off again and stop again.

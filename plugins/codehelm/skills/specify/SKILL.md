@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Input: $ARGUMENTS
 
-**No input:** if `$ARGUMENTS` is empty, ask for the business brief, as text or a file path. Do not guess a source from the repository or the conversation. **STOP** and change no files until the engineer answers.
+**No input:** if `$ARGUMENTS` is empty, ask for the business brief, as text or a file path. Do not guess a source from the repository or the conversation. Change no files until the engineer answers.
 
 ### Phase A — Discover (read-only)
 
