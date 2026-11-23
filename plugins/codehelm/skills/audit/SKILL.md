@@ -5,9 +5,13 @@ argument-hint: "[plan-name] [optional task-id]"
 disable-model-invocation: true
 context: fork
 background: false
+model: opus
+effort: high
 ---
 
 **CodeHelm ground rules:** Follow the project's CLAUDE.md and conventions, but never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks for that action. Keep the engineer's uncommitted changes intact. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
+
+**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit` are meant for Opus at `high` effort, and `/codehelm:implement` for Sonnet at `medium`. `/codehelm:audit` sets this in its frontmatter. Any other skill first compares the model your system prompt names and the effort `${CLAUDE_EFFORT}` with its own recommendation, by model family. If either differs, name both and ask once, with any missing-argument question, whether to proceed as is or to switch with `/model` and `/effort` and then reply to continue. **STOP** and change no files until the engineer answers. Before a next command other than `/codehelm:audit`, a handoff lists the `/model` and `/effort` commands that command needs and this session lacks, after `/clear`.
 
 Plan and optional task: $ARGUMENTS
 
