@@ -63,7 +63,7 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 ## The four skills
 
 - **`/codehelm:specify <brief>`** (optional): turns an incomplete business brief into an approved specification of one business feature at `docs/specs/<spec-slug>.md`.
-- **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`, with one ADR per design decision in `docs/adr/`; a small change gets a lite plan. Given a plan name, it amends that plan, for example when a task is blocked.
+- **`/codehelm:plan-tasks <request or spec>`**: asks its questions, then writes an approved plan of small tasks at `docs/plans/<plan-name>/plan.md`, with one ADR per design decision in `docs/adr/`. Each task links the requirement IDs it covers instead of copying them from the spec. Given a plan name, it amends that plan, for example when a task is blocked.
 - **`/codehelm:implement <plan> [task]`**: implements one task test-first, runs the plan's test commands and stops for your review. Once you accept, it gives the `git add` and `git commit --trailer 'Task: <plan-name>/<task-id>'` commands to run (Git 2.32 or later) and suggests the task's pull request, whose description links the spec, the plan task and the IDs it covers.
 - **`/codehelm:audit <plan> [task]`**: checks requirements, plan, ADRs, code and test evidence against each other in a separate subagent and records the result in `verification.md`. Without a plan name, it audits the only plan, or lists the plans when there are several.
 
@@ -89,7 +89,7 @@ A task goes from `NOT STARTED` to `READY FOR HUMAN REVIEW` (every check passed) 
 CodeHelm suggests each branch, commit and pull request in its **Next** block; you run them. One feature takes, in order:
 
 1. **Specification** (optional): `docs/specify-<spec-slug>`, one commit, one pull request. Merge it before you approve the plan, so later runs can detect changes to it. A plan from a plain request skips this step.
-2. **Plan**: `docs/plan-<plan-name>`, with `plan.md` and its new ADRs in one commit and one pull request. Merge it before the first task, because `/codehelm:implement` stops on uncommitted changes. A lite plan's commit goes on the first task's branch instead.
+2. **Plan**: `docs/plan-<plan-name>`, with `plan.md` and its new ADRs in one commit and one pull request. Merge it before the first task, because `/codehelm:implement` stops on uncommitted changes. A plan with no new ADR and at most two tasks commits on the first task's branch instead.
 3. **Tasks**: one branch per task, named in the plan (`feat/rate-limiting-s01`), with the task's one commit and one pull request. Reply "accepted" before you commit, so the `DONE` status lands in the same commit. Start each task's branch from the default branch after its dependencies merge; tasks that don't depend on each other can run in parallel.
 4. **Audit**: run the full audit before the last task's pull request, which also carries `verification.md`. An audit from the default branch commits on `docs/audit-<plan-name>`, with its own pull request.
 

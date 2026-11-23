@@ -3,9 +3,8 @@
 Approved: <date> at commit `<sha>`
 Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 
-## Goal and scope
+## Goal
 **Goal:** ...
-**In scope:** ...
 **Out of scope:** ...
 
 ## Test commands
@@ -14,17 +13,13 @@ Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 - Build / lint: `<command>`
 
 ## Requirements
-| ID | Requirement | Source | Basis |
-|---|---|---|---|
-| FR-001 | ... | `<path>#<heading>` | EXPLICIT |
-
-| AC | Covers | Given / When / Then | Basis |
-|---|---|---|---|
-| AC-001 | FR-001 | Given ... when ... then ... | EXPLICIT |
+| ID | Requirement, or Given / When / Then | Basis |
+|---|---|---|
+| FR-001 | ... | EXPLICIT |
+| AC-001 | FR-001: Given ... when ... then ... | EXPLICIT |
 
 ## Decisions
-- [ADR-0003: <title>](../../adr/0003-<slug>.md), new
-- [ADR-0001: <title>](../../adr/0001-<slug>.md), existing
+- [ADR-0003: <title>](../../adr/0003-<slug>.md)
 
 ## Tasks
 ### S01: <title>
@@ -33,8 +28,8 @@ Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 - **Depends on:** none
 - **Branch:** `<type>/<plan-name>-s01`
 - **Scope:** <files or components, docs to update>
-- **Extra checks:** <for example a container build and smoke test>
+- **Extra checks:** none
 - **Commit:** `feat: ...`
 
-## Risks and limitations
+## Risks
 - ...

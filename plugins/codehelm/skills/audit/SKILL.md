@@ -29,7 +29,7 @@ This skill runs in a forked subagent without the conversation history, which kee
 
 If the project is not a Git repository, stop and ask the engineer to run `git init` and then rerun the audit.
 
-1. Read `docs/plans/<plan-name>/plan.md`, the ADRs it links, and its `verification.md` if an earlier audit created it. If the plan is missing, report the gap rather than fabricating a plan. A lite plan has no requirements tables or Decisions section: each task's acceptance criteria, in its **Covers** line, are the requirements to audit. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs. Find the task's commits with `git log --grep "Task: <plan-name>/<task-id>"` (plain `git log` for commits without the trailer), and its uncommitted work with `git status --short` and `git diff`. For a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
+1. Read `docs/plans/<plan-name>/plan.md`, the ADRs it links, and its `verification.md` if an earlier audit created it. If the plan is missing, report the gap rather than fabricating a plan. The requirements to audit are the spec's on the plan's `Sources` line, except those the plan leaves out of scope, plus the plan's Requirements table; each task's **Covers** line links them. For a **task audit**, read only linked specification sections, relevant source code/diff, tests and relevant API/config docs. Find the task's commits with `git log --grep "Task: <plan-name>/<task-id>"` (plain `git log` for commits without the trailer), and its uncommitted work with `git status --short` and `git diff`. For a **full audit**, inspect every in-scope requirement and cross-task interaction. Avoid indiscriminate whole-repository reads.
 2. For each source file, run `git diff <sha> -- <source>` with the commit in the plan's `Approved` line. Flag changes rather than silently treating the old plan as current.
 3. Read actual test results/reports or execute the plan's **Test commands** and the tasks' **Extra checks** if needed and permitted. Never treat a test name or claim that tests passed as proof. Record exact commands, output summary and date/revision when available.
 4. Look for requirements without tasks, tasks without source justification, undocumented implementation, code that contradicts an accepted decision or ADR, a linked ADR that is missing or superseded, missing edge-case coverage, test assertions that do not actually validate the business rule, and test commands that miss a suite the changes need (for example, a plan approved without integration tests whose changes now cross an integration boundary).
@@ -39,7 +39,7 @@ If the project is not a Git repository, stop and ask the engineer to run `git in
 ### Phase B — Verify each criterion
 
 For every applicable requirement and acceptance criterion, record:
-- Stable requirement/criterion ID, as in `plan.md`
+- Stable requirement/criterion ID, as in the spec or `plan.md`
 - Planned task(s)
 - Actual source file/symbol evidence
 - Test file/case, with the executed command and its result
