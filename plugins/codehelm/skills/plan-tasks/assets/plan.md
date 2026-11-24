@@ -26,7 +26,7 @@ Sources: `docs/specs/<spec-slug>.md`, or the request of <date>
 - **Status:** `NOT STARTED`
 - **Covers:** FR-001, AC-001
 - **Depends on:** none
-- **Branch:** `<type>/<plan-name>-<task-name>`
+- **Branch:** `<type>/<plan-name>-s01-<task-name>`
 - **Scope:** <files or components, docs to update>
 - **Extra checks:** none
 - **Commit:** `feat: ...`
