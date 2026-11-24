@@ -10,6 +10,17 @@ Only `plugins/codehelm/` is distributed. Skills must not depend on this file or 
 
 The logo is the plugin icon `plugins/codehelm/.claude-plugin/icon.png`, which the README shows. A replacement stays a square PNG of 512–2048 px under 2 MB.
 
+## Direction
+
+CodeHelm should get lighter, not heavier. Every change follows these guidelines, which `/codehelm-review` (`.claude/skills/codehelm-review/`) also checks:
+
+- Keep the safeguards: the STOP gates, handoff through files, one writer per file, provenance labels and drift checks. Simplify everything else.
+- Cut or merge before adding. Add a rule or feature only when it closes a real gap, and say which.
+- State a rule once. Apart from the shared preamble, don't repeat a rule across skills, and don't add with/without-Git branches.
+- Measure: report the word-count change of each skill, template and the README you touch, and keep the total under the release limit below.
+- Base claims about Claude Code behavior on Anthropic's "Best practices for Claude Code" and "Skills" docs (code.claude.com), cited with the date read.
+- Write plainly: concrete numbers over adjectives, short quotes from sources.
+
 ## Commands
 
 - `claude plugin validate ./plugins/codehelm` checks the plugin, and `claude plugin validate .` the marketplace. Run both after changing a manifest or the skill layout.
