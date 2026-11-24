@@ -1,7 +1,7 @@
 {
   "name": "codehelm",
   "displayName": "CodeHelm",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "A lightweight human-in-the-loop workflow for Claude Code. Specify → Plan → Implement → Audit: one tested and reviewable change at a time.",
   "author": {
     "name": "Marcus Vinícius Ibraim"
