@@ -4,74 +4,71 @@ Approved: <date> · Source: <path>, or § Source brief
 
 ## Problem and desired outcome
 
-**Problem:** [Business problem and consequences]
+**Problem:** [Business problem and its consequences]
 
 **Goal:** [Expected outcome]
 
-**Users / interacting systems:** [Relevant actors]
+**Actors:** [Users and interacting systems]
 
 ## Scope
 
-**In scope:** [Requested functionality]
+**In scope:** ...
 
-**Out of scope:** [Explicitly excluded functionality; distinguish exclusions from assumptions]
+**Out of scope:** [Exclusions, not assumptions]
 
 ## Functional requirements
 
-| ID | Observable behavior | Provenance / source | Basis |
+| ID | Observable behavior | Source | Basis |
 |---|---|---|---|
-| FR-001 | The system must ... | `[brief.md § Section]` | EXPLICIT |
-| FR-002 | The system must ... | `[User approved assumption A-001]` | ASSUMPTION |
+| FR-001 | The system must ... | `brief.md § Section` | EXPLICIT |
+| FR-002 | The system must ... | A-001 | ASSUMPTION |
 
 ## Business rules and invariants
 
-| ID | Rule or invariant | Provenance / basis |
-|---|---|---|
-| BR-001 | [What must always hold] | [Source or approved assumption] |
+| ID | Rule that must always hold | Source | Basis |
+|---|---|---|---|
+| BR-001 | ... | ... | EXPLICIT |
 
 ## Nonfunctional requirements
 
-| ID | Quality expectation or constraint | Provenance / basis |
-|---|---|---|
-| NFR-001 | [Correctness, consistency, security, performance, etc.] | [Source or approved assumption] |
+| ID | Quality expectation or constraint | Source | Basis |
+|---|---|---|---|
+| NFR-001 | ... | ... | EXPLICIT |
 
 ## Acceptance scenarios
 
-### AC-001 — [Meaningful scenario]
+### AC-001 — [Scenario]
 
 **Covers:** FR-001, BR-001  
-**Given** [initial state]  
-**When** [action]  
-**Then** [observable result]  
-**Source:** [Reference or approved assumption]
-
-### AC-002 — [Failure / retry / edge case]
-
-**Covers:** [linked requirements]  
 **Given** ...  
 **When** ...  
-**Then** ...
+**Then** ...  
+**Source:** ...
+
+### AC-002 — [Failure or edge case]
+
+...
 
 ## Constraints and dependencies
 
-**Mandatory technology / environment:** [Technology the source imposes]
+**Technology the source imposes:** ...
 
-**External dependencies / data:** [Systems and data the feature relies on, including the other feature specs this one depends on, as `docs/specs/<spec-slug>.md`]
+**External systems and data:** [Including specs this one depends on, as `docs/specs/<spec-slug>.md`]
 
-**Delivery expectations:** [Delivery restrictions the source states]
+**Delivery restrictions:** ...
 
 ## Approved assumptions
 
-| ID | Assumption and why it was needed | Approved by / when | Affected requirements |
+| ID | Assumption and why it was needed | Approved by, date | Affects |
 |---|---|---|---|
-| A-001 | [Assumption that wasn't specified externally] | [Engineer + date] | FR-002 |
+| A-001 | ... | ... | FR-002 |
 
-## Open questions and limitations
+## Open questions
 
-| ID | Question / uncertainty | Impact | Status |
+| ID | Question | Impact (blocker or not) | Status |
 |---|---|---|---|
-| Q-001 | [Unresolved business behavior] | [Blocker or nonblocking] | OPEN |
+| Q-001 | ... | ... | OPEN |
 
 ## Source brief
 
-[Only for a brief given as chat text: the brief, quoted unchanged]
+[Only for a brief given in chat: quoted unchanged]
