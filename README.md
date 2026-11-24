@@ -34,10 +34,10 @@ To update, run `claude plugin update codehelm@codehelm`, or turn on auto-update 
 /codehelm:plan-tasks Add rate limiting to the public API
   CodeHelm  3 questions: limit per key or per IP? 429 body? store?
   you       1 per key, 2 JSON error, 3 in-memory
-  CodeHelm  plan: S01 limiter, S02 429 response; tests npm test, npm run test:int; ADR-0004
+  CodeHelm  plan: S01 per-key limit, S02 JSON 429; tests npm test, npm run test:int; ADR-0004
   you       approve
   CodeHelm  wrote docs/plans/rate-limiting/plan.md and docs/adr/0004-in-memory-limiter.md
-you: commit on docs/plan-rate-limiting, merge its pull request, start feat/rate-limiting-s01
+you: commit on docs/plan-rate-limiting, merge its pull request, start feat/rate-limiting-per-key
 /clear
 /model sonnet
 /effort medium
@@ -46,7 +46,7 @@ you: commit on docs/plan-rate-limiting, merge its pull request, start feat/rate-
   you       accepted
   CodeHelm  git add src/limiter.ts test/limiter.test.ts docs/plans/rate-limiting/plan.md
             git commit -m 'feat: add per-key rate limiter' -m 'Task: rate-limiting/S01'
-you: run them, merge S01's pull request, start feat/rate-limiting-s02
+you: run them, merge S01's pull request, start feat/rate-limiting-json-429
 /clear
 /codehelm:implement rate-limiting      # S02, same loop, you commit
 /clear
