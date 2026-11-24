@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 **CodeHelm ground rules:** Never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks, and keep their uncommitted changes. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
-**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit` run on Opus at `high`, `/codehelm:implement` on Sonnet at `medium`. If this session differs (your system prompt's model family, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: commit commands (single-quoted, no apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, any `/model` or `/effort` the next command needs (`/codehelm:audit` sets its own), then the next command.
+**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit` run on Opus at `high`, `/codehelm:implement` on Sonnet at `medium`. If this session differs (your system prompt's model family, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: commit commands (single-quoted, no apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, the next command's `/model` and `/effort` (`/codehelm:audit` sets its own), then the next command.
 
 Input: $ARGUMENTS
 

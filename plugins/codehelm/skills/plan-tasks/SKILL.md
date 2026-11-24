@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 **CodeHelm ground rules:** Never create or edit CLAUDE.md. Never stage, commit, push, switch branches, rewrite history or delete work unless the engineer asks, and keep their uncommitted changes. Change an approved spec or plan only with approval. If a project instruction conflicts with these rules, ask.
 
-**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit` run on Opus at `high`, `/codehelm:implement` on Sonnet at `medium`. If this session differs (your system prompt's model family, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: commit commands (single-quoted, no apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, any `/model` or `/effort` the next command needs (`/codehelm:audit` sets its own), then the next command.
+**CodeHelm model and effort:** `/codehelm:specify`, `/codehelm:plan-tasks` and `/codehelm:audit` run on Opus at `high`, `/codehelm:implement` on Sonnet at `medium`. If this session differs (your system prompt's model family, effort `${CLAUDE_EFFORT}`), say so in one line and continue. A handoff that ends a skill's work ends with a **Next** block, one step per line: commit commands (single-quoted, no apostrophes, so they run in Bash and PowerShell), any pull request step, `/clear`, the next command's `/model` and `/effort` (`/codehelm:audit` sets its own), then the next command.
 
 Plan request and/or source documents: $ARGUMENTS
 
@@ -38,9 +38,7 @@ Plan request and/or source documents: $ARGUMENTS
 
 1. Write `docs/plans/<plan-name>/plan.md` from `${CLAUDE_SKILL_DIR}/assets/plan.md`, filling every line and omitting empty sections. The `Approved` line records `git rev-parse HEAD`. The Requirements table holds only items no spec holds; Decisions links new and relied-on ADRs. `/codehelm:audit` creates `verification.md`. When amending, change only what was approved, keep statuses unless the engineer approved a reset, and update the `Approved` line.
 2. Write one ADR per accepted decision from `${CLAUDE_SKILL_DIR}/assets/adr.md` at `docs/adr/NNNN-<decision-slug>.md` with the next free number, or in the project's ADR folder and format. Change an accepted ADR only to set its status to `Superseded by ADR-NNNN`.
-3. Hand off the plan name, decision IDs, first task and test commands, then **Next**:
-   - **A new ADR or more than two tasks:** `git switch -c docs/plan-<plan-name>`, `git add` with `plan.md` and the new ADRs, `git commit -m 'docs: plan <plan-name>'`; push and open its pull request; once it merges, update the default branch and `git switch -c <first task's Branch>`; `/clear`; `/codehelm:implement <plan-name>`.
-   - **Any other plan:** `git switch -c <first task's Branch>`, `git add docs/plans/<plan-name>/plan.md`, `git commit -m 'docs: plan <plan-name>'`; `/clear`; `/codehelm:implement <plan-name>`.
-   - **Amendment for a task with uncommitted work:** no commit, because `plan.md` ships in that task's commit; `/clear`; `/codehelm:implement <plan-name> <task-id>`. Commit other amendments like a plan with a new ADR.
-
-Write no application code.
+3. Hand off the plan name, decision IDs, first task and test commands, then **Next**, ending with `/clear`, `/model sonnet`, `/effort medium`, `/codehelm:implement <plan-name>`:
+   - **A new ADR or more than two tasks:** `git switch -c docs/plan-<plan-name>`, `git add` with `plan.md` and the new ADRs, `git commit -m 'docs: plan <plan-name>'`; push and open its pull request; once it merges, update the default branch and `git switch -c <first task's Branch>`.
+   - **Any other plan:** `git switch -c <first task's Branch>`, `git add docs/plans/<plan-name>/plan.md`, `git commit -m 'docs: plan <plan-name>'`.
+   - **Amendment for a task with uncommitted work:** no commit, because `plan.md` ships in that task's commit; the command adds `<task-id>`. Commit other amendments like a plan with a new ADR.
